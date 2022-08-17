@@ -26,16 +26,47 @@ GREEN_LASER = pygame.image.load(os.path.join("assets","laser_green.png"))
 BLUE_LASER = pygame.image.load(os.path.join("assets","laser_blue.png"))
 YELLOW_LASER = pygame.image.load(os.path.join("assets","laser_yellow.png"))
 
+# Abstract ship class that contains basic attributes of any space ship
+class Ship:
+    def __init__(self, x, y, health=100):
+        self.x = x
+        self.y = y
+        self.health = health
+        self.ship_image = None
+        self.laser_image = None
+        self.lasers = []
+        self.cool_down_counter = 0
+
+    def draw(self, area):
+        area.blit(self.ship_image, (self.x, self.y))
+
+# Player ship class that extends Ship
+class Player(Ship):
+    def __init__(self, x, y, health=100):
+        super().__init__(x, y, health)
+        self.ship_image = YELLOW_SHIP
+        self.laser_image = YELLOW_LASER
+        self.mask = pygame.mask.from_surface(self.ship_image)
+        self.max_health = health
+
+
 def main():
+    
     run = True
+    main_font = pygame.font.SysFont("monospace", 25)
     
     # Set frame speed and clock- fits any device
     clock = pygame.time.Clock()
     FPS = 60
 
+    # Speed = How many pixels moved per key press relative to clock speed
+    player_speed = 5
+
     level = 1
     lives = 5
-    main_font = pygame.font.SysFont("monospace", 25)
+    
+    # CREATE PLAYER
+    player = Player(300, 650)
 
     def rerender_window():
         WINDOW.blit(BACKGROUND,(0,0))
@@ -47,6 +78,8 @@ def main():
         WINDOW.blit(lives_label,(10,10))
         WINDOW.blit(level_label,(10, (lives_label.get_height() + 10)))
 
+        player.draw(WINDOW)
+
         pygame.display.update()
 
 
@@ -55,8 +88,21 @@ def main():
         rerender_window()
 
         for event in pygame.event.get():
+
+            # When the close button is clicked on window
             if event.type == pygame.QUIT:
                 run = False
-            
+
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_LEFT] and (player.x + player_speed > 0): # moving left using left arrow key
+            player.x -= player_speed
+        if keys[pygame.K_RIGHT] and (player.x + player_speed < WIDTH): # moving right using right arrow key
+            player.x += player_speed
+        if keys[pygame.K_UP] and (player.y - player_speed > 0): # moving up using up arrow key
+            player.y -= player_speed
+        if keys[pygame.K_DOWN] and (player.y + player_speed < HEIGHT): # moving down using down arrow key
+            player.y += player_speed
+        
             
 main()
