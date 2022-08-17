@@ -40,6 +40,13 @@ class Ship:
     def draw(self, area):
         area.blit(self.ship_image, (self.x, self.y))
 
+    def get_width(self):
+        return self.ship_image.get_width()
+
+    def get_height(self):
+        return self.ship_image.get_height()
+
+
 # Player ship class that extends Ship
 class Player(Ship):
     def __init__(self, x, y, health=100):
@@ -66,7 +73,7 @@ def main():
     lives = 5
     
     # CREATE PLAYER
-    player = Player(300, 650)
+    player = Player(300, 600)
 
     def rerender_window():
         WINDOW.blit(BACKGROUND,(0,0))
@@ -97,11 +104,11 @@ def main():
 
         if keys[pygame.K_LEFT] and (player.x + player_speed > 0): # moving left using left arrow key
             player.x -= player_speed
-        if keys[pygame.K_RIGHT] and (player.x + player_speed < WIDTH): # moving right using right arrow key
+        if keys[pygame.K_RIGHT] and (player.x + player_speed + player.get_width() < WIDTH): # moving right using right arrow key
             player.x += player_speed
         if keys[pygame.K_UP] and (player.y - player_speed > 0): # moving up using up arrow key
             player.y -= player_speed
-        if keys[pygame.K_DOWN] and (player.y + player_speed < HEIGHT): # moving down using down arrow key
+        if keys[pygame.K_DOWN] and (player.y + player_speed + player.get_height() < HEIGHT): # moving down using down arrow key
             player.y += player_speed
         
             
