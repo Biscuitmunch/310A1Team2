@@ -18,35 +18,36 @@ class Direction(Enum):
 Point = namedtuple('Point', 'x, y')
 
 # Open image files for graphics, and font for text
-snake_head_up = pygame.image.load('Snake/resources/snakeHeadUp.png')
-snake_head_down = pygame.image.load('Snake/resources/snakeHeadDown.png')
-snake_head_left = pygame.image.load('Snake/resources/snakeHeadLeft.png')
-snake_head_right = pygame.image.load('Snake/resources/snakeHeadRight.png')
+snake_head_up = pygame.image.load('MainGame/Snake/resources/snakeHeadUp.png')
+snake_head_down = pygame.image.load('MainGame/Snake/resources/snakeHeadDown.png')
+snake_head_left = pygame.image.load('MainGame/Snake/resources/snakeHeadLeft.png')
+snake_head_right = pygame.image.load('MainGame/Snake/resources/snakeHeadRight.png')
 
 snake_head = snake_head_right
 
-snake_segment_vertical = pygame.image.load('Snake/resources/snakeSegment.png')
-snake_segment_horizontal = pygame.image.load('Snake/resources/snakeSegmentHorizontal.png')
+snake_segment_vertical = pygame.image.load('MainGame/Snake/resources/snakeSegment.png')
+snake_segment_horizontal = pygame.image.load('MainGame/Snake/resources/snakeSegmentHorizontal.png')
 
 snake_segment = snake_segment_horizontal
 
-snake_tail_up = pygame.image.load('Snake/resources/snakeTailUp.png')
-snake_tail_down = pygame.image.load('Snake/resources/snakeTailDown.png')
-snake_tail_left = pygame.image.load('Snake/resources/snakeTailLeft.png')
-snake_tail_right = pygame.image.load('Snake/resources/snakeTailRight.png')
+snake_tail_up = pygame.image.load('MainGame/Snake/resources/snakeTailUp.png')
+snake_tail_down = pygame.image.load('MainGame/Snake/resources/snakeTailDown.png')
+snake_tail_left = pygame.image.load('MainGame/Snake/resources/snakeTailLeft.png')
+snake_tail_right = pygame.image.load('MainGame/Snake/resources/snakeTailRight.png')
 
 snake_tail = snake_head_right
 
-snakeFood = pygame.image.load('Snake/resources/food.png')
-font = pygame.font.Font('Snake/resources/BPdotsSquareBold.otf', 25)
+snakeFood = pygame.image.load('MainGame/Snake/resources/food.png')
+font = pygame.font.Font('MainGame/Snake/resources/BPdotsSquareBold.otf', 25)
 
-game_over_screen = pygame.image.load('Snake/resources/gameOverScreenSnake.png')
+game_over_screen = pygame.image.load('MainGame/Snake/resources/gameOverScreenSnake.png')
 
 game_over = False
+break_loops = False
 
 # Constants (Do not change)
 GRIDSQUARE = 20
-HIGHSCORE_FILE_PATH = 'Snake/snakeScore.txt'
+HIGHSCORE_FILE_PATH = 'MainGame/Snake/snakeScore.txt'
 
 # Game settings
 SNAKE_SPEED = 10
@@ -90,9 +91,9 @@ class snake_game:
 
         # Set starting position of snake
         self.head = Point(self.width/2, self.height/2)
-        self.headRect = pygame.Rect(self.head.x-GRIDSQUARE/2, self.head.y-GRIDSQUARE/2, GRIDSQUARE, GRIDSQUARE)
+        self.head_rect = pygame.Rect(self.head.x-GRIDSQUARE/2, self.head.y-GRIDSQUARE/2, GRIDSQUARE, GRIDSQUARE)
 
-        # Create starting snake (3 Segments)
+        # Create starting snake 
         self.snake = [self.head]
         for x in range(STARTING_SIZE):
             self.snake.append(Point((self.head.x-x*GRIDSQUARE), self.head.y))
@@ -113,10 +114,10 @@ class snake_game:
 
         # Place food on the level
         self.food = Point(x, y)
-        self.foodRect = pygame.Rect(self.food.x-GRIDSQUARE/2, self.food.y-GRIDSQUARE/2, GRIDSQUARE, GRIDSQUARE)
+        self.food_rect = pygame.Rect(self.food.x-GRIDSQUARE/2, self.food.y-GRIDSQUARE/2, GRIDSQUARE, GRIDSQUARE)
 
         # If food is inside snake, try again
-        if self.foodRect.colliderect(self.headRect):
+        if self.food_rect.colliderect(self.head_rect):
             self.place_food()
         
 
@@ -154,7 +155,7 @@ class snake_game:
             return game_over, self.score
         
         # Add 1 to the player score when the snake eats food
-        if self.foodRect.colliderect(self.headRect) or self.head == self.food:
+        if self.food_rect.colliderect(self.head_rect) or self.head == self.food:
             self.score += 1
             self.place_food()
             
@@ -228,7 +229,7 @@ class snake_game:
         snake_x_pos = self.head.x
         snake_y_pos = self.head.y
 
-        self.headRect = pygame.Rect(self.head.x-GRIDSQUARE/2, self.head.y-GRIDSQUARE/2, GRIDSQUARE, GRIDSQUARE)
+        self.head_rect = pygame.Rect(self.head.x-GRIDSQUARE/2, self.head.y-GRIDSQUARE/2, GRIDSQUARE, GRIDSQUARE)
 
         # Move snake head in direction of arrow key pressed
         if direction == Direction.RIGHT:
@@ -293,41 +294,37 @@ class snake_game:
 
 
     def start_game(self):
-        global game_over
+        global break_loops 
+        global game_over 
+        break_loops = False
+        game_over = False
         game = snake_game()
         while game_over == False:
             game_over, score = game.play_step(game_over)
                 
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
-                    pygame.quit()
+                    pygame.display.quit()
                     quit()
-
-                if event.type == pygame.MOUSEBUTTONDOWN and game_over == True:
-                    pygame.quit()
-                    quit()
-
         
-        while True:
+        while break_loops == False:
             self.display.blit(game_over_screen, (0, 0))
             pygame.display.flip()
             
             # Wait 1 second after the game is over before accepting inputs in order to combat accidental keypresses
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
-                    pygame.quit()
+                    pygame.display.quit()
                     quit()
 
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        self.set_high_score(score)
-                        game_over = False 
-                        self.start_game()
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                    self.set_high_score(score)
+                    game_over = False 
+                    self.start_game()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.set_high_score(score)
-                    pygame.quit()
-                    quit()
+                    break_loops = True
                     
 
             clock = pygame.time.Clock()
@@ -345,10 +342,4 @@ class snake_game:
         high_score_read.close()
 
         print('Final Score', score, 'High Score', high_score)
-        
-
-# Start the game    
-snake_game_instance = snake_game()
-snake_game_instance.start_game()
     
-pygame.quit()
