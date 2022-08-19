@@ -1,6 +1,7 @@
 import pygame
 import sys
 import Snake.snake as snake
+import Pong.pong as pong
 
 WIDTH = 1280
 HEIGHT = 720
@@ -31,6 +32,8 @@ snake_image = pygame.image.load(
     "MainGame/Buttons/SnakeButton.png").convert_alpha()
 breakout_image = pygame.image.load(
     "MainGame/Buttons/BreakoutButton.png").convert_alpha()
+pong_image = pygame.image.load(
+    "MainGame/Buttons/PongButton.png").convert_alpha()
 quit_image = pygame.image.load(
     "MainGame/Buttons/QuitButton.png").convert_alpha()
 
@@ -42,6 +45,7 @@ play_text = ScreenItem(0, 0, play_title)
 quit_button = ScreenItem(1180, 670, quit_image)
 snake_button = ScreenItem(263.67, 540, snake_image)
 breakout_button = ScreenItem(657.54, 540, breakout_image)
+pong_button = ScreenItem (1051.41, 540, pong_image)
 
 play_text_show = False
 
@@ -75,6 +79,11 @@ while running:
             elif breakout_button.mouse_over_button(pygame.mouse.get_pos()):
                 print("breakout clicked")
 
+            # Activate Pong
+            elif pong_button.mouse_over_button(pygame.mouse.get_pos()):
+                pong_obj = pong.PongGame()
+                pong_obj.start_game()
+
             # No buttons
             else:
                 print("no button clicked")
@@ -90,6 +99,11 @@ while running:
                 set_play_text(breakout_button)
                 play_text_show = True
 
+            # Activate Pong
+            elif pong_button.mouse_over_button(pygame.mouse.get_pos()):
+                set_play_text(pong_button)
+                play_text_show = True
+
             # If user is doing nothing
             else:
                 play_text_show = False
@@ -98,7 +112,9 @@ while running:
 
     snake_button.update()
     breakout_button.update()
+    pong_button.update()
     quit_button.update()
+    
     if play_text_show == True:
         play_text.update()
 
