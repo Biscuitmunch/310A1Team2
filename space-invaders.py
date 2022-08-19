@@ -8,6 +8,7 @@ pygame.font.init()
 
 WIDTH = 700
 HEIGHT = 700
+FPS = 60
 WINDOW = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Space Invaders")
 
@@ -27,8 +28,31 @@ GREEN_LASER = pygame.image.load(os.path.join("assets","laser_green.png"))
 BLUE_LASER = pygame.image.load(os.path.join("assets","laser_blue.png"))
 YELLOW_LASER = pygame.image.load(os.path.join("assets","laser_yellow.png"))
 
-# Abstract ship class that contains basic attributes of any space ship
+# Laser class coded to make sure laser does not follow player when player moves in x direction
+class Laser:
+    def __init__(self, x, y, image):
+        self.x = x
+        self.y = y
+        self.image = image
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def draw(self, area):
+        area.blit(self.image, (self.x, self.y))
+
+    def move(self, speed):
+        self.y += speed
+
+    def off_screen(self, height):
+        return not(self.y <= height and self.y >= 0)
+
+    def collision(self, object):
+        return collide(object, self)
+
+
+# Abstract ship class that contains basic attributes of any space ship (common between enemy and player ships)
 class Ship:
+    COOL_DOWN = FPS/2
+
     def __init__(self, x, y, health=100):
         self.x = x
         self.y = y
@@ -36,16 +60,44 @@ class Ship:
         self.ship_image = None
         self.laser_image = None
         self.lasers = []
-        self.cool_down_counter = 0
+        self.cool_down_clock = 0
 
     def draw(self, area):
         area.blit(self.ship_image, (self.x, self.y))
+        for laser in self.lasers:
+            laser.draw(area)
+    
+    def move_lasers(self, speed, object):
+        # increment cooldown period everytime the lasers move (every frame)
+        self.cooldown()
+        
+        for laser in self.lasers:
+            laser.move(speed)
+            if laser.off_screen(HEIGHT):
+                self.lasers.remove(laser)
+            elif laser.collision(object):
+                object.health -= 10
+                self.lasers.remove(laser)
+
+    # prevents user from spamming the shoot button
+    def cooldown(self):
+        if self.cool_down_clock >= self.COOL_DOWN:
+            self.cool_down_clock = 0
+        elif self.cool_down_clock > 0:
+            self.cool_down_clock += 1
 
     def get_width(self):
         return self.ship_image.get_width()
 
     def get_height(self):
         return self.ship_image.get_height()
+
+    def shoot(self):
+        if self.cool_down_clock == 0:
+            # Render lasers from tip of space ship
+            laser = Laser(self.x + self.get_width()/2, self.y, self.laser_image)
+            self.lasers.append(laser)
+            self.cool_down_clock = 1
 
 
 # Player ship class that extends Ship
@@ -57,6 +109,25 @@ class Player(Ship):
         self.mask = pygame.mask.from_surface(self.ship_image)
         self.max_health = health
 
+    # Override parent's move_lasers method to suit player lasers hitting multiple enemies
+    def move_lasers(self, speed, objects):
+        # increment cooldown period everytime the lasers move (every frame)
+        self.cooldown()
+        
+        for laser in self.lasers:
+            laser.move(speed)
+            if laser.off_screen(HEIGHT):
+                self.lasers.remove(laser)
+            else:
+                for object in objects:
+                    if laser.collision(object):
+                        objects.remove(object)
+                        self.lasers.remove(laser)
+
+    def draw(self, area):
+        super().draw(area)
+        self.health_bar(area)
+
 # Alien ship class that extends Ship
 class Enemy(Ship):
     
@@ -67,7 +138,6 @@ class Enemy(Ship):
         "blue": (BLUE_SHIP, BLUE_LASER)
     }
 
-
     def __init__(self, x, y, colour, health=100):
         super().__init__(x, y, health)
         self.ship_image, self.laser_image = self.COLOUR_DICT[colour]
@@ -75,6 +145,17 @@ class Enemy(Ship):
 
     def move(self, speed):
         self.y += speed
+
+
+# check if masks of two objects overlap relative to their top left coordinates
+def collide(object1, object2):
+    offset_x = object2.x - object1.x
+    offset_y = object2.y - object1.y
+
+    return object1.mask.overlap(object2.mask, (offset_x, offset_y)) != None 
+
+    
+
 
 def main():
     
@@ -84,10 +165,14 @@ def main():
     
     # Set frame speed and clock- fits any device
     clock = pygame.time.Clock()
-    FPS = 60
 
     # Speed = How many pixels moved per key press relative to clock speed
     player_speed = 5
+    laser_speed = 5
+    enemy_speed = 1
+
+    # probability that enemy shoots every second is 1/enemy_shooting_frequency
+    enemy_shooting_freq = 5
 
     level = 0
     lives = 5
@@ -97,10 +182,9 @@ def main():
     # CREATE ENEMIES
     enemies = []
     wave_length = 5
-    enemy_speed = 1
 
     # CREATE PLAYER
-    player = Player(300, 600)
+    player = Player(300, 570)
 
 
     def rerender_window():
@@ -115,7 +199,7 @@ def main():
 
         if game_over:
             game_over_label = game_over_font.render("GAME OVER", 1, (255,255,255))
-            WINDOW.blit(game_over_label, (WIDTH/2 - game_over_label.get_width()/2, 350))
+            WINDOW.blit(game_over_label, (WIDTH/2 - game_over_label.get_width()/2, HEIGHT/2))
 
         # Render enemies and player
         for enemy in enemies:
@@ -163,16 +247,27 @@ def main():
             player.x += player_speed
         if keys[pygame.K_UP] and (player.y - player_speed > 0): # moving up using up arrow key
             player.y -= player_speed
-        if keys[pygame.K_DOWN] and (player.y + player_speed + player.get_height() < HEIGHT): # moving down using down arrow key
+        if keys[pygame.K_DOWN] and (player.y + player_speed + player.get_height() + 15 < HEIGHT): # moving down using down arrow key
             player.y += player_speed
+        if keys[pygame.K_SPACE]:
+            player.shoot()
 
         for enemy in enemies[:]:
             enemy.move(enemy_speed)
-            if enemy.y + enemy.get_height() > HEIGHT:
+            enemy.move_lasers(laser_speed, player)
+
+            # Probability that enemy shoots
+            if random.randrange(0, enemy_shooting_freq*FPS) == 1:
+                enemy.shoot()
+
+            if collide(enemy, player):
+                player.health -= 10
+                enemies.remove(enemy)
+            elif enemy.y + enemy.get_height() > HEIGHT:
                 lives -= 1
                 enemies.remove(enemy)
 
+        # negative speed so lasers go up
+        player.move_lasers(-laser_speed, enemies)
        
-        
-            
 main()
