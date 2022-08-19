@@ -128,6 +128,15 @@ class Player(Ship):
         super().draw(area)
         self.health_bar(area)
 
+    def health_bar(self, area):
+        # create max health green bar and overlay diminishing health with changing width red bar
+        bar_height = 10
+        pygame.draw.rect(area, (255, 0, 0), (self.x, self.y + self.ship_image.get_height() + bar_height, self.ship_image.get_width(), bar_height))
+
+        health_fraction_calc = self.health/self.max_health
+        pygame.draw.rect(area, (0, 255, 0), (self.x, self.y + self.ship_image.get_height() + bar_height, self.ship_image.get_width() * health_fraction_calc, bar_height))
+
+
 # Alien ship class that extends Ship
 class Enemy(Ship):
     
