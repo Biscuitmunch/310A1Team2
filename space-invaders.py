@@ -165,7 +165,6 @@ def collide(object1, object2):
 
     
 
-
 def main():
     
     run = True
@@ -181,7 +180,7 @@ def main():
     enemy_speed = 1
 
     # probability that enemy shoots every second is 1/enemy_shooting_frequency
-    enemy_shooting_freq = 5
+    enemy_shooting_freq = 4
 
     level = 0
     lives = 5
@@ -246,7 +245,7 @@ def main():
 
             # When the close button is clicked on window
             if event.type == pygame.QUIT:
-                run = False
+                pygame.quit()
 
         keys = pygame.key.get_pressed()
 
@@ -279,4 +278,22 @@ def main():
         # negative speed so lasers go up
         player.move_lasers(-laser_speed, enemies)
        
-main()
+def start_space_invaders():
+    title_font = pygame.font.SysFont("monospace", 35)
+    run = True
+
+    while run:
+        WINDOW.blit(BACKGROUND, (0,0))
+        title_label = title_font.render("Click the mouse to begin...", 1, (255,255,255))
+        WINDOW.blit(title_label, (WIDTH/2 - title_label.get_width()/2, HEIGHT/2))
+
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                main()
+    pygame.quit()
+            
+start_space_invaders()
