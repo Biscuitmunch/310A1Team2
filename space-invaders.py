@@ -1,3 +1,4 @@
+from pickle import FALSE
 from time import time
 import pygame
 import os
@@ -79,6 +80,7 @@ def main():
     
     run = True
     main_font = pygame.font.SysFont("monospace", 25)
+    game_over_font = pygame.font.SysFont("monospace", 60)
     
     # Set frame speed and clock- fits any device
     clock = pygame.time.Clock()
@@ -89,26 +91,33 @@ def main():
 
     level = 0
     lives = 5
+    game_over = False
+    game_over_clock = 0
     
     # CREATE ENEMIES
     enemies = []
     wave_length = 5
     enemy_speed = 1
 
-
     # CREATE PLAYER
     player = Player(300, 600)
+
 
     def rerender_window():
         WINDOW.blit(BACKGROUND,(0,0))
         
-        # render and draw labels
+        # Render labels
         lives_label = main_font.render(F"LIVES: {lives}",1,(255,255,255))
         level_label = main_font.render(F"LEVEL: {level}",1,(255,255,255))
 
         WINDOW.blit(lives_label,(10,10))
         WINDOW.blit(level_label,(10, (lives_label.get_height() + 10)))
 
+        if game_over:
+            game_over_label = game_over_font.render("GAME OVER", 1, (255,255,255))
+            WINDOW.blit(game_over_label, (WIDTH/2 - game_over_label.get_width()/2, 350))
+
+        # Render enemies and player
         for enemy in enemies:
             enemy.draw(WINDOW)
 
@@ -119,7 +128,19 @@ def main():
 
     while run:
         clock.tick(FPS)
+        rerender_window()
         
+        # Scenario where player has lost display the game over text for 3 seconds
+        if lives <= 0 or player.health <= 0:
+            game_over = True
+            game_over_clock += 1
+
+        if game_over:
+            if game_over_clock > FPS * 3:
+                run = False
+            else:
+                continue
+
         if len(enemies) == 0:
             level += 1
             wave_length += 5
@@ -151,7 +172,7 @@ def main():
                 lives -= 1
                 enemies.remove(enemy)
 
-        rerender_window()
+       
         
             
 main()
