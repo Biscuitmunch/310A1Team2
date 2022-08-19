@@ -1,5 +1,6 @@
 import pygame
 import sys
+import Snake.snake as snake
 
 WIDTH = 1280
 HEIGHT = 720
@@ -55,18 +56,20 @@ while running:
     for event in pygame.event.get():
         # To exit the game
         if event.type == pygame.QUIT:
-            pygame.quit()
+            pygame.display.quit()
             sys.exit()
 
         # User tried to click:
         # Quit Arcade
         if event.type == pygame.MOUSEBUTTONDOWN:
             if quit_button.mouse_over_button(pygame.mouse.get_pos()):
-                pygame.quit()
+                pygame.display.quit()
                 sys.exit()
+                
             # Activate Snake
             elif snake_button.mouse_over_button(pygame.mouse.get_pos()):
-                print("snake clicked")
+                snake_obj = snake.snake_game()
+                snake_obj.start_game()
 
             # Activate Breakout
             elif breakout_button.mouse_over_button(pygame.mouse.get_pos()):
@@ -101,3 +104,5 @@ while running:
 
 
     pygame.display.update()
+
+pygame.display.quit()
