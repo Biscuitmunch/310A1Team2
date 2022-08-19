@@ -6,8 +6,8 @@ import time
 import random
 pygame.font.init()
 
-WIDTH = 700
-HEIGHT = 700
+WIDTH = 1280
+HEIGHT = 720
 FPS = 60
 WINDOW = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Space Invaders")
@@ -175,7 +175,7 @@ def main():
     clock = pygame.time.Clock()
 
     # Speed = How many pixels moved per key press relative to clock speed
-    player_speed = 5
+    player_speed = 7
     laser_speed = 5
     enemy_speed = 1
 
