@@ -15,7 +15,7 @@ PADDLE_WIDTH = 8
 PADDLE_HEIGHT = 90
 BALL_RADIUS = 8
 PLAYER_SPEED = 3.7
-ENEMY_SPEED = 3.5
+ENEMY_SPEED = 3.3
 
 font = pygame.font.SysFont('monospace', 40)
 
