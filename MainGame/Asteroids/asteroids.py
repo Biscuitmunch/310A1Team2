@@ -11,6 +11,9 @@ Asteroids_Background = pygame.image.load('MainGame/Asteroids/resources/Asteroids
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
+rotateAngleSize = 5
+initialAngle = 0
+playerShipSpeed = 7
 
 pygame.display.set_caption('Asteroids')
 
@@ -24,13 +27,37 @@ class playerShip(object):
         self.img = player_ship
         self.width = self.img.get_width()
         self.height = self.img.get_height()
-        self.x = WINDOW_WIDTH//2 - 20
-        self.y = WINDOW_HEIGHT//2 + 100
+        #position ship in middle of screen
+        self.x = WINDOW_WIDTH//2
+        self.y = WINDOW_HEIGHT//2
+        self.angle = initialAngle
 
+        self.updateAngle()
+        
+    #call this after turning to update position and angle
+    def updateAngle(self):
+        self.rotatedSurface = pygame.transform.rotate(self.img, self.angle)
+        self.rotatedRectangle = self.rotatedSurface.get_rect()
+        self.rotatedRectangle.center = (self.x, self.y)
+        #plus 90 because ship is looking up  (pointed towards positive y axis) and radians start from going up from positive x axis
+        self.cosine = math.cos(math.radians(self.angle + 90))
+        self.sine = math.sin(math.radians(self.angle + 90))
+        #tip is front of the ship
+        self.tip = (self.x + self.cosine * self.width//2, self.y - self.sine * self.height//2)
+
+    def turningLeft(self):
+        self.angle += rotateAngleSize
+        self.updateAngle()
+
+
+  
     def draw(self, window):
-        window.blit(self.img, [self.x, self.y, self.width, self.height])
+        #display with updated angle direction
+        window.blit(self.rotatedSurface, self.rotatedRectangle)
         
         
+
+
 
 def drawWindow():
     window.blit(Asteroids_Background, (0,0))
@@ -47,11 +74,21 @@ game_over = False
 while not game_over:
     clock.tick(60)
 
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.display.set_caption("Arcade Menu")
             game_over = True
             #add set_high_score later
+
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_a]:
+        playerShip.turningLeft()
+    if keys[pygame.K_d]:
+        playerShip.turningRight()
+    if keys[pygame.K_w]:
+        playerShip.Forward()
     drawWindow()
 
             
