@@ -14,6 +14,10 @@ WINDOW_HEIGHT = 720
 rotateAngleSize = 5
 initialAngle = 0
 playerShipSpeed = 7
+bulletSpeed = 10
+bulletWidth = 4
+bulletHeight = 4
+white = (255, 255, 255)
 
 pygame.display.set_caption('Asteroids')
 
@@ -67,6 +71,31 @@ class playerShip(object):
         
 
 
+class bullet(object):
+
+    def __init__(self):
+        #bullet begins at tip of player spaceship
+        self.position = player.tip
+        self.x, self.y = self.position
+        self.width = bulletWidth
+        self.height = bulletHeight
+        self.cos = player.cosine 
+        self.sin = player.sine
+        #directional speed changes based on direction of playership
+        self.xVelocity = self.cos * bulletSpeed
+        self.yVelocity = self.sin * bulletSpeed
+
+    def move(self):
+        self.x += self.xVelocity
+        self.y -= self.yVelocity
+
+    def draw(self, win):
+        pygame.draw.rect(win, white, [self.x, self.y, self.w, self.h])
+
+ 
+
+
+
 
 def drawWindow():
     window.blit(Asteroids_Background, (0,0))
@@ -77,12 +106,12 @@ def drawWindow():
 
 
 playerShip = playerShip()
+
 clock = pygame.time.Clock()
 game_over = False
 
 while not game_over:
     clock.tick(60)
-
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -98,6 +127,9 @@ while not game_over:
         playerShip.turningRight()
     if keys[pygame.K_w]:
         playerShip.Forward()
+        
+    if keys[pygame.KEYDOWN]:
+        Bullets.append(Bullet())
     drawWindow()
 
             
