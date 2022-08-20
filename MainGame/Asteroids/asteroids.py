@@ -9,6 +9,8 @@ pygame.init()
 player_ship = pygame.image.load('MainGame/Asteroids/resources/playerShip.png')
 Asteroids_Background = pygame.image.load('MainGame/Asteroids/resources/asteroidsBackground.png')
 asteroid_Small = pygame.image.load('MainGame/Asteroids/resources/smallAsteroid.png')
+asteroid_MediumSmall = pygame.image.load('MainGame/Asteroids/resources/mediumSmallAsteroid.png')
+asteroid_MediumLarge = pygame.image.load('MainGame/Asteroids/resources/mediumLargeAsteroid.png')
 asteroid_Medium = pygame.image.load('MainGame/Asteroids/resources/mediumAsteroid.png')
 
 asteroid_Large = pygame.image.load('MainGame/Asteroids/resources/largeAsteroid.png')
@@ -22,8 +24,10 @@ playerReverseSpeed=2
 bulletSpeed = 15
 bulletWidth = 5
 bulletHeight = 5
+
 #rate that determines frequency of asteroids, lower equals more frequent
-asteroidTimeSlice = 30
+asteroidTimeSlice = 25
+asteroidSpeed = 0.5
 
 white = (255, 255, 255)
 
@@ -82,6 +86,7 @@ class playerShip(object):
         #display with updated angle direction
         window.blit(self.rotatedSurface, self.rotatedRectangle)
     
+    #checks if player horizontal or verticle position is beyound window width or heigh
     def moveBackInBounds(self):
         if self.x > WINDOW_WIDTH:
             self.x = 0
@@ -128,7 +133,11 @@ class asteroid(object):
         if self.size == 1:
             self.image = asteroid_Small
         elif self.size == 2:
+            self.image = asteroid_MediumSmall
+        elif self.size == 3:
             self.image = asteroid_Medium
+        elif self.size == 4:
+            self.image = asteroid_MediumLarge
         else:
             self.image = asteroid_Large
 
@@ -145,8 +154,10 @@ class asteroid(object):
             self.yDirection = 1
         else:
             self.yDirection = -1
-        self.xVelocity = self.xDirection * random.randrange(1,4) * 0.5* (4-self.size)
-        self.yVelocity = self.yDirection * random.randrange(1,4)* 0.5* (4-self.size)
+
+        sizeSpeedFactor=asteroidSpeed*(6-self.size)
+        self.xVelocity = self.xDirection * random.randrange(1,4) * sizeSpeedFactor
+        self.yVelocity = self.yDirection * random.randrange(1,4)* sizeSpeedFactor
 
 
     def draw(self, win):
@@ -183,9 +194,8 @@ while running:
     count +=1
     if not game_over:
         if count % asteroidTimeSlice == 0:
-            asteroidSize = random.choice([1,2,3])
+            asteroidSize = random.choice([1,1,1,1,2,2,3,4,4,5,5,5,5])
             asteroids.append(asteroid(asteroidSize))
-
 
 
         playerShip.moveBackInBounds()
