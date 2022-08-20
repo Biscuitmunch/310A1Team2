@@ -8,17 +8,22 @@ pygame.init()
 
 player_ship = pygame.image.load('MainGame/Asteroids/resources/playerShip.png')
 Asteroids_Background = pygame.image.load('MainGame/Asteroids/resources/asteroidsBackground.png')
+asteroid_Small = pygame.image.load('MainGame/Asteroids/resources/smallAsteroid.png')
+asteroid_Medium = pygame.image.load('MainGame/Asteroids/resources/mediumAsteroid.png')
+
+asteroid_Large = pygame.image.load('MainGame/Asteroids/resources/largeAsteroid.png')
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 rotateAngleSize = 5
 initialAngle = 0
 playerShipSpeed = 8
-playerReverseSpeed=3
+playerReverseSpeed=2
 bulletSpeed = 15
 bulletWidth = 5
 bulletHeight = 5
-
+#rate that determines frequency of asteroids, lower equals more frequent
+asteroidTimeSlice = 30
 
 white = (255, 255, 255)
 
@@ -31,9 +36,9 @@ HIGHSCORE_FILE_PATH = 'MainGame/Asteroids/asteroidsScore.txt'
 
 class playerShip(object):
     def __init__(self):
-        self.img = player_ship
-        self.width = self.img.get_width()
-        self.height = self.img.get_height()
+        self.image = player_ship
+        self.width = self.image.get_width()
+        self.height = self.image.get_height()
         #initially position ship in middle of screen
         self.x = WINDOW_WIDTH//2
         self.y = WINDOW_HEIGHT//2
@@ -42,7 +47,7 @@ class playerShip(object):
         
     #call this after turning to update position and angle
     def updateAngle(self):
-        self.rotatedSurface = pygame.transform.rotate(self.img, self.angle)
+        self.rotatedSurface = pygame.transform.rotate(self.image, self.angle)
         self.rotatedRectangle = self.rotatedSurface.get_rect()
         self.rotatedRectangle.center = (self.x, self.y)
         #plus 90 because ship is looking up  (pointed towards positive y axis) and radians start from going coutner clockwise from positive x axis
@@ -117,6 +122,38 @@ class bullet(object):
         if self.x < -0 or self.x > WINDOW_WIDTH or self.y > WINDOW_HEIGHT or self.y < 0:
             return True
 
+class asteroid(object):
+    def __init__(self, size):
+        self.size = size
+        if self.size == 1:
+            self.image = asteroid_Small
+        elif self.size == 2:
+            self.image = asteroid_Medium
+        else:
+            self.image = asteroid_Large
+
+        self.width = self.image.get_width()
+        self.height = self.image.get_height()
+        #random position where asteroid enters from
+        self.randomEntryPosition = random.choice([(random.randrange(0, WINDOW_WIDTH-150), random.choice([-150, WINDOW_HEIGHT + 150])), (random.choice([-150, WINDOW_WIDTH + 150]), random.randrange(0, WINDOW_HEIGHT - 150))])
+        self.x, self.y = self.randomEntryPosition
+        if self.x < WINDOW_WIDTH//2:
+            self.xDirection = 1
+        else:
+            self.xDirection = -1
+        if self.y < WINDOW_HEIGHT//2:
+            self.yDirection = 1
+        else:
+            self.yDirection = -1
+        self.xVelocity = self.xDirection * random.randrange(1,4) * 0.5* (4-self.size)
+        self.yVelocity = self.yDirection * random.randrange(1,4)* 0.5* (4-self.size)
+
+
+    def draw(self, win):
+        win.blit(self.image, (self.x, self.y))
+
+
+
 
 
 def drawWindow():
@@ -125,21 +162,38 @@ def drawWindow():
 
     for b in bullets:
         b.draw(window)
+    for a in asteroids:
+        a.draw(window)
+    
     pygame.display.update()
 
 
 
 playerShip = playerShip()
 bullets = []
+asteroids = []
 
 clock = pygame.time.Clock()
 
+count=0
 game_over = False
 running = True
 while running: 
     clock.tick(60)
+    count +=1
     if not game_over:
+        if count % asteroidTimeSlice == 0:
+            asteroidSize = random.choice([1,2,3])
+            asteroids.append(asteroid(asteroidSize))
+
+
+
         playerShip.moveBackInBounds()
+
+        for a in asteroids:
+            a.x += a.xVelocity
+            a.y += a.yVelocity
+
         for b in bullets:
             b.move()
             if b.checkOutOfBounds():
