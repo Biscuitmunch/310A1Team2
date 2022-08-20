@@ -7,14 +7,13 @@ pygame.init()
 
 
 player_ship = pygame.image.load('MainGame/Asteroids/resources/playerShip.png')
-Asteroids_Background = pygame.image.load('MainGame/Asteroids/resources/AsteroidsBackground.png')
+Asteroids_Background = pygame.image.load('MainGame/Asteroids/resources/asteroidsBackground.png')
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 rotateAngleSize = 5
 initialAngle = 0
 playerShipSpeed = 8
-playerShipBoostSpeed = 15
 playerReverseSpeed=3
 bulletSpeed = 15
 bulletWidth = 5
@@ -73,10 +72,6 @@ class playerShip(object):
         self.y += self.sine * playerReverseSpeed
         self.updateAngle()
     
-    def speedBoost(self):
-        self.x += self.cosine *  playerShipBoostSpeed
-        self.y -= self.sine * playerShipBoostSpeed
-        self.updateAngle()
 
     def draw(self, window):
         #display with updated angle direction
@@ -160,8 +155,6 @@ while running:
             playerShip.Forward()
         if keys[pygame.K_s]:
             playerShip.Reverse()
-        if keys[pygame.K_p]:
-            playerShip.speedBoost()
 
         for event in pygame.event.get():
                     if event.type == pygame.QUIT:
