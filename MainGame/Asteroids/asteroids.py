@@ -14,9 +14,9 @@ WINDOW_HEIGHT = 720
 rotateAngleSize = 5
 initialAngle = 0
 playerShipSpeed = 7
-bulletSpeed = 10
-bulletWidth = 4
-bulletHeight = 4
+bulletSpeed = 15
+bulletWidth = 5
+bulletHeight = 5
 white = (255, 255, 255)
 
 pygame.display.set_caption('Asteroids')
@@ -31,11 +31,10 @@ class playerShip(object):
         self.img = player_ship
         self.width = self.img.get_width()
         self.height = self.img.get_height()
-        #position ship in middle of screen
+        #initially position ship in middle of screen
         self.x = WINDOW_WIDTH//2
         self.y = WINDOW_HEIGHT//2
         self.angle = initialAngle
-
         self.updateAngle()
         
     #call this after turning to update position and angle
@@ -43,7 +42,7 @@ class playerShip(object):
         self.rotatedSurface = pygame.transform.rotate(self.img, self.angle)
         self.rotatedRectangle = self.rotatedSurface.get_rect()
         self.rotatedRectangle.center = (self.x, self.y)
-        #plus 90 because ship is looking up  (pointed towards positive y axis) and radians start from going up from positive x axis
+        #plus 90 because ship is looking up  (pointed towards positive y axis) and radians start from going coutner clockwise from positive x axis
         self.cosine = math.cos(math.radians(self.angle + 90))
         self.sine = math.sin(math.radians(self.angle + 90))
         #tip is front of the ship
@@ -60,6 +59,7 @@ class playerShip(object):
 
 
     def Forward(self):
+        #x, y axis
         self.x += self.cosine * playerShipSpeed
         self.y -= self.sine * playerShipSpeed
         self.updateAngle()
@@ -75,12 +75,12 @@ class bullet(object):
 
     def __init__(self):
         #bullet begins at tip of player spaceship
-        self.position = player.tip
+        self.position = playerShip.tip
         self.x, self.y = self.position
         self.width = bulletWidth
         self.height = bulletHeight
-        self.cos = player.cosine 
-        self.sin = player.sine
+        self.cos = playerShip.cosine 
+        self.sin = playerShip.sine
         #directional speed changes based on direction of playership
         self.xVelocity = self.cos * bulletSpeed
         self.yVelocity = self.sin * bulletSpeed
@@ -90,7 +90,7 @@ class bullet(object):
         self.y -= self.yVelocity
 
     def draw(self, win):
-        pygame.draw.rect(win, white, [self.x, self.y, self.w, self.h])
+        pygame.draw.rect(win, white, [self.x, self.y, self.width, self.height])
 
  
 
@@ -99,37 +99,51 @@ class bullet(object):
 
 def drawWindow():
     window.blit(Asteroids_Background, (0,0))
-
     playerShip.draw(window)
+
+    for b in bullets:
+        b.draw(window)
     pygame.display.update()
 
 
 
 playerShip = playerShip()
+bullets = []
 
 clock = pygame.time.Clock()
+
 game_over = False
-
-while not game_over:
+running = True
+while running: 
     clock.tick(60)
+    if not game_over:
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.display.set_caption("Arcade Menu")
-            game_over = True
-            #add set_high_score later
+        for b in bullets:
+            b.move()
 
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_a]:
-        playerShip.turningLeft()
-    if keys[pygame.K_d]:
-        playerShip.turningRight()
-    if keys[pygame.K_w]:
-        playerShip.Forward()
-        
-    if keys[pygame.KEYDOWN]:
-        Bullets.append(Bullet())
+        #capture player input (WASD) 
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a]:
+            playerShip.turningLeft()
+        if keys[pygame.K_d]:
+            playerShip.turningRight()
+        if keys[pygame.K_w]:
+            playerShip.Forward()
+
+
+        for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.display.set_caption("Arcade Menu")
+                        running = False
+                        #add set_high_score later
+
+                    #capture spacebar input. Done this way to prevent holding spacebar creating infinite bullets 
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_SPACE:
+                            if not game_over:
+                                bullets.append(bullet())
+
     drawWindow()
 
             
