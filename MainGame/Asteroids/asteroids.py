@@ -13,10 +13,14 @@ WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 rotateAngleSize = 5
 initialAngle = 0
-playerShipSpeed = 7
+playerShipSpeed = 8
+playerShipBoostSpeed = 15
+playerReverseSpeed=3
 bulletSpeed = 15
 bulletWidth = 5
 bulletHeight = 5
+
+
 white = (255, 255, 255)
 
 pygame.display.set_caption('Asteroids')
@@ -64,9 +68,30 @@ class playerShip(object):
         self.y -= self.sine * playerShipSpeed
         self.updateAngle()
 
+    def Reverse(self):
+        self.x -= self.cosine *  playerReverseSpeed
+        self.y += self.sine * playerReverseSpeed
+        self.updateAngle()
+    
+    def speedBoost(self):
+        self.x += self.cosine *  playerShipBoostSpeed
+        self.y -= self.sine * playerShipBoostSpeed
+        self.updateAngle()
+
     def draw(self, window):
         #display with updated angle direction
         window.blit(self.rotatedSurface, self.rotatedRectangle)
+    
+    def moveBackInBounds(self):
+        if self.x > WINDOW_WIDTH:
+            self.x = 0
+        elif self.x < 0:
+            self.x = WINDOW_WIDTH
+        elif self.y > WINDOW_HEIGHT:
+            self.y = 0
+        elif self.y < 0:
+            self.y = WINDOW_HEIGHT
+        
         
         
 
@@ -93,7 +118,9 @@ class bullet(object):
         pygame.draw.rect(win, white, [self.x, self.y, self.width, self.height])
 
  
-
+    def checkOutOfBounds(self):
+        if self.x < -0 or self.x > WINDOW_WIDTH or self.y > WINDOW_HEIGHT or self.y < 0:
+            return True
 
 
 
@@ -117,10 +144,11 @@ running = True
 while running: 
     clock.tick(60)
     if not game_over:
-
+        playerShip.moveBackInBounds()
         for b in bullets:
             b.move()
-
+            if b.checkOutOfBounds():
+                bullets.pop(bullets.index(b))
 
         #capture player input (WASD) 
         keys = pygame.key.get_pressed()
@@ -130,7 +158,10 @@ while running:
             playerShip.turningRight()
         if keys[pygame.K_w]:
             playerShip.Forward()
-
+        if keys[pygame.K_s]:
+            playerShip.Reverse()
+        if keys[pygame.K_p]:
+            playerShip.speedBoost()
 
         for event in pygame.event.get():
                     if event.type == pygame.QUIT:
