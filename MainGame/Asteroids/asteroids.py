@@ -50,7 +50,16 @@ class playerShip(object):
         self.updateAngle()
 
 
-  
+    def turningRight(self):
+        self.angle -= rotateAngleSize
+        self.updateAngle()
+
+
+    def Forward(self):
+        self.x += self.cosine * playerShipSpeed
+        self.y -= self.sine * playerShipSpeed
+        self.updateAngle()
+
     def draw(self, window):
         #display with updated angle direction
         window.blit(self.rotatedSurface, self.rotatedRectangle)
