@@ -35,7 +35,7 @@ asteroid_time_slice = 25
 asteroid_speed = 0.5
 lives = 3
 score = 0
-max_size_asteroid = 150
+max_asteroid_size = 150
 number_asteroids = 6
 
 HIGHSCORE_FILE_PATH = 'MainGame/Asteroids/asteroidsScore.txt'
@@ -168,7 +168,7 @@ class Asteroid(object):
         self.height = self.image.get_height()
         #random position where Asteroid enters from. 150 being maximum image size, it always spawns at least 150 outside of screen
         self.random_entry_position = random.choice([(random.randrange(0, WINDOW_WIDTH-150), random.choice(
-            [-max_size_asteroid, WINDOW_HEIGHT + max_size_asteroid])), (random.choice([-max_size_asteroid, WINDOW_WIDTH + max_size_asteroid]), random.randrange(0, WINDOW_HEIGHT - max_size_asteroid))])
+            [-max_asteroid_size, WINDOW_HEIGHT + max_asteroid_size])), (random.choice([-max_asteroid_size, WINDOW_WIDTH + max_asteroid_size]), random.randrange(0, WINDOW_HEIGHT - max_asteroid_size))])
         self.x, self.y = self.random_entry_position
         #where it spawns dictates which direction it heads. if its on the left side it goes right. if it spawns from above it goes down.
         if self.x < WINDOW_WIDTH//2:
@@ -188,7 +188,7 @@ class Asteroid(object):
 
     def check_out_of_bounds(self):
         #151 is used to be one more than where it would spawn, prevents buggy behaviour.
-        if self.x < (-max_size_asteroid+1) or self.x > WINDOW_WIDTH + (max_size_asteroid + 1) or self.y > WINDOW_HEIGHT + (max_size_asteroid + 1) or self.y < -(max_size_asteroid + 1):
+        if self.x < (-max_asteroid_size+1) or self.x > WINDOW_WIDTH + (max_asteroid_size + 1) or self.y > WINDOW_HEIGHT + (max_asteroid_size + 1) or self.y < -(max_asteroid_size + 1):
             return True
 
     def draw(self, win):
