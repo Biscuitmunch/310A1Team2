@@ -41,7 +41,7 @@ quit_image = pygame.image.load(
 
 # Button texts
 play_title = font.render("Click to Play!", True, 'white')
-avatar_select_title = font.render("Select Avatar", True, 'white')
+avatar_select_title = font.render("Select Avatar!", True, 'white')
 
 play_text = ScreenItem(0, 0, play_title)
 avatar_text = ScreenItem(0, 0, avatar_select_title)
