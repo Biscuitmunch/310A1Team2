@@ -39,6 +39,7 @@ class AvatarSelect:
     def choose_avatar(self, chosen_avatar):
         current_avatar = chosen_avatar
 
+
     def start_selection(self):
         global current_avatar
         global quit_avatar
@@ -57,6 +58,15 @@ class AvatarSelect:
                     pygame.display.set_caption("Arcade Menu")
 
             self.display.fill('black')
+            self.display.blit(current_avatar, (WINDOW_WIDTH/2-50, 80))
+            self.display.blit(avatar1, (50,300))
+            self.display.blit(avatar3, (200,300))
+            self.display.blit(avatar4, (350,300))
+            self.display.blit(avatar5, (500,300))
+            self.display.blit(avatar6, (650,300))
+            self.display.blit(avatar7, (800,300))
+            self.display.blit(avatar7, (950,300))
+            self.display.blit(default_avatar, (1100,300))
             pygame.display.update()
         
         # Return to main menu
