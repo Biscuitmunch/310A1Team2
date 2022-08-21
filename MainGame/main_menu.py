@@ -29,8 +29,6 @@ class ScreenItem():
 
 font = pygame.font.SysFont('arial', 25)
 
-avatar_image = pygame.image.load(
-    "MainGame/Avatar/resources/defaultAvatar.png").convert_alpha()
 # Game buttons
 snake_image = pygame.image.load(
     "MainGame/Buttons/SnakeButton.png").convert_alpha()
@@ -48,7 +46,6 @@ avatar_select_title = font.render("Select Avatar", True, 'white')
 play_text = ScreenItem(0, 0, play_title)
 avatar_text = ScreenItem(0, 0, avatar_select_title)
 
-avatar_button = ScreenItem(WIDTH/2, 80, avatar_image)
 quit_button = ScreenItem(1180, 670, quit_image)
 snake_button = ScreenItem(263.67, 540, snake_image)
 breakout_button = ScreenItem(657.54, 540, breakout_image)
@@ -69,6 +66,9 @@ def set_avatar_text(button):
 
 running = True
 while running:
+    avatar_obj = avatar.AvatarSelect()
+    avatar_image = avatar_obj.get_current_avatar()
+    avatar_button = ScreenItem(WIDTH/2, 80, avatar_image)
 
     for event in pygame.event.get():
         # To exit the game
