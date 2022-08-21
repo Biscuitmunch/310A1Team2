@@ -29,12 +29,32 @@ bulletHeight = 5
 asteroidTimeSlice = 25
 asteroidSpeed = 0.5
 lives = 3
+score = 0
+
 
 HIGHSCORE_FILE_PATH = 'MainGame/Asteroids/asteroidsScore.txt'
 pygame.display.set_caption('Asteroids')
 
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT)) 
 font = pygame.font.Font('MainGame/Snake/resources/BPdotsSquareBold.otf', 25)
+
+
+def read_high_score():
+    with open(HIGHSCORE_FILE_PATH, "r") as high_score_read:
+        highScore = high_score_read.readline()
+    high_score_read.close()
+    return highScore
+
+def set_high_score(score):
+    # Open high score file and change high score if current game beat it
+    with open(HIGHSCORE_FILE_PATH, "r") as high_score_read:
+        high_score = high_score_read.readline()
+        if int(high_score) < score:
+            high_score = score
+            with open(HIGHSCORE_FILE_PATH, "w") as high_score_write:
+                high_score_write.write(str(high_score))
+            high_score_write.close()
+    high_score_read.close()
 
 
 class playerShip(object):
@@ -175,17 +195,30 @@ def drawWindow():
     playerShip.draw(window)
 
     
-    
-    numberOfLivesText = font.render('Lives: ' + str(lives), 1, (255, 255, 255))
-    
-    
+    gameOverText = font.render('Press Space to Play again or Q to Quit to Menu', 1, white)
+    numberOfLivesText = font.render('Lives: ' + str(lives), 1, white)
+    scoreText = font.render('Score: ' + str(score), 1, white)
+    newHighScoreText = font.render('New HighScore: ' + str(score), 1, white)
+
     for b in bullets:
         b.draw(window)
     for a in asteroids:
         a.draw(window)
 
+    if game_over:
+            window.blit(gameOverText, (WINDOW_WIDTH//2-gameOverText.get_width()//2, WINDOW_HEIGHT//2 - gameOverText.get_height()//2))
+            
+            highScore = read_high_score()
+            if score > int(highScore):
+                window.blit(newHighScoreText, (WINDOW_WIDTH//2-newHighScoreText.get_width()//2, WINDOW_HEIGHT//2 - newHighScoreText.get_height()//2 -100))
+
+
+
+    window.blit(scoreText, (200, 25))
     window.blit(numberOfLivesText, (25, 25))
     pygame.display.update()
+
+
 
 #creates two new asteroids one size lower than itself
 def spawnAsteroids(size):
@@ -237,7 +270,8 @@ while running:
                     if (b.y + b.height >= a.y and b.y + b.height <= a.y + a.height) or (b.y >= a.y and b.y <= a.y + a.height):
                         if a.size > 1:
                             spawnAsteroids(a.size)
-
+                            #increase score
+                            score += (6-a.size)*500
                         asteroids.pop(asteroids.index(a))
                         bullets.pop(bullets.index(b))
 
@@ -268,7 +302,13 @@ while running:
         if event.type == pygame.QUIT:
             pygame.display.set_caption("Arcade Menu")
             running = False
-            #add set_high_score later
+            set_high_score(score)
+           
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_q:
+                pygame.display.set_caption("Arcade Menu")
+                #go to main menu here
 
         #capture spacebar input. Done this way to prevent holding spacebar creating infinite bullets 
         if event.type == pygame.KEYDOWN:
@@ -277,9 +317,11 @@ while running:
                     bullets.append(bullet())
                 else: 
                     game_over = False
+                    set_high_score(score)
                     lives = 3
-                    
+                    score = 0
                     asteroids.clear()
+                    
 
     drawWindow()
 
@@ -287,21 +329,5 @@ while running:
 pygame.quit()
 
 
-def set_high_score(score):
-    # Open high score file and change high score if current game beat it
-    with open(HIGHSCORE_FILE_PATH, "r") as high_score_read:
-        high_score = high_score_read.readline()
-        if int(high_score) < score:
-            high_score = score
-            with open(HIGHSCORE_FILE_PATH, "w") as high_score_write:
-                high_score_write.write(str(high_score))
-            high_score_write.close()
-    high_score_read.close()
 
-
-#under update UI from snake
-        # # Display current score and high score on screen
-        # text = font.render("Score: " + str(self.score) + " High Score: " + high_score, True, BLACK)
-        # self.display.blit(text, [0, 0])
-        # pygame.display.flip()
 
