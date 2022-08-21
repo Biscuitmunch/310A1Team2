@@ -19,7 +19,7 @@ asteroid_Medium = pygame.image.load(
 asteroid_Large = pygame.image.load(
     'MainGame/Asteroids/resources/largeAsteroid.png')
 WHITE = (255, 255, 255)
-
+FPS=60
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 #increase rotate angle size for sharper turns
@@ -141,7 +141,7 @@ class bullet(object):
         self.y -= self.yVelocity
 
     def draw(self, win):
-        pygame.draw.rect(win, white, [self.x, self.y, self.width, self.height])
+        pygame.draw.rect(win, WHITE, [self.x, self.y, self.width, self.height])
 
     def checkOutOfBounds(self):
         if self.x < -0 or self.x > WINDOW_WIDTH or self.y > WINDOW_HEIGHT or self.y < 0:
@@ -199,10 +199,10 @@ def drawWindow():
     playerShip.draw(window)
 
     gameOverText = font.render(
-        'Press Space to Play again or Q to Quit to Menu', 1, white)
-    numberOfLivesText = font.render('Lives: ' + str(lives), 1, white)
-    scoreText = font.render('Score: ' + str(score), 1, white)
-    newHighScoreText = font.render('New HighScore: ' + str(score), 1, white)
+        'Press Space to Play again or Q to Quit to Menu', 1, WHITE)
+    numberOfLivesText = font.render('Lives: ' + str(lives), 1, WHITE)
+    scoreText = font.render('Score: ' + str(score), 1, WHITE)
+    newHighScoreText = font.render('New HighScore: ' + str(score), 1, WHITE)
 
     for b in bullets:
         b.draw(window)
@@ -245,7 +245,7 @@ count = 0
 game_over = False
 running = True
 while running:
-    clock.tick(60)
+    clock.tick(FPS)
     count += 1
     if not game_over:
         #randomly chosen new asteroid will apear every time slice time past
