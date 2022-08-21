@@ -18,7 +18,7 @@ asteroid_Medium = pygame.image.load(
     'MainGame/Asteroids/resources/mediumAsteroid.png')
 asteroid_Large = pygame.image.load(
     'MainGame/Asteroids/resources/largeAsteroid.png')
-white = (255, 255, 255)
+WHITE = (255, 255, 255)
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
