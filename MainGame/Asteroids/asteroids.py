@@ -12,31 +12,30 @@ asteroid_Small = pygame.image.load('MainGame/Asteroids/resources/smallAsteroid.p
 asteroid_MediumSmall = pygame.image.load('MainGame/Asteroids/resources/mediumSmallAsteroid.png')
 asteroid_MediumLarge = pygame.image.load('MainGame/Asteroids/resources/mediumLargeAsteroid.png')
 asteroid_Medium = pygame.image.load('MainGame/Asteroids/resources/mediumAsteroid.png')
-
 asteroid_Large = pygame.image.load('MainGame/Asteroids/resources/largeAsteroid.png')
+white = (255, 255, 255)
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
+#increase rotate angle size for sharper turns
 rotateAngleSize = 5
 initialAngle = 0
 playerShipSpeed = 8
-playerReverseSpeed=2
+playerReverseSpeed = 2
 bulletSpeed = 15
 bulletWidth = 5
 bulletHeight = 5
-
 #rate that determines frequency of asteroids, lower equals more frequent
 asteroidTimeSlice = 25
 asteroidSpeed = 0.5
+lives = 3
 
-white = (255, 255, 255)
-
+HIGHSCORE_FILE_PATH = 'MainGame/Asteroids/asteroidsScore.txt'
 pygame.display.set_caption('Asteroids')
 
-
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT)) 
-# font = pygame.font.Font('MainGame/Snake/resources/BPdotsSquareBold.otf', 25)
-HIGHSCORE_FILE_PATH = 'MainGame/Asteroids/asteroidsScore.txt'
+font = pygame.font.Font('MainGame/Snake/resources/BPdotsSquareBold.otf', 25)
+
 
 class playerShip(object):
     def __init__(self):
@@ -49,7 +48,7 @@ class playerShip(object):
         self.angle = initialAngle
         self.updateAngle()
         
-    #call this after turning to update position and angle
+    #call this after turning or moving to update position and angle
     def updateAngle(self):
         self.rotatedSurface = pygame.transform.rotate(self.image, self.angle)
         self.rotatedRectangle = self.rotatedSurface.get_rect()
@@ -143,7 +142,7 @@ class asteroid(object):
 
         self.width = self.image.get_width()
         self.height = self.image.get_height()
-        #random position where asteroid enters from
+        #random position where asteroid enters from. 150 being maximum size, it always spawns at least 150 outside of screen
         self.randomEntryPosition = random.choice([(random.randrange(0, WINDOW_WIDTH-150), random.choice([-150, WINDOW_HEIGHT + 150])), (random.choice([-150, WINDOW_WIDTH + 150]), random.randrange(0, WINDOW_HEIGHT - 150))])
         self.x, self.y = self.randomEntryPosition
         if self.x < WINDOW_WIDTH//2:
@@ -160,7 +159,8 @@ class asteroid(object):
         self.yVelocity = self.yDirection * random.randrange(1,4)* sizeSpeedFactor
 
     def checkOutOfBounds(self):
-        if self.x < -150 or self.x > WINDOW_WIDTH + 150 or self.y > WINDOW_HEIGHT +150 or self.y < -150:
+        #151 is used to be one more than where it would spawn, prevents buggy behaviour. 
+        if self.x < -151 or self.x > WINDOW_WIDTH + 151 or self.y > WINDOW_HEIGHT +151 or self.y < -151:
             return True
 
     def draw(self, win):
@@ -174,14 +174,20 @@ def drawWindow():
     window.blit(Asteroids_Background, (0,0))
     playerShip.draw(window)
 
+    
+    
+    numberOfLivesText = font.render('Lives: ' + str(lives), 1, (255, 255, 255))
+    
+    
     for b in bullets:
         b.draw(window)
     for a in asteroids:
         a.draw(window)
-    
+
+    window.blit(numberOfLivesText, (25, 25))
     pygame.display.update()
 
-
+#creates two new asteroids one size lower than itself
 def spawnAsteroids(size):
     newAsteroid1 = asteroid(size-1)
     newAsteroid2 = asteroid(size-1)
@@ -218,6 +224,12 @@ while running:
             a.y += a.yVelocity
             if a.checkOutOfBounds():
                 asteroids.pop(asteroids.index(a))
+                #check collision of asteroid and player. same logic as below for bullets. 
+            if (playerShip.x >= a.x and playerShip.x <= a.x + a.width) or (playerShip.x + playerShip.width >= a.x and playerShip.x + playerShip.width <= a.x + a.width):
+                if (playerShip.y >= a.y and playerShip.y <= a.y + a.height) or (playerShip.y + playerShip.height >= a.y and playerShip.y  + playerShip.height <= a.y + a.height):
+                    lives -= 1
+                    asteroids.pop(asteroids.index(a))
+                    break
 
             for b in bullets:
                 #checking for bullet collision with asteroid: bullet is both horizontally and vertically inside the asteroid. 
@@ -229,6 +241,10 @@ while running:
                         asteroids.pop(asteroids.index(a))
                         bullets.pop(bullets.index(b))
 
+        if lives == 0:
+            game_over = True
+
+        
         for b in bullets:
             b.move()
             if b.checkOutOfBounds():
@@ -248,23 +264,26 @@ while running:
         if keys[pygame.K_s]:
             playerShip.Reverse()
 
-        for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.display.set_caption("Arcade Menu")
-                        running = False
-                        #add set_high_score later
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.display.set_caption("Arcade Menu")
+            running = False
+            #add set_high_score later
 
-                    #capture spacebar input. Done this way to prevent holding spacebar creating infinite bullets 
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_SPACE:
-                            if not game_over:
-                                bullets.append(bullet())
+        #capture spacebar input. Done this way to prevent holding spacebar creating infinite bullets 
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                if not game_over:
+                    bullets.append(bullet())
+                else: 
+                    game_over = False
+                    lives = 3
+                    
+                    asteroids.clear()
 
     drawWindow()
 
             
-
-
 pygame.quit()
 
 
