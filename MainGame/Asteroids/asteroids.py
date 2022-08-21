@@ -159,6 +159,9 @@ class asteroid(object):
         self.xVelocity = self.xDirection * random.randrange(1,4) * sizeSpeedFactor
         self.yVelocity = self.yDirection * random.randrange(1,4)* sizeSpeedFactor
 
+    def checkOutOfBounds(self):
+        if self.x < -150 or self.x > WINDOW_WIDTH + 150 or self.y > WINDOW_HEIGHT +150 or self.y < -150:
+            return True
 
     def draw(self, win):
         win.blit(self.image, (self.x, self.y))
@@ -178,6 +181,16 @@ def drawWindow():
     
     pygame.display.update()
 
+
+def spawnAsteroids(size):
+    newAsteroid1 = asteroid(size-1)
+    newAsteroid2 = asteroid(size-1)
+    newAsteroid1.x = a.x
+    newAsteroid2.x = a.x
+    newAsteroid1.y = a.y
+    newAsteroid2.y = a.y
+    asteroids.append(newAsteroid1)
+    asteroids.append(newAsteroid2)
 
 
 playerShip = playerShip()
@@ -203,11 +216,26 @@ while running:
         for a in asteroids:
             a.x += a.xVelocity
             a.y += a.yVelocity
+            if a.checkOutOfBounds():
+                asteroids.pop(asteroids.index(a))
+
+            for b in bullets:
+                #checking for bullet collision with asteroid: bullet is both horizontally and vertically inside the asteroid. 
+                if (b.x + b.width >= a.x and b.x + b.width <= a.x + a.width) or (b.x >= a.x and b.x <= a.x + a.width):
+                    if (b.y + b.height >= a.y and b.y + b.height <= a.y + a.height) or (b.y >= a.y and b.y <= a.y + a.height):
+                        if a.size > 1:
+                            spawnAsteroids(a.size)
+
+                        asteroids.pop(asteroids.index(a))
+                        bullets.pop(bullets.index(b))
 
         for b in bullets:
             b.move()
             if b.checkOutOfBounds():
                 bullets.pop(bullets.index(b))
+
+       
+
 
         #capture player input (WASD) 
         keys = pygame.key.get_pressed()
