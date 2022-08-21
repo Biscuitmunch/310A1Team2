@@ -284,7 +284,7 @@ def start_space_invaders():
 
     while run:
         WINDOW.blit(BACKGROUND, (0,0))
-        title_label = title_font.render("Click the mouse to begin...", 1, (255,255,255))
+        title_label = title_font.render("Click the mouse or press any key to begin...", 1, (255,255,255))
         WINDOW.blit(title_label, (WIDTH/2 - title_label.get_width()/2, HEIGHT/2))
 
         pygame.display.update()
@@ -292,7 +292,7 @@ def start_space_invaders():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
                 main()
     pygame.quit()
             
