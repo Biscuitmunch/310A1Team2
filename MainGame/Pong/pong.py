@@ -1,14 +1,12 @@
 from os import environ
-from tkinter import CENTER
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 import random
-import math
-from enum import Enum
 from collections import namedtuple
 
 pygame.init()
 
+# Our resolution is 1280/720 for all screens
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 PADDLE_WIDTH = 8
@@ -17,9 +15,16 @@ BALL_RADIUS = 8
 PLAYER_SPEED = 3.7
 ENEMY_SPEED = 3.3
 
+
 HIGHSCORE_FILE_PATH = 'MainGame/Pong/pongScore.txt'
+collision_sound_1 = pygame.mixer.Sound('MainGame/Pong/resources/pong1.wav')
+collision_sound_2 = pygame.mixer.Sound('MainGame/Pong/resources/pong2.wav')
+collision_sound_3 = pygame.mixer.Sound('MainGame/Pong/resources/pong3.wav')
+death_sound = pygame.mixer.Sound('MainGame/Pong/resources/pongdeath.wav')
+
 font = pygame.font.SysFont('monospace', 40)
 
+# All our games run on 60fps
 clock = pygame.time.Clock()
 fps = 60
 
@@ -33,7 +38,9 @@ class PongGame:
         self.score_enemy = 0
         self.display = pygame.display.set_mode((self.width, self.height))
 
+    # Moving paddles up and down
     def player_movement(self, player1):
+        # Takes all keys that are being pressed
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_UP] and player1.top > 0:
@@ -44,6 +51,18 @@ class PongGame:
             player1.top = player1.top + PLAYER_SPEED
             player1.bottom = player1.bottom + PLAYER_SPEED
 
+    def sound_effect_play(self):
+        sound_choice = random.choice([0, 1, 2, 3])
+
+        # Sounds from the wav files under resources, defined at the top
+        if sound_choice == 0:
+            collision_sound_1.play(0)
+        elif sound_choice == 1:
+            collision_sound_2.play(0)
+        elif sound_choice == 2:
+            collision_sound_3.play(0)
+
+    # Checks are in place to make sure enemy does not move off screen to follow ball
     def enemy_movement(self, enemy1):
         global ball
         if enemy1.y > ball.y and enemy1.top > 0:
@@ -54,6 +73,7 @@ class PongGame:
             enemy1.top = enemy1.top + ENEMY_SPEED
             enemy1.bottom = enemy1.bottom + ENEMY_SPEED
 
+    # Reset ball for user to keep playing after a score
     def reset_ball(self, ball):
         global next_paddle
         global ball_velocity_x
@@ -79,10 +99,12 @@ class PongGame:
         # Conditions when the ball hits a screen edge
         if ball.right >= WINDOW_WIDTH:
             self.score_player = self.score_player + 1
+            death_sound.play()
             self.reset_ball(ball)
             
         if ball.left <= 0:
             self.score_enemy = self.score_enemy + 1
+            death_sound.play()
             self.reset_ball(ball)
 
         if ball.bottom >= WINDOW_HEIGHT or ball.top <= 0:
@@ -96,7 +118,13 @@ class PongGame:
                 ball_velocity_y = ball_velocity_y + 0.3
             ball_velocity_x = ball_velocity_x - random.random()
             ball_velocity_x = -ball_velocity_x
+            # These next paddles are in place because the colliderect function given by
+            # pygame is not perfect and can cause multiple collisions, this ensures that
+            # collisions go one side to the other in an alternating fashion
             next_paddle = 'enemy'
+
+            # Also play sound effect
+            self.sound_effect_play()
 
         if ball.colliderect(enemy1) and next_paddle == 'enemy':
             if ball_velocity_y < 0:
@@ -107,7 +135,11 @@ class PongGame:
             ball_velocity_x = -ball_velocity_x
             next_paddle = 'player'
 
+            # Also play sound effect
+            self.sound_effect_play()
+
     def start_game(self):
+        # Global variables needed
         global break_loops
         global game_over
         global ball_velocity_x
@@ -138,6 +170,7 @@ class PongGame:
                     break_loops = True
                     pygame.display.set_caption("Arcade Menu")
 
+            # Updating the screen on each loop, keeping assets updated
             self.display.fill('black')
             score_text = font.render(str(self.score_player) + "   ---   " + str(self.score_enemy), True, 'white')
             self.display.blit(score_text, [WINDOW_WIDTH/2 - 100, 0])
@@ -147,6 +180,7 @@ class PongGame:
             pygame.display.update()
             clock.tick(fps)
 
+        # Back to main menu if X is pressed
         while game_over == True and break_loops == False:
             
             for event in pygame.event.get():
@@ -170,3 +204,4 @@ def set_high_score(score):
                     high_score_write.write(str(high_score))
                 high_score_write.close()
         high_score_read.close()
+
