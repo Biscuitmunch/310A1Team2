@@ -46,7 +46,7 @@ quit_image = pygame.image.load(
 asteroids_image = pygame.image.load( 
     "MainGame/Buttons/AsteroidsButton.png").convert_alpha()
 scoreboard_image = pygame.image.load(
-    "MainGame/Buttons/PongButton.png").convert_alpha()
+    "MainGame/Buttons/ScoresButton.png").convert_alpha()
 
 
 # Button texts

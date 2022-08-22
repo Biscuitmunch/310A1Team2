@@ -35,7 +35,7 @@ def startScoreboard():
 
                 with open(INVADER_HIGHSCORE_FILE_PATH, "r") as file:
                     line = file.readline()  # scores are one line
-                    text = font.render("Invader High Score: " + line, True, (WHITE))
+                    text = font.render("Space Invaders High Score: " + line, True, (WHITE))
                     screen.blit(text, [50, 135])
 
                 with open(ASTEROIDS_HIGHSCORE_FILE_PATH, "r") as file:
@@ -45,8 +45,10 @@ def startScoreboard():
 
                 with open(PONG_HIGHSCORE_FILE_PATH, "r") as file:
                     line = file.readline()  # scores are one line
-                    text = font.render("Asteroids High Score: " + line, True, (WHITE))
+                    text = font.render("Pong High Score: " + line, True, (WHITE))
                     screen.blit(text, [50, 335])
+
+                scores_displayed = True
 
                 
 
