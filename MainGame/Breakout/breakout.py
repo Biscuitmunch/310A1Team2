@@ -422,6 +422,11 @@ def start_breakout():
     global start_game
     global ball_count
  
+    global balls
+    balls = []
+
+    global powerups
+    powerups = []
     game_over = 0
     start_game = False
     ball_count = 0
