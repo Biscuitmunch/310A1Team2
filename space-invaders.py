@@ -1,8 +1,6 @@
-from pickle import FALSE
 from time import time
 import pygame
 import os
-import time
 import random
 pygame.font.init()
 
