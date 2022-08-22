@@ -2,6 +2,7 @@ import pygame
 import sys
 import Snake.snake as snake
 import Pong.pong as pong
+import Scoreboard.Scoreboard as Scoreboard
 
 WIDTH = 1280
 HEIGHT = 720
@@ -48,7 +49,7 @@ quit_button = ScreenItem(1180, 670, quit_image)
 snake_button = ScreenItem(263.67, 540, snake_image)
 breakout_button = ScreenItem(657.54, 540, breakout_image)
 pong_button = ScreenItem (1051.41, 540, pong_image)
-scoreboard_button = ScreenItem(1051, 540, scoreboard_image)
+scoreboard_button = ScreenItem(1051, 300, scoreboard_image)
 
 play_text_show = False
 
@@ -89,8 +90,8 @@ while running:
 
             # Activate Scoreboard
             elif scoreboard_button.mouse_over_button(pygame.mouse.get_pos()):
-                scoreboard.obj = scoreboard.ScoreBoard()
-                scoreboard.obj.start()
+                Scoreboard.startScoreboard()
+                
 
             # No buttons
             else:
@@ -111,6 +112,11 @@ while running:
             elif pong_button.mouse_over_button(pygame.mouse.get_pos()):
                 set_play_text(pong_button)
                 play_text_show = True
+            
+            # Activate Scoreboard
+            elif scoreboard_button.mouse_over_button(pygame.mouse.get_pos()):
+                set_play_text(scoreboard_button)
+                play_text_show = True
 
             # If user is doing nothing
             else:
@@ -122,7 +128,7 @@ while running:
     breakout_button.update()
     pong_button.update()
     quit_button.update()
-    Scoreboard_button.update()
+    scoreboard_button.update()
     
     if play_text_show == True:
         play_text.update()
