@@ -88,7 +88,7 @@ while running:
                 pong_obj.start_game()
 
             # Activate Scoreboard
-            elif breakout_button.mouse_over_button(pygame.mouse.get_pos()):
+            elif scoreboard_button.mouse_over_button(pygame.mouse.get_pos()):
                 scoreboard.obj = scoreboard.ScoreBoard()
                 scoreboard.obj.start()
 
