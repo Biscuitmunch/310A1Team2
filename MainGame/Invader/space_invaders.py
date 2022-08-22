@@ -11,6 +11,8 @@ WINDOW = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Space Invaders")
 resources_path = "MainGame/Invader/resources"
 break_loops = False
+score = 0
+HIGHSCORE_FILE_PATH = 'MainGame/Invader/invaderScore.txt'
 
 # Generate and sync images
 # Background
@@ -102,6 +104,7 @@ class Ship:
 
 # Player ship class that extends Ship
 class Player(Ship):
+    
     def __init__(self, x, y, health=100):
         super().__init__(x, y, health)
         self.ship_image = YELLOW_SHIP
@@ -111,6 +114,7 @@ class Player(Ship):
 
     # Override parent's move_lasers method to suit player lasers hitting multiple enemies
     def move_lasers(self, speed, objects):
+        global score
         # increment cooldown period everytime the lasers move (every frame)
         self.cooldown()
         
@@ -123,6 +127,8 @@ class Player(Ship):
                     if laser.collision(object):
                         objects.remove(object)
                         self.lasers.remove(laser)
+                        score += 1
+
 
     def draw(self, area):
         super().draw(area)
@@ -166,7 +172,7 @@ def collide(object1, object2):
     
 
 def main():
-    
+
     global break_loops
     main_font = pygame.font.SysFont("monospace", 25)
     game_over_font = pygame.font.SysFont("monospace", 60)
@@ -180,7 +186,7 @@ def main():
     enemy_speed = 1
 
     # probability that enemy shoots every second is 1/enemy_shooting_frequency
-    enemy_shooting_freq = 4
+    enemy_shooting_freq = 100
 
     level = 0
     lives = 5
@@ -220,13 +226,16 @@ def main():
 
 
     while break_loops == False:
+        global score
         clock.tick(FPS)
         rerender_window()
         
         # Scenario where player has lost display the game over text for 3 seconds
         if lives <= 0 or player.health <= 0:
             game_over = True
+            set_high_score(score)
             game_over_clock += 1
+            break
 
         if game_over:
             if game_over_clock > FPS * 3:
@@ -274,6 +283,7 @@ def main():
             if collide(enemy, player):
                 player.health -= 10
                 enemies.remove(enemy)
+
             elif enemy.y + enemy.get_height() > HEIGHT:
                 lives -= 1
                 enemies.remove(enemy)
@@ -294,8 +304,19 @@ def start_space_invaders():
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                    break_loops = True
-                    pygame.display.set_caption("Arcade Menu")
+                break_loops = True
+                pygame.display.set_caption("Arcade Menu")
             if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
                 main()
             
+def set_high_score(score):
+        # Open high score file and change high score if current game beat it
+        with open(HIGHSCORE_FILE_PATH, "r") as high_score_read:
+            high_score = high_score_read.readline()
+            if int(high_score) < score:
+                high_score = score
+                with open(HIGHSCORE_FILE_PATH, "w") as high_score_write: 
+                    high_score_write.write(str(high_score))
+                high_score_write.close()
+        high_score_read.close()
+

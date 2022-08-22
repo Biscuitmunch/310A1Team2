@@ -17,6 +17,7 @@ BALL_RADIUS = 8
 PLAYER_SPEED = 3.7
 ENEMY_SPEED = 3.3
 
+HIGHSCORE_FILE_PATH = 'MainGame/Pong/pongScore.txt'
 font = pygame.font.SysFont('monospace', 40)
 
 clock = pygame.time.Clock()
@@ -132,6 +133,7 @@ class PongGame:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    set_high_score(self.score_player)
                     game_over = True
                     break_loops = True
                     pygame.display.set_caption("Arcade Menu")
@@ -146,9 +148,10 @@ class PongGame:
             clock.tick(fps)
 
         while game_over == True and break_loops == False:
-
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    set_high_score(self.score_player)
                     game_over = True
                     break_loops = True
                     pygame.display.set_caption("Arcade Menu")
@@ -157,4 +160,13 @@ class PongGame:
             pygame.display.update()
             clock.tick(fps)
 
-
+def set_high_score(score):
+        # Open high score file and change high score if current game beat it
+        with open(HIGHSCORE_FILE_PATH, "r") as high_score_read:
+            high_score = high_score_read.readline()
+            if int(high_score) < score:
+                high_score = score
+                with open(HIGHSCORE_FILE_PATH, "w") as high_score_write: 
+                    high_score_write.write(str(high_score))
+                high_score_write.close()
+        high_score_read.close()

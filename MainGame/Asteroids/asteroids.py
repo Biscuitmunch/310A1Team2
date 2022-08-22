@@ -228,10 +228,10 @@ def draw_window():
 def spawn_asteroids(size):
     new_asteroid1 = Asteroid(size-1)
     new_asteroid2 = Asteroid(size-1)
-    new_asteroid1.x = a.x
-    new_asteroid2.x = a.x
-    new_asteroid1.y = a.y
-    new_asteroid2.y = a.y
+    new_asteroid1.x = asteroid.x
+    new_asteroid2.x = asteroid.x
+    new_asteroid1.y = asteroid.y
+    new_asteroid2.y = asteroid.y
     asteroids.append(new_asteroid1)
     asteroids.append(new_asteroid2)
 
@@ -253,7 +253,7 @@ def start_asteroids():
     global game_over
     global lives
     global score
-    global a
+    global asteroid
     running = True
     
 
@@ -271,39 +271,39 @@ def start_asteroids():
             #makes player ship wrap around the screen
             Player_ship.move_back_in_bounds()
 
-            for a in asteroids:
-                a.x += a.x_velocity
-                a.y += a.y_velocity
-                if a.check_out_of_bounds():
-                    asteroids.pop(asteroids.index(a))
+            for asteroid in asteroids:
+                asteroid.x += asteroid.x_velocity
+                asteroid.y += asteroid.y_velocity
+                if asteroid.check_out_of_bounds():
+                    asteroids.pop(asteroids.index(asteroid))
                     #check collision of Asteroid and player. same logic as below for bullets. figures out if player is inside Asteroid
-                if (Player_ship.x >= a.x and Player_ship.x <= a.x + a.width) or (Player_ship.x + Player_ship.width >= a.x and Player_ship.x + Player_ship.width <= a.x + a.width):
-                    if (Player_ship.y >= a.y and Player_ship.y <= a.y + a.height) or (Player_ship.y + Player_ship.height >= a.y and Player_ship.y + Player_ship.height <= a.y + a.height):
+                if (Player_ship.x >= asteroid.x and Player_ship.x <= asteroid.x + asteroid.width) or (Player_ship.x + Player_ship.width >= asteroid.x and Player_ship.x + Player_ship.width <= asteroid.x + asteroid.width):
+                    if (Player_ship.y >= asteroid.y and Player_ship.y <= asteroid.y + asteroid.height) or (Player_ship.y + Player_ship.height >= asteroid.y and Player_ship.y + Player_ship.height <= asteroid.y + asteroid.height):
                         lives -= 1
-                        asteroids.pop(asteroids.index(a))
+                        asteroids.pop(asteroids.index(asteroid))
                         #break because if steroid is popped out of list but then checked in Bullet collision, it will cause errors
                         break
 
-                for b in bullets:
+                for bullet in bullets:
                     #checking for Bullet collision with Asteroid: Bullet is both horizontally and vertically inside the Asteroid.
-                    if (b.x + b.width >= a.x and b.x + b.width <= a.x + a.width) or (b.x >= a.x and b.x <= a.x + a.width):
-                        if (b.y + b.height >= a.y and b.y + b.height <= a.y + a.height) or (b.y >= a.y and b.y <= a.y + a.height):
-                            if a.size > 1:
-                                spawn_asteroids(a.size)
+                    if (bullet.x + bullet.width >= asteroid.x and bullet.x + bullet.width <= asteroid.x + asteroid.width) or (bullet.x >= asteroid.x and bullet.x <= asteroid.x + asteroid.width):
+                        if (bullet.y + bullet.height >= asteroid.y and bullet.y + bullet.height <= asteroid.y + asteroid.height) or (bullet.y >= asteroid.y and bullet.y <= asteroid.y + asteroid.height):
+                            if asteroid.size > 1:
+                                spawn_asteroids(asteroid.size)
                                 #increase score, smaller size equals more score, number of asteroids = 6
 
-                                score += (number_asteroids-a.size)*500
+                                score += (number_asteroids-asteroid.size)*500
                             #both Asteroid and Bullet disapear
-                            asteroids.pop(asteroids.index(a))
-                            bullets.pop(bullets.index(b))
+                            asteroids.pop(asteroids.index(asteroid))
+                            bullets.pop(bullets.index(bullet))
 
             if lives == 0:
                 game_over = True
 
-            for b in bullets:
-                b.move()
-                if b.check_out_of_bounds():
-                    bullets.pop(bullets.index(b))
+            for bullet in bullets:
+                bullet.move()
+                if bullet.check_out_of_bounds():
+                    bullets.pop(bullets.index(bullet))
 
             #capture player input (WASD)
             keys = pygame.key.get_pressed()
