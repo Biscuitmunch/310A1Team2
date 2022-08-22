@@ -39,11 +39,11 @@ breakout_image = pygame.image.load(
 pong_image = pygame.image.load(
     "MainGame/Buttons/PongButton.png").convert_alpha()
 invader_image = pygame.image.load(
-    "MainGame/Buttons/PongButton.png").convert_alpha()
+    "MainGame/Buttons/InvadersButton.png").convert_alpha()
 quit_image = pygame.image.load(
     "MainGame/Buttons/QuitButton.png").convert_alpha()
 asteroids_image = pygame.image.load( 
-    "MainGame/Buttons/SnakeButton.png").convert_alpha()
+    "MainGame/Buttons/AsteroidsButton.png").convert_alpha()
 
 
 # Button texts
@@ -58,7 +58,7 @@ snake_button = ScreenItem(263.67, 540, snake_image)
 breakout_button = ScreenItem(657.54, 540, breakout_image)
 pong_button = ScreenItem (1051.41, 540, pong_image)
 invader_button = ScreenItem(263.67, 300, invader_image)
-asteroids_button = ScreenItem (657.54, 250, asteroids_image)
+asteroids_button = ScreenItem (657.54, 300, asteroids_image)
 
 play_text_show = False
 avatar_text_show = False

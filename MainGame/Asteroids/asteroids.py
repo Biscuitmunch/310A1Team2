@@ -255,7 +255,7 @@ def start_asteroids():
     global score
     global a
     running = True
-
+    
 
 
     while running:
@@ -322,6 +322,7 @@ def start_asteroids():
                 game_over = True
                 #move to menu here
                 running = False
+                asteroids.clear()
                 set_high_score(score)  # save highscore in text doc
                 break #                                                                     ======
             # Q press quits to main menu
@@ -329,6 +330,7 @@ def start_asteroids():
                 # if event.key == pygame.K_q:
                 pygame.display.set_caption("Arcade Menu")
                 game_over = True
+                asteroids.clear()
                 #go to main menu here
 
             #capture spacebar input. Done this way to prevent holding spacebar creating infinite bullets
