@@ -4,6 +4,7 @@ import Snake.snake as snake
 import Pong.pong as pong
 import Avatar.avatar as avatar
 import Avatar.resources as avatars
+import Invader.space_invaders as invader
 
 WIDTH = 1280
 HEIGHT = 720
@@ -36,6 +37,8 @@ breakout_image = pygame.image.load(
     "MainGame/Buttons/BreakoutButton.png").convert_alpha()
 pong_image = pygame.image.load(
     "MainGame/Buttons/PongButton.png").convert_alpha()
+invader_image = pygame.image.load(
+    "MainGame/Buttons/PongButton.png").convert_alpha()
 quit_image = pygame.image.load(
     "MainGame/Buttons/QuitButton.png").convert_alpha()
 
@@ -50,6 +53,7 @@ quit_button = ScreenItem(1180, 670, quit_image)
 snake_button = ScreenItem(263.67, 540, snake_image)
 breakout_button = ScreenItem(657.54, 540, breakout_image)
 pong_button = ScreenItem (1051.41, 540, pong_image)
+invader_button = ScreenItem(263.67, 300, invader_image)
 
 play_text_show = False
 avatar_text_show = False
@@ -95,12 +99,16 @@ while running:
 
             # Activate Breakout
             elif breakout_button.mouse_over_button(pygame.mouse.get_pos()):
-                print("breakout clicked")
+                print("breakiut")
 
             # Activate Pong
             elif pong_button.mouse_over_button(pygame.mouse.get_pos()):
                 pong_obj = pong.PongGame()
                 pong_obj.start_game()
+
+             # Activate Space Invaders
+            elif invader_button.mouse_over_button(pygame.mouse.get_pos()):
+                invader.start_space_invaders()
 
             # No buttons
             else:
@@ -126,6 +134,11 @@ while running:
             elif pong_button.mouse_over_button(pygame.mouse.get_pos()):
                 set_play_text(pong_button)
                 play_text_show = True
+            
+            # Activate Invaders
+            elif invader_button.mouse_over_button(pygame.mouse.get_pos()):
+                set_play_text(invader_button)
+                play_text_show = True
 
             # If user is doing nothing
             else:
@@ -138,6 +151,7 @@ while running:
     snake_button.update()
     breakout_button.update()
     pong_button.update()
+    invader_button.update()
     quit_button.update()
     
     if play_text_show == True:

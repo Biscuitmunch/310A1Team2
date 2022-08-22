@@ -9,22 +9,24 @@ HEIGHT = 720
 FPS = 60
 WINDOW = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Space Invaders")
+resources_path = "MainGame/Invader/resources"
+break_loops = False
 
 # Generate and sync images
 # Background
-BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join("assets","background-space.png")),(WIDTH,HEIGHT)) 
+BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join(resources_path,"background-space.png")),(WIDTH,HEIGHT)) 
 
 # Ships
-RED_SHIP = pygame.image.load(os.path.join("assets","ship_red.png"))
-GREEN_SHIP = pygame.image.load(os.path.join("assets","ship_green.png"))
-BLUE_SHIP = pygame.image.load(os.path.join("assets","ship_blue.png"))
-YELLOW_SHIP = pygame.image.load(os.path.join("assets","ship_yellow.png"))
+RED_SHIP = pygame.image.load(os.path.join(resources_path,"ship_red.png"))
+GREEN_SHIP = pygame.image.load(os.path.join(resources_path,"ship_green.png"))
+BLUE_SHIP = pygame.image.load(os.path.join(resources_path,"ship_blue.png"))
+YELLOW_SHIP = pygame.image.load(os.path.join(resources_path,"ship_yellow.png"))
 
 # Lasers
-RED_LASER = pygame.image.load(os.path.join("assets","laser_red.png"))
-GREEN_LASER = pygame.image.load(os.path.join("assets","laser_green.png"))
-BLUE_LASER = pygame.image.load(os.path.join("assets","laser_blue.png"))
-YELLOW_LASER = pygame.image.load(os.path.join("assets","laser_yellow.png"))
+RED_LASER = pygame.image.load(os.path.join(resources_path,"laser_red.png"))
+GREEN_LASER = pygame.image.load(os.path.join(resources_path,"laser_green.png"))
+BLUE_LASER = pygame.image.load(os.path.join(resources_path,"laser_blue.png"))
+YELLOW_LASER = pygame.image.load(os.path.join(resources_path,"laser_yellow.png"))
 
 # Laser class coded to make sure laser does not follow player when player moves in x direction
 class Laser:
@@ -165,7 +167,7 @@ def collide(object1, object2):
 
 def main():
     
-    run = True
+    global break_loops
     main_font = pygame.font.SysFont("monospace", 25)
     game_over_font = pygame.font.SysFont("monospace", 60)
     
@@ -184,6 +186,7 @@ def main():
     lives = 5
     game_over = False
     game_over_clock = 0
+    break_loops = False
     
     # CREATE ENEMIES
     enemies = []
@@ -216,7 +219,7 @@ def main():
         pygame.display.update()
 
 
-    while run:
+    while break_loops == False:
         clock.tick(FPS)
         rerender_window()
         
@@ -243,7 +246,9 @@ def main():
 
             # When the close button is clicked on window
             if event.type == pygame.QUIT:
-                pygame.quit()
+                break_loops = True
+                pygame.display.set_caption("Arcade Menu")
+                break
 
         keys = pygame.key.get_pressed()
 
@@ -278,9 +283,10 @@ def main():
        
 def start_space_invaders():
     title_font = pygame.font.SysFont("monospace", 35)
-    run = True
+    global break_loops
+    break_loops = False
 
-    while run:
+    while break_loops == False:
         WINDOW.blit(BACKGROUND, (0,0))
         title_label = title_font.render("Click the mouse or press any key to begin...", 1, (255,255,255))
         WINDOW.blit(title_label, (WIDTH/2 - title_label.get_width()/2, HEIGHT/2))
@@ -288,10 +294,8 @@ def start_space_invaders():
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
-                pygame.quit()
+                    break_loops = True
+                    pygame.display.set_caption("Arcade Menu")
             if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
                 main()
-    pygame.quit()
             
-start_space_invaders()
