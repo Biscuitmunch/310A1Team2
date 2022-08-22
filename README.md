@@ -8,7 +8,7 @@ To run the arcade, you will need to have python3 installed, as well as pygame. p
 
 ## Contribution
 
-Want to contribute to the repository? Check out our [contributing guidelines!](./CONTRIBUTING_GUIDELINES.md)
+Want to contribute to the repository? Check out our [contributing guidelines!](./CONTRIBUTING.md)
 
 ## Licensing
 
