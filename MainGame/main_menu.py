@@ -36,6 +36,8 @@ pong_image = pygame.image.load(
     "MainGame/Buttons/PongButton.png").convert_alpha()
 quit_image = pygame.image.load(
     "MainGame/Buttons/QuitButton.png").convert_alpha()
+scoreboard_image = pygame.image.load(
+    "MainGame/Buttons/ScoreboardButton.png").convert_alpha()
 
 # Button texts
 play_title = font.render("Click to Play!", True, 'white')
@@ -46,6 +48,7 @@ quit_button = ScreenItem(1180, 670, quit_image)
 snake_button = ScreenItem(263.67, 540, snake_image)
 breakout_button = ScreenItem(657.54, 540, breakout_image)
 pong_button = ScreenItem (1051.41, 540, pong_image)
+scoreboard_button = ScreenItem(1051, 540, scoreboard_image)
 
 play_text_show = False
 
@@ -84,6 +87,11 @@ while running:
                 pong_obj = pong.PongGame()
                 pong_obj.start_game()
 
+            # Activate Scoreboard
+            elif breakout_button.mouse_over_button(pygame.mouse.get_pos()):
+                scoreboard.obj = scoreboard.ScoreBoard()
+                scoreboard.obj.start()
+
             # No buttons
             else:
                 print("no button clicked")
@@ -114,6 +122,7 @@ while running:
     breakout_button.update()
     pong_button.update()
     quit_button.update()
+    Scoreboard_button.update()
     
     if play_text_show == True:
         play_text.update()
