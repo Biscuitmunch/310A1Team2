@@ -20,7 +20,7 @@ ENEMY_SPEED = 3.3
 collision_sound_1 = pygame.mixer.Sound('MainGame/Pong/resources/pong1.wav')
 collision_sound_2 = pygame.mixer.Sound('MainGame/Pong/resources/pong2.wav')
 collision_sound_3 = pygame.mixer.Sound('MainGame/Pong/resources/pong3.wav')
-collision_sound_4 = pygame.mixer.Sound('MainGame/Pong/resources/pong4.wav')
+death_sound = pygame.mixer.Sound('MainGame/Pong/resources/pongdeath.wav')
 
 font = pygame.font.SysFont('monospace', 40)
 
@@ -57,8 +57,6 @@ class PongGame:
             collision_sound_2.play(0)
         elif sound_choice == 2:
             collision_sound_3.play(0)
-        elif sound_choice == 3:
-            collision_sound_4.play(0)
 
     def enemy_movement(self, enemy1):
         global ball
@@ -95,10 +93,12 @@ class PongGame:
         # Conditions when the ball hits a screen edge
         if ball.right >= WINDOW_WIDTH:
             self.score_player = self.score_player + 1
+            death_sound.play()
             self.reset_ball(ball)
             
         if ball.left <= 0:
             self.score_enemy = self.score_enemy + 1
+            death_sound.play()
             self.reset_ball(ball)
 
         if ball.bottom >= WINDOW_HEIGHT or ball.top <= 0:
