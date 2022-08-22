@@ -3,17 +3,16 @@ import sys
 import Snake.snake as snake
 import Pong.pong as pong
 import Avatar.avatar as avatar
-import Avatar.resources as avatars
 import Invader.space_invaders as invader
 import Asteroids.asteroids as asteroids 
 import Scoreboard.Scoreboard as Scoreboard
+import Breakout.breakout as Breakout
 
 WIDTH = 1280
 HEIGHT = 720
 
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 caption_title = pygame.display.set_caption("Arcade Menu")
-
 pygame.init()
 
 class ScreenItem():
@@ -46,7 +45,7 @@ quit_image = pygame.image.load(
 asteroids_image = pygame.image.load( 
     "MainGame/Buttons/AsteroidsButton.png").convert_alpha()
 scoreboard_image = pygame.image.load(
-    "MainGame/Buttons/PongButton.png").convert_alpha()
+    "MainGame/Buttons/ScoresButton.png").convert_alpha()
 
 
 # Button texts
@@ -109,7 +108,7 @@ while running:
 
             # Activate Breakout
             elif breakout_button.mouse_over_button(pygame.mouse.get_pos()):
-                print("breakiut")
+                Breakout.start_breakout()
 
             # Activate Pong
             elif pong_button.mouse_over_button(pygame.mouse.get_pos()):
