@@ -39,6 +39,14 @@ back = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/back.
 
 current_avatar = default_avatar
 
+def add_tickets():
+    with open("MainGame/Avatar/ticketCount.txt", "r") as ticket_read:
+        ticket_count = ticket_read.readline()
+        with open("MainGame/Avatar/ticketCount.txt", "w") as ticket_write: 
+            ticket_write.write(str(ticket_count + 50))
+        ticket_write.close()
+    ticket_read.close()
+
 class AvatarSelect:
 
     def __init__(self, width = WINDOW_WIDTH, height = WINDOW_HEIGHT):

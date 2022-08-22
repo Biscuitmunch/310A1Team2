@@ -5,6 +5,7 @@ import random
 import math
 from enum import Enum
 from collections import namedtuple
+import Avatar.avatar as avatar
 
 
 pygame.init()
@@ -337,12 +338,7 @@ class snake_game:
     def set_high_score(self, score):
         # Open high score file and change high score if current game beat it
         if score > 34:
-            with open("MainGame/Avatar/ticketCount.txt", "r") as ticket_read:
-                ticket_count = ticket_read.readline()
-                with open("MainGame/Avatar/ticketCount.txt", "w") as ticket_write: 
-                    ticket_write.write(str(ticket_count + 50))
-                ticket_write.close()
-            ticket_read.close()
+            avatar.add_tickets()
 
         with open(HIGHSCORE_FILE_PATH, "r") as high_score_read:
             high_score = high_score_read.readline()

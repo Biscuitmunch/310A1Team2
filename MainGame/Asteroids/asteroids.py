@@ -1,6 +1,7 @@
 import pygame
 import random
 import math
+import Avatar.avatar as avatar
 
 pygame.init()
 
@@ -55,12 +56,7 @@ def read_high_score():
 def set_high_score(score):
 
     if score > 149000:
-            with open("MainGame/Avatar/ticketCount.txt", "r") as ticket_read:
-                ticket_count = ticket_read.readline()
-                with open("MainGame/Avatar/ticketCount.txt", "w") as ticket_write: 
-                    ticket_write.write(str(ticket_count + 50))
-                ticket_write.close()
-            ticket_read.close()
+        avatar.add_tickets()
 
     # Open high score file and change high score if current game beat it
     with open(HIGHSCORE_FILE_PATH, "r") as high_score_read:
