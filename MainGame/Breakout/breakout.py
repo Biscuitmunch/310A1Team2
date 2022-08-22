@@ -10,12 +10,12 @@ from random import randint
 pygame.init()
 
 # Open image files for graphics
-game_over_screen = pygame.image.load('Breakout/resources/gameOverScreenBreakout.png')
-you_win_screen = pygame.image.load('Breakout/resources/winScreenBreakout.png')
-press_to_start_screen = pygame.image.load('Breakout/resources/pressToStartScreenBreakout.png')
+game_over_screen = pygame.image.load('MainGame/Breakout/resources/gameOverScreenBreakout.png')
+you_win_screen = pygame.image.load('MainGame/Breakout/resources/winScreenBreakout.png')
+press_to_start_screen = pygame.image.load('MainGame/Breakout/resources/pressToStartScreenBreakout.png')
 
-extra_ball = pygame.image.load('Breakout/resources/extraBall.png')
-strong_ball = pygame.image.load('Breakout/resources/strongBall.png')
+extra_ball = pygame.image.load('MainGame/Breakout/resources/extraBall.png')
+strong_ball = pygame.image.load('MainGame/Breakout/resources/strongBall.png')
 
 # Window resolution (Default 1280 x 720)
 WINDOW_WIDTH = 1280
@@ -402,34 +402,45 @@ class breakout_game:
 
         
 
+# Start Game
+game = breakout_game()
 
-
-if __name__ == '__main__':
+def start_breakout():
     
-    # Start Game
-    game = breakout_game()
-
     # Setup 
+    global brick_wall
     brick_wall = wall()
     brick_wall.create_wall()
-    player_paddle = paddle()
-    firstBall = ball(player_paddle.x + player_paddle.width // 2, player_paddle.y - player_paddle.height - 5)
-    
 
-    while True:
+    global player_paddle
+    player_paddle = paddle()
+
+    global firstBall
+    firstBall = ball(player_paddle.x + player_paddle.width // 2, player_paddle.y - player_paddle.height - 5)
+
+    global game_over
+    global start_game
+    global ball_count
+ 
+    game_over = 0
+    start_game = False
+    ball_count = 0
+
+    running = True
+    while running == True:
         clock.tick(fps)
         game_over = game.play_step(game_over)
         game.display.fill(BACKGROUND)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.display.quit()
-                quit()
+                running = False
 
             if event.type == pygame.KEYDOWN and game_over == 0:
                 start_game = True
 
             if event.type == pygame.MOUSEBUTTONDOWN and game_over != 0:
-                pygame.display.quit()
-                quit()
+                running = False
+
+
     
