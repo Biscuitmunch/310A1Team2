@@ -70,6 +70,7 @@ def set_avatar_text(button):
 
 running = True
 while running:
+    pygame.display.set_caption("Arcade Menu")
     avatar_obj = avatar.AvatarSelect()
     avatar_image = avatar_obj.get_current_avatar()
     avatar_button = ScreenItem(WIDTH/2, 80, avatar_image)
