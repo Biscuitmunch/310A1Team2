@@ -5,6 +5,7 @@ import Pong.pong as pong
 import Avatar.avatar as avatar
 import Avatar.resources as avatars
 import Invader.space_invaders as invader
+import Asteroids.asteroids as asteroids 
 
 WIDTH = 1280
 HEIGHT = 720
@@ -38,9 +39,12 @@ breakout_image = pygame.image.load(
 pong_image = pygame.image.load(
     "MainGame/Buttons/PongButton.png").convert_alpha()
 invader_image = pygame.image.load(
-    "MainGame/Buttons/PongButton.png").convert_alpha()
+    "MainGame/Buttons/InvadersButton.png").convert_alpha()
 quit_image = pygame.image.load(
     "MainGame/Buttons/QuitButton.png").convert_alpha()
+asteroids_image = pygame.image.load( 
+    "MainGame/Buttons/AsteroidsButton.png").convert_alpha()
+
 
 # Button texts
 play_title = font.render("Click to Play!", True, 'white')
@@ -54,6 +58,7 @@ snake_button = ScreenItem(263.67, 540, snake_image)
 breakout_button = ScreenItem(657.54, 540, breakout_image)
 pong_button = ScreenItem (1051.41, 540, pong_image)
 invader_button = ScreenItem(263.67, 300, invader_image)
+asteroids_button = ScreenItem (657.54, 300, asteroids_image)
 
 play_text_show = False
 avatar_text_show = False
@@ -111,6 +116,11 @@ while running:
             elif invader_button.mouse_over_button(pygame.mouse.get_pos()):
                 invader.start_space_invaders()
 
+            # Activate Asteroids
+            elif asteroids_button.mouse_over_button(pygame.mouse.get_pos()):
+                asteroids.start_asteroids()
+
+
             # No buttons
             else:
                 print("no button clicked")
@@ -141,6 +151,11 @@ while running:
                 set_play_text(invader_button)
                 play_text_show = True
 
+             # Activate asteroids
+            elif asteroids_button.mouse_over_button(pygame.mouse.get_pos()):
+                set_play_text(asteroids_button)
+                play_text_show = True
+
             # If user is doing nothing
             else:
                 play_text_show = False
@@ -153,8 +168,10 @@ while running:
     breakout_button.update()
     pong_button.update()
     invader_button.update()
+    asteroids_button.update()
     quit_button.update()
     
+
     if play_text_show == True:
         play_text.update()
     
