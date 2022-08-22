@@ -2,6 +2,8 @@ import pygame
 import sys
 import Snake.snake as snake
 import Pong.pong as pong
+import Avatar.avatar as avatar
+import Avatar.resources as avatars
 
 WIDTH = 1280
 HEIGHT = 720
@@ -39,8 +41,10 @@ quit_image = pygame.image.load(
 
 # Button texts
 play_title = font.render("Click to Play!", True, 'white')
+avatar_select_title = font.render("Select Avatar!", True, 'white')
 
 play_text = ScreenItem(0, 0, play_title)
+avatar_text = ScreenItem(0, 0, avatar_select_title)
 
 quit_button = ScreenItem(1180, 670, quit_image)
 snake_button = ScreenItem(263.67, 540, snake_image)
@@ -48,14 +52,23 @@ breakout_button = ScreenItem(657.54, 540, breakout_image)
 pong_button = ScreenItem (1051.41, 540, pong_image)
 
 play_text_show = False
+avatar_text_show = False
 
 def set_play_text(button):
     play_text.x = button.x
     play_text.y = button.y + 120
     play_text.rect = play_text.image.get_rect(center=(play_text.x, play_text.y))
 
+def set_avatar_text(button):
+    avatar_text.x = button.x
+    avatar_text.y = button.y + 100
+    avatar_text.rect = avatar_text.image.get_rect(center=(avatar_text.x, avatar_text.y))
+
 running = True
 while running:
+    avatar_obj = avatar.AvatarSelect()
+    avatar_image = avatar_obj.get_current_avatar()
+    avatar_button = ScreenItem(WIDTH/2, 80, avatar_image)
 
     for event in pygame.event.get():
         # To exit the game
@@ -70,6 +83,11 @@ while running:
                 pygame.display.quit()
                 sys.exit()
                 
+            # Activate Avatar Select
+            elif avatar_button.mouse_over_button(pygame.mouse.get_pos()):
+                avatar_obj = avatar.AvatarSelect()
+                avatar_obj.start_selection()
+
             # Activate Snake
             elif snake_button.mouse_over_button(pygame.mouse.get_pos()):
                 snake_obj = snake.snake_game()
@@ -93,6 +111,11 @@ while running:
             if snake_button.mouse_over_button(pygame.mouse.get_pos()):
                 set_play_text(snake_button)
                 play_text_show = True
+            
+            # Activate Avatar Select
+            elif avatar_button.mouse_over_button(pygame.mouse.get_pos()):
+                set_avatar_text(avatar_button)
+                avatar_text_show = True
 
             # Activate Breakout
             elif breakout_button.mouse_over_button(pygame.mouse.get_pos()):
@@ -107,9 +130,11 @@ while running:
             # If user is doing nothing
             else:
                 play_text_show = False
+                avatar_text_show = False
 
     window.fill("black")
 
+    avatar_button.update()
     snake_button.update()
     breakout_button.update()
     pong_button.update()
@@ -117,6 +142,9 @@ while running:
     
     if play_text_show == True:
         play_text.update()
+    
+    if avatar_text_show == True:
+        avatar_text.update()
 
 
     pygame.display.update()
