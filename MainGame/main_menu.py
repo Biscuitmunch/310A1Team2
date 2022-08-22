@@ -2,6 +2,8 @@ import pygame
 import sys
 import Snake.snake as snake
 import Pong.pong as pong
+import Asteroids.asteroids as asteroids 
+
 
 WIDTH = 1280
 HEIGHT = 720
@@ -37,6 +39,10 @@ pong_image = pygame.image.load(
 quit_image = pygame.image.load(
     "MainGame/Buttons/QuitButton.png").convert_alpha()
 
+
+asteroids_image = pygame.image.load( #change resolution
+    "MainGame/Buttons/SnakeButton.png").convert_alpha()
+
 # Button texts
 play_title = font.render("Click to Play!", True, 'white')
 
@@ -46,6 +52,7 @@ quit_button = ScreenItem(1180, 670, quit_image)
 snake_button = ScreenItem(263.67, 540, snake_image)
 breakout_button = ScreenItem(657.54, 540, breakout_image)
 pong_button = ScreenItem (1051.41, 540, pong_image)
+asteroids_button = ScreenItem (657.54, 250, asteroids_image)
 
 play_text_show = False
 
@@ -84,6 +91,12 @@ while running:
                 pong_obj = pong.PongGame()
                 pong_obj.start_game()
 
+            # Activate Pong
+            elif asteroids_button.mouse_over_button(pygame.mouse.get_pos()):
+                #pong_obj = pong.PongGame()
+                asteroids.start_asteroids()
+                #pong_obj.start_game()
+
             # No buttons
             else:
                 print("no button clicked")
@@ -104,6 +117,14 @@ while running:
                 set_play_text(pong_button)
                 play_text_show = True
 
+             # Activate asteroids
+            elif asteroids_button.mouse_over_button(pygame.mouse.get_pos()):
+                set_play_text(asteroids_button)
+                play_text_show = True
+
+
+            #here active asteroids make start asteroids game?
+
             # If user is doing nothing
             else:
                 play_text_show = False
@@ -114,7 +135,8 @@ while running:
     breakout_button.update()
     pong_button.update()
     quit_button.update()
-    
+    asteroids_button.update() # dont know if it works
+
     if play_text_show == True:
         play_text.update()
 

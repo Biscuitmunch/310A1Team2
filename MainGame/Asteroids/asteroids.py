@@ -245,89 +245,104 @@ clock = pygame.time.Clock()
 count = 0
 game_over = False
 running = True
-while running:
-    clock.tick(FPS)
-    count += 1
-    if not game_over:
-        #randomly chosen new Asteroid will apear every time slice time past
-        if count % asteroid_time_slice == 0:
-            asteroidSize = random.choice(
-                [1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 5])
-            asteroids.append(Asteroid(asteroidSize))
 
-        #makes player ship wrap around the screen
-        Player_ship.move_back_in_bounds()
 
-        for a in asteroids:
-            a.x += a.x_velocity
-            a.y += a.y_velocity
-            if a.check_out_of_bounds():
-                asteroids.pop(asteroids.index(a))
-                #check collision of Asteroid and player. same logic as below for bullets. figures out if player is inside Asteroid
-            if (Player_ship.x >= a.x and Player_ship.x <= a.x + a.width) or (Player_ship.x + Player_ship.width >= a.x and Player_ship.x + Player_ship.width <= a.x + a.width):
-                if (Player_ship.y >= a.y and Player_ship.y <= a.y + a.height) or (Player_ship.y + Player_ship.height >= a.y and Player_ship.y + Player_ship.height <= a.y + a.height):
-                    lives -= 1
+def start_asteroids():
+    global running 
+    global count
+    global game_over
+    global lives
+    global score
+    global a
+    running = True
+
+
+
+    while running:
+        clock.tick(FPS)
+        count += 1
+        if not game_over:
+            #randomly chosen new Asteroid will apear every time slice time past
+            if count % asteroid_time_slice == 0:
+                asteroidSize = random.choice(
+                    [1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 5])
+                asteroids.append(Asteroid(asteroidSize))
+
+            #makes player ship wrap around the screen
+            Player_ship.move_back_in_bounds()
+
+            for a in asteroids:
+                a.x += a.x_velocity
+                a.y += a.y_velocity
+                if a.check_out_of_bounds():
                     asteroids.pop(asteroids.index(a))
-                    #break because if steroid is popped out of list but then checked in Bullet collision, it will cause errors
-                    break
+                    #check collision of Asteroid and player. same logic as below for bullets. figures out if player is inside Asteroid
+                if (Player_ship.x >= a.x and Player_ship.x <= a.x + a.width) or (Player_ship.x + Player_ship.width >= a.x and Player_ship.x + Player_ship.width <= a.x + a.width):
+                    if (Player_ship.y >= a.y and Player_ship.y <= a.y + a.height) or (Player_ship.y + Player_ship.height >= a.y and Player_ship.y + Player_ship.height <= a.y + a.height):
+                        lives -= 1
+                        asteroids.pop(asteroids.index(a))
+                        #break because if steroid is popped out of list but then checked in Bullet collision, it will cause errors
+                        break
+
+                for b in bullets:
+                    #checking for Bullet collision with Asteroid: Bullet is both horizontally and vertically inside the Asteroid.
+                    if (b.x + b.width >= a.x and b.x + b.width <= a.x + a.width) or (b.x >= a.x and b.x <= a.x + a.width):
+                        if (b.y + b.height >= a.y and b.y + b.height <= a.y + a.height) or (b.y >= a.y and b.y <= a.y + a.height):
+                            if a.size > 1:
+                                spawn_asteroids(a.size)
+                                #increase score, smaller size equals more score, number of asteroids = 6
+
+                                score += (number_asteroids-a.size)*500
+                            #both Asteroid and Bullet disapear
+                            asteroids.pop(asteroids.index(a))
+                            bullets.pop(bullets.index(b))
+
+            if lives == 0:
+                game_over = True
 
             for b in bullets:
-                #checking for Bullet collision with Asteroid: Bullet is both horizontally and vertically inside the Asteroid.
-                if (b.x + b.width >= a.x and b.x + b.width <= a.x + a.width) or (b.x >= a.x and b.x <= a.x + a.width):
-                    if (b.y + b.height >= a.y and b.y + b.height <= a.y + a.height) or (b.y >= a.y and b.y <= a.y + a.height):
-                        if a.size > 1:
-                            spawn_asteroids(a.size)
-                            #increase score, smaller size equals more score, number of asteroids = 6
+                b.move()
+                if b.check_out_of_bounds():
+                    bullets.pop(bullets.index(b))
 
-                            score += (number_asteroids-a.size)*500
-                        #both Asteroid and Bullet disapear
-                        asteroids.pop(asteroids.index(a))
-                        bullets.pop(bullets.index(b))
+            #capture player input (WASD)
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_a]:
+                Player_ship.turning_left()
+            if keys[pygame.K_d]:
+                Player_ship.turning_right()
+            if keys[pygame.K_w]:
+                Player_ship.forward()
+            if keys[pygame.K_s]:
+                Player_ship.reverse()
 
-        if lives == 0:
-            game_over = True
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.display.set_caption("Arcade Menu")
+                game_over = True
+                #move to menu here
+                running = False
+                set_high_score(score)  # save highscore in text doc
+                break #                                                                     ======
+            # Q press quits to main menu
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
+                # if event.key == pygame.K_q:
+                pygame.display.set_caption("Arcade Menu")
+                game_over = True
+                #go to main menu here
 
-        for b in bullets:
-            b.move()
-            if b.check_out_of_bounds():
-                bullets.pop(bullets.index(b))
+            #capture spacebar input. Done this way to prevent holding spacebar creating infinite bullets
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                if not game_over:
+                    bullets.append(Bullet())
+                else:
+                    game_over = False
+                    set_high_score(score)
+                    lives = 3
+                    score = 0
+                    asteroids.clear()
 
-        #capture player input (WASD)
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_a]:
-            Player_ship.turning_left()
-        if keys[pygame.K_d]:
-            Player_ship.turning_right()
-        if keys[pygame.K_w]:
-            Player_ship.forward()
-        if keys[pygame.K_s]:
-            Player_ship.reverse()
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.display.set_caption("Arcade Menu")
-            #move to menu here
-            running = False
-            set_high_score(score)  # save highscore in text doc
-
-        # Q press quits to main menu
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
-            # if event.key == pygame.K_q:
-            pygame.display.set_caption("Arcade Menu")
-            #go to main menu here
-
-        #capture spacebar input. Done this way to prevent holding spacebar creating infinite bullets
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            if not game_over:
-                bullets.append(Bullet())
-            else:
-                game_over = False
-                set_high_score(score)
-                lives = 3
-                score = 0
-                asteroids.clear()
-
-    draw_window()
+        draw_window()
 
 
-pygame.quit()
+                                                                        
