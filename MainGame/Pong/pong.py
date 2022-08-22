@@ -17,6 +17,11 @@ BALL_RADIUS = 8
 PLAYER_SPEED = 3.7
 ENEMY_SPEED = 3.3
 
+collision_sound_1 = pygame.mixer.Sound('MainGame/Pong/resources/pong1.wav')
+collision_sound_2 = pygame.mixer.Sound('MainGame/Pong/resources/pong2.wav')
+collision_sound_3 = pygame.mixer.Sound('MainGame/Pong/resources/pong3.wav')
+death_sound = pygame.mixer.Sound('MainGame/Pong/resources/pongdeath.wav')
+
 font = pygame.font.SysFont('monospace', 40)
 
 clock = pygame.time.Clock()
@@ -42,6 +47,16 @@ class PongGame:
         if keys[pygame.K_DOWN] and player1.bottom < 720:
             player1.top = player1.top + PLAYER_SPEED
             player1.bottom = player1.bottom + PLAYER_SPEED
+
+    def sound_effect_play(self):
+        sound_choice = random.choice([0, 1, 2, 3])
+
+        if sound_choice == 0:
+            collision_sound_1.play(0)
+        elif sound_choice == 1:
+            collision_sound_2.play(0)
+        elif sound_choice == 2:
+            collision_sound_3.play(0)
 
     def enemy_movement(self, enemy1):
         global ball
@@ -78,10 +93,12 @@ class PongGame:
         # Conditions when the ball hits a screen edge
         if ball.right >= WINDOW_WIDTH:
             self.score_player = self.score_player + 1
+            death_sound.play()
             self.reset_ball(ball)
             
         if ball.left <= 0:
             self.score_enemy = self.score_enemy + 1
+            death_sound.play()
             self.reset_ball(ball)
 
         if ball.bottom >= WINDOW_HEIGHT or ball.top <= 0:
@@ -97,6 +114,9 @@ class PongGame:
             ball_velocity_x = -ball_velocity_x
             next_paddle = 'enemy'
 
+            # Also play sound effect
+            self.sound_effect_play()
+
         if ball.colliderect(enemy1) and next_paddle == 'enemy':
             if ball_velocity_y < 0:
                 ball_velocity_y = ball_velocity_y - 0.3
@@ -105,6 +125,9 @@ class PongGame:
             ball_velocity_x = ball_velocity_x + random.random()
             ball_velocity_x = -ball_velocity_x
             next_paddle = 'player'
+
+            # Also play sound effect
+            self.sound_effect_play()
 
     def start_game(self):
         global break_loops
@@ -156,5 +179,3 @@ class PongGame:
             self.display.fill('black')
             pygame.display.update()
             clock.tick(fps)
-
-
