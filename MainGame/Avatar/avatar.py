@@ -17,8 +17,8 @@ global quit_avatar
 global current_avatar
 global tickets
 
-# Starter tickets
-tickets = 100
+with open("MainGame/Avatar/ticketCount.txt", "r") as ticket_read:
+            tickets = int(ticket_read.readline())
 
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 font = pygame.font.SysFont('monospace', 40)
@@ -60,7 +60,6 @@ class AvatarSelect:
         global current_avatar
         global quit_avatar
         global tickets
-        print (tickets)
         break_loops = False
 
         current_avatar = default_avatar
@@ -90,6 +89,9 @@ class AvatarSelect:
                                 avatar_1_redeemed = True
                                 tickets = tickets - 50
                                 current_avatar = avatar1
+                                with open("MainGame/Avatar/ticketCount.txt", "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
                         else:
                             print ("Insufficient tickets")
                     elif avatar_2_button.mouse_over_button(pygame.mouse.get_pos()):
@@ -100,6 +102,9 @@ class AvatarSelect:
                                 avatar_2_redeemed = True
                                 tickets = tickets - 50
                                 current_avatar = avatar2
+                                with open("MainGame/Avatar/ticketCount.txt", "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
                         else:
                             print ("Insufficient tickets")
                     elif avatar_3_button.mouse_over_button(pygame.mouse.get_pos()):
