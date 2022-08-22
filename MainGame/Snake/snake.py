@@ -343,5 +343,4 @@ class snake_game:
                 high_score_write.close()
         high_score_read.close()
 
-        print('Final Score', score, 'High Score', high_score)
     
