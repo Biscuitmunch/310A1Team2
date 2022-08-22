@@ -11,7 +11,7 @@ WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 AVATAR_SIZE = 100, 100
 
-HOME_CAPTION = "Arcade Menu"
+#HOME_CAPTION = "Arcade Menu"
 
 global quit_avatar
 global current_avatar
@@ -42,7 +42,6 @@ current_avatar = default_avatar
 class AvatarSelect:
 
     def __init__(self, width = WINDOW_WIDTH, height = WINDOW_HEIGHT):
-        pygame.display.set_caption("Avatar Select")
         self.width = width
         self.height = height
         self.display = pygame.display.set_mode((self.width, self.height))
@@ -56,8 +55,8 @@ class AvatarSelect:
         return tickets
  
     def start_selection(self):
-        
         from main_menu import ScreenItem
+        pygame.display.set_caption("Avatar Select")
         global current_avatar
         global quit_avatar
         global tickets
@@ -79,7 +78,7 @@ class AvatarSelect:
                 if event.type == pygame.QUIT:
                     quit_avatar = True
                     break_loops = True
-                    pygame.display.set_caption(HOME_CAPTION)
+                    pygame.display.set_caption('Arcade Menu')
 
                 # Looks for user clicking on different avatars
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -119,7 +118,7 @@ class AvatarSelect:
                     elif return_button.mouse_over_button(pygame.mouse.get_pos()):
                         quit_avatar = True
                         break_loops = True
-                        pygame.display.set_caption(HOME_CAPTION)
+                        pygame.display.set_caption('Arcade Menu')
 
                 # Looks for user hovering on different avatars
                 if event.type == pygame.MOUSEMOTION:
@@ -205,7 +204,7 @@ class AvatarSelect:
                 if event.type == pygame.QUIT:
                     quit_avatar = True
                     break_loops = True
-                    pygame.display.set_caption(HOME_CAPTION)
+                    pygame.display.set_caption('Arcade Menu')
                     
             self.display.fill('black')
             pygame.display.update()
