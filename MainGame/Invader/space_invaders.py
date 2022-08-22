@@ -9,22 +9,23 @@ HEIGHT = 720
 FPS = 60
 WINDOW = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Space Invaders")
+resources_path = "MainGame/Invader/resources"
 
 # Generate and sync images
 # Background
-BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join("assets","background-space.png")),(WIDTH,HEIGHT)) 
+BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join(resources_path,"background-space.png")),(WIDTH,HEIGHT)) 
 
 # Ships
-RED_SHIP = pygame.image.load(os.path.join("assets","ship_red.png"))
-GREEN_SHIP = pygame.image.load(os.path.join("assets","ship_green.png"))
-BLUE_SHIP = pygame.image.load(os.path.join("assets","ship_blue.png"))
-YELLOW_SHIP = pygame.image.load(os.path.join("assets","ship_yellow.png"))
+RED_SHIP = pygame.image.load(os.path.join(resources_path,"ship_red.png"))
+GREEN_SHIP = pygame.image.load(os.path.join(resources_path,"ship_green.png"))
+BLUE_SHIP = pygame.image.load(os.path.join(resources_path,"ship_blue.png"))
+YELLOW_SHIP = pygame.image.load(os.path.join(resources_path,"ship_yellow.png"))
 
 # Lasers
-RED_LASER = pygame.image.load(os.path.join("assets","laser_red.png"))
-GREEN_LASER = pygame.image.load(os.path.join("assets","laser_green.png"))
-BLUE_LASER = pygame.image.load(os.path.join("assets","laser_blue.png"))
-YELLOW_LASER = pygame.image.load(os.path.join("assets","laser_yellow.png"))
+RED_LASER = pygame.image.load(os.path.join(resources_path,"laser_red.png"))
+GREEN_LASER = pygame.image.load(os.path.join(resources_path,"laser_green.png"))
+BLUE_LASER = pygame.image.load(os.path.join(resources_path,"laser_blue.png"))
+YELLOW_LASER = pygame.image.load(os.path.join(resources_path,"laser_yellow.png"))
 
 # Laser class coded to make sure laser does not follow player when player moves in x direction
 class Laser:
@@ -294,4 +295,3 @@ def start_space_invaders():
                 main()
     pygame.quit()
             
-start_space_invaders()
