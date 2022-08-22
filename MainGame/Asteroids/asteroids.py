@@ -307,13 +307,13 @@ def start_asteroids():
 
             #capture player input (WASD)
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_a]:
+            if keys[pygame.K_LEFT]:
                 Player_ship.turning_left()
-            if keys[pygame.K_d]:
+            if keys[pygame.K_RIGHT]:
                 Player_ship.turning_right()
-            if keys[pygame.K_w]:
+            if keys[pygame.K_UP]:
                 Player_ship.forward()
-            if keys[pygame.K_s]:
+            if keys[pygame.K_DOWN]:
                 Player_ship.reverse()
 
         for event in pygame.event.get():
