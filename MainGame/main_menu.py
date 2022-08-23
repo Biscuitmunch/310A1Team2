@@ -1,3 +1,4 @@
+from turtle import Screen
 import pygame
 import sys
 import Snake.snake as snake
@@ -15,6 +16,7 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 caption_title = pygame.display.set_caption("Arcade Menu")
 pygame.init()
 
+# Class to display items such as text and images as clickable/hideable/showable objects on screen
 class ScreenItem():
     def __init__(self, x, y, image):
         self.image = image
@@ -22,16 +24,23 @@ class ScreenItem():
         self.y = y
         self.rect = self.image.get_rect(center=(self.x, self.y))
 
+    # Show the item
     def update(self):
         window.blit(self.image, self.rect)
 
+    # Determine if mouse is interacting with item to perform further logic
     def mouse_over_button(self, position):
         if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
             return True
 
 font = pygame.font.SysFont('arial', 25)
 
-# Game buttons
+
+# Load Main Menu Images
+title_image = pygame.image.load(
+    "MainGame/Buttons/title.png").convert_alpha()
+player_text_image = pygame.transform.scale(pygame.image.load(
+    "MainGame/Buttons/player.png").convert_alpha(), (150,25))
 snake_image = pygame.image.load(
     "MainGame/Buttons/SnakeButton.png").convert_alpha()
 breakout_image = pygame.image.load(
@@ -48,13 +57,15 @@ scoreboard_image = pygame.image.load(
     "MainGame/Buttons/ScoresButton.png").convert_alpha()
 
 
-# Button texts
+# Main Menu text items
 play_title = font.render("Click to Play!", True, 'white')
 avatar_select_title = font.render("Select Avatar!", True, 'white')
-
 play_text = ScreenItem(0, 0, play_title)
 avatar_text = ScreenItem(0, 0, avatar_select_title)
 
+# Main Menu Buttons
+title = ScreenItem(WIDTH/2, 80, title_image)
+player_text = ScreenItem(WIDTH - 150, 140, player_text_image)
 quit_button = ScreenItem(1180, 670, quit_image)
 snake_button = ScreenItem(263.67, 540, snake_image)
 breakout_button = ScreenItem(657.54, 540, breakout_image)
@@ -63,9 +74,11 @@ invader_button = ScreenItem(263.67, 300, invader_image)
 asteroids_button = ScreenItem (657.54, 300, asteroids_image)
 scoreboard_button = ScreenItem(1051, 300, scoreboard_image)
 
+# Hide text by default
 play_text_show = False
 avatar_text_show = False
 
+# Show text on call of these functions
 def set_play_text(button):
     play_text.x = button.x
     play_text.y = button.y + 120
@@ -76,12 +89,15 @@ def set_avatar_text(button):
     avatar_text.y = button.y + 100
     avatar_text.rect = avatar_text.image.get_rect(center=(avatar_text.x, avatar_text.y))
 
+# Main Menu Loop
 running = True
 while running:
     pygame.display.set_caption("Arcade Menu")
+
+    # Initialize Avatar
     avatar_obj = avatar.AvatarSelect()
     avatar_image = avatar_obj.get_current_avatar()
-    avatar_button = ScreenItem(WIDTH/2, 80, avatar_image)
+    avatar_button = ScreenItem(WIDTH - 150, 70, pygame.transform.scale(avatar_image, (80,80)))
 
     for event in pygame.event.get():
         # To exit the game
@@ -127,6 +143,7 @@ while running:
             elif scoreboard_button.mouse_over_button(pygame.mouse.get_pos()):
                 Scoreboard.startScoreboard()
 
+        # Detect mouse hovering
         if event.type == pygame.MOUSEMOTION:
             # Activate Snake
             if snake_button.mouse_over_button(pygame.mouse.get_pos()):
@@ -169,6 +186,9 @@ while running:
 
     window.fill("black")
 
+    # Show buttons on screen
+    title.update()
+    player_text.update()
     avatar_button.update()
     snake_button.update()
     breakout_button.update()
@@ -178,6 +198,7 @@ while running:
     quit_button.update()
     scoreboard_button.update()
 
+    # Display Text logic
     if play_text_show == True:
         play_text.update()
     

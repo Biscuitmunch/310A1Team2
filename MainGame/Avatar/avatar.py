@@ -19,6 +19,13 @@ global quit_avatar
 global current_avatar
 global tickets
 
+# Starter tickets and avatars
+tickets = 100
+avatar_1_redeemed = False
+avatar_2_redeemed = False
+avatar_3_redeemed = False
+
+
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 font = pygame.font.SysFont('monospace', 40)
 
@@ -30,7 +37,7 @@ avatar3 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/av
 avatar4 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar4.png'), (AVATAR_SIZE))
 avatar5 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar5.png'), (AVATAR_SIZE))
 avatar6 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar6.png'), (AVATAR_SIZE))
-avatar7 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar5.png'), (AVATAR_SIZE))
+avatar7 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar7.png'), (AVATAR_SIZE))
 avatar8 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar3.png'), (AVATAR_SIZE))
 arrow = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/arrow.png'), (AVATAR_SIZE))
 lock = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/lock.png'), (AVATAR_SIZE))
@@ -67,12 +74,14 @@ class AvatarSelect:
         global current_avatar
         global quit_avatar
         global tickets
+
+        global avatar_1_redeemed
+        global avatar_2_redeemed
+        global avatar_3_redeemed
+
         break_loops = False
 
-        current_avatar = default_avatar
         temp_avatar = current_avatar
-        avatar_1_redeemed = False
-        avatar_2_redeemed = False
         temp_avatar_hide = True
         quit_avatar = False
 
@@ -115,7 +124,15 @@ class AvatarSelect:
                         else:
                             print ("Insufficient tickets")
                     elif avatar_3_button.mouse_over_button(pygame.mouse.get_pos()):
-                        current_avatar = avatar3
+                        if avatar_3_redeemed == True:
+                            current_avatar = avatar3
+                        elif avatar_3_redeemed == False:
+                            if tickets >= 50:
+                                avatar_3_redeemed = True
+                                tickets = tickets - 50
+                                current_avatar = avatar3
+                        else:
+                            print ("Insufficient tickets")
                     elif avatar_4_button.mouse_over_button(pygame.mouse.get_pos()):
                         current_avatar = avatar4
                     elif avatar_5_button.mouse_over_button(pygame.mouse.get_pos()):
@@ -149,8 +166,12 @@ class AvatarSelect:
                             temp_avatar = lock
                             temp_avatar_hide = False
                     elif avatar_3_button.mouse_over_button(pygame.mouse.get_pos()):
-                        temp_avatar = avatar3
-                        temp_avatar_hide = False
+                        if avatar_3_redeemed == True:
+                            temp_avatar = avatar3
+                            temp_avatar_hide = False
+                        else:
+                            temp_avatar = lock
+                            temp_avatar_hide = False
                     elif avatar_4_button.mouse_over_button(pygame.mouse.get_pos()):
                         temp_avatar = avatar4
                         temp_avatar_hide = False
