@@ -94,11 +94,11 @@ def startScoreboard():
             pygame.display.flip()
             clock.tick(60)
 
-def increase_playcount(File_Path):
-    with open(File_Path, "r") as play_count_read:
+def increase_playcount(file_path):
+    with open(file_path, "r") as play_count_read:
             times = int(play_count_read.readline())
             times += 1
-            with open(File_Path, "w") as play_count_write: 
+            with open(file_path, "w") as play_count_write: 
                 play_count_write.write(str(times))
             play_count_write.close()
     play_count_write.close()

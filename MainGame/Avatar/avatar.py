@@ -11,6 +11,8 @@ WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 AVATAR_SIZE = 100, 100
 
+TICKET_COUNT_PATH = "MainGame/Avatar/ticketCount.txt"
+
 #HOME_CAPTION = "Arcade Menu"
 
 global quit_avatar
@@ -37,9 +39,9 @@ back = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/back.
 current_avatar = default_avatar
 
 def add_tickets():
-    with open("MainGame/Avatar/ticketCount.txt", "r") as ticket_read:
+    with open(TICKET_COUNT_PATH, "r") as ticket_read:
         ticket_count = int(ticket_read.readline())
-        with open("MainGame/Avatar/ticketCount.txt", "w") as ticket_write: 
+        with open(TICKET_COUNT_PATH, "w") as ticket_write: 
             ticket_write.write(str(ticket_count + 50))
         ticket_write.close()
     ticket_read.close()
@@ -94,7 +96,7 @@ class AvatarSelect:
                                 avatar_1_redeemed = True
                                 tickets = tickets - 50
                                 current_avatar = avatar1
-                                with open("MainGame/Avatar/ticketCount.txt", "w") as high_score_write: 
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
                                     high_score_write.write(str(tickets))
                                 high_score_write.close()
                         else:
@@ -107,7 +109,7 @@ class AvatarSelect:
                                 avatar_2_redeemed = True
                                 tickets = tickets - 50
                                 current_avatar = avatar2
-                                with open("MainGame/Avatar/ticketCount.txt", "w") as high_score_write: 
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
                                     high_score_write.write(str(tickets))
                                 high_score_write.close()
                         else:
@@ -196,7 +198,7 @@ class AvatarSelect:
             return_button.update()
 
             # Display text
-            with open("MainGame/Avatar/ticketCount.txt", "r") as ticket_read:
+            with open(TICKET_COUNT_PATH, "r") as ticket_read:
                 tickets = int(ticket_read.readline())
             message = font.render("Choose your avatar! Locked avatars cost 50 tickets.", True, 'white')
             ticket_display = font.render("Tickets:" + str(tickets), True, 'white')
