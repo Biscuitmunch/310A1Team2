@@ -30,6 +30,12 @@ In this guide you will get an overview on the contribution workflow and how to f
 
 Thank you for contributing to Skared!
 
+## Main Menu Additions
+In order to add things to the main menu, you can simply create a screen item using an image that you have imported to be the button. By looking at how the other "ScreenItem" objects work, you can see and recreate one for your own additions to the code! This is the easiest way to add something to the main menu and we highly recommend placing things on through this method
+
+## Test file
+In the main game folder, you should find a file called unit_tests.py. When making any commits, please add any other appropriate imported files and run the test file, making sure that all tests pass before making a commit or push. These unit tests check if the file is able to be imported, and then will also run through the top initialization of the file and check no errors occur there
+
 ## Bug report
 If you wish to file a bug report, create an issue with the label "bug". If you wish to fix the bug apply the steps in workflow. 
 
