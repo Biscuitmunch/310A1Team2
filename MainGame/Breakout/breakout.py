@@ -6,7 +6,7 @@ from pygame.locals import Rect
 from enum import Enum
 from collections import namedtuple
 from random import randint
-
+import Scoreboard.Scoreboard as scoreboard
 pygame.init()
 
 # Open image files for graphics
@@ -406,7 +406,7 @@ class breakout_game:
 game = breakout_game()
 
 def start_breakout():
-    
+    scoreboard.increase_playcount('MainGame/Breakout/breakoutPlayed.txt')
     # Setup 
     global brick_wall
     brick_wall = wall()

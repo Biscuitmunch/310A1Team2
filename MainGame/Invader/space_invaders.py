@@ -3,6 +3,7 @@ import pygame
 import os
 import random
 import Avatar.avatar as avatar
+import Scoreboard.Scoreboard as scoreboard
 pygame.font.init()
 
 WIDTH = 1280
@@ -293,6 +294,7 @@ def main():
         player.move_lasers(-laser_speed, enemies)
        
 def start_space_invaders():
+    scoreboard.increase_playcount('MainGame/Invader/invaderPlayed.txt')
     title_font = pygame.font.SysFont("monospace", 35)
     global break_loops
     break_loops = False

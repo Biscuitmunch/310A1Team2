@@ -4,6 +4,7 @@ import pygame
 import random
 from collections import namedtuple
 import Avatar.avatar as avatar
+import Scoreboard.Scoreboard as scoreboard
 
 pygame.init()
 
@@ -140,7 +141,7 @@ class PongGame:
             self.sound_effect_play()
 
     def start_game(self):
-        # Global variables needed
+        scoreboard.increase_playcount('MainGame/Pong/pongPlayed.txt')
         global break_loops
         global game_over
         global ball_velocity_x

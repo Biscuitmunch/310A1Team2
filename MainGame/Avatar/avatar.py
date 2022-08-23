@@ -17,9 +17,6 @@ global quit_avatar
 global current_avatar
 global tickets
 
-with open("MainGame/Avatar/ticketCount.txt", "r") as ticket_read:
-            tickets = int(ticket_read.readline())
-
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 font = pygame.font.SysFont('monospace', 40)
 
@@ -41,7 +38,7 @@ current_avatar = default_avatar
 
 def add_tickets():
     with open("MainGame/Avatar/ticketCount.txt", "r") as ticket_read:
-        ticket_count = ticket_read.readline()
+        ticket_count = int(ticket_read.readline())
         with open("MainGame/Avatar/ticketCount.txt", "w") as ticket_write: 
             ticket_write.write(str(ticket_count + 50))
         ticket_write.close()
@@ -199,6 +196,8 @@ class AvatarSelect:
             return_button.update()
 
             # Display text
+            with open("MainGame/Avatar/ticketCount.txt", "r") as ticket_read:
+                tickets = int(ticket_read.readline())
             message = font.render("Choose your avatar! Locked avatars cost 50 tickets.", True, 'white')
             ticket_display = font.render("Tickets:" + str(tickets), True, 'white')
             message_obj = ScreenItem(WINDOW_WIDTH/2, 500, message)

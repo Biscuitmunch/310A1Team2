@@ -6,6 +6,7 @@ import math
 from enum import Enum
 from collections import namedtuple
 import Avatar.avatar as avatar
+import Scoreboard.Scoreboard as scoreboard
 
 
 pygame.init()
@@ -295,6 +296,7 @@ class snake_game:
 
 
     def start_game(self):
+        scoreboard.increase_playcount('MainGame/Snake/snakePlayed.txt')
         global break_loops 
         global game_over 
         break_loops = False

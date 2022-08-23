@@ -2,6 +2,7 @@ import pygame
 import random
 import math
 import Avatar.avatar as avatar
+import Scoreboard.Scoreboard as scoreboard
 
 pygame.init()
 
@@ -253,6 +254,7 @@ running = True
 
 
 def start_asteroids():
+    scoreboard.increase_playcount('MainGame/Asteroids/asteroidsPlayed.txt')
     global running 
     global count
     global game_over
