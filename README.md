@@ -14,3 +14,7 @@ Want to contribute to the repository? Check out our [contributing guidelines!](.
 
 PyArcade and it's contributions are licensed under MIT
 
+## Test Suite
+
+Test suite requires pytest. To install in terminal type: pip3 install pytest 
+
