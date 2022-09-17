@@ -2,6 +2,7 @@ from turtle import Screen
 import pygame
 import sys
 import Snake.snake as snake
+import Snake.snakeInstructions as snakeInstructions
 import Pong.pong as pong
 import Avatar.avatar as avatar
 import Invader.space_invaders as invader
@@ -119,8 +120,9 @@ while running:
 
             # Activate Snake
             elif snake_button.mouse_over_button(pygame.mouse.get_pos()):
-                snake_obj = snake.snake_game()
-                snake_obj.start_game()
+                snakeInstructions.instructions().play()
+                # snake_obj = snake.snake_game()
+                # snake_obj.start_game()
 
             # Activate Breakout
             elif breakout_button.mouse_over_button(pygame.mouse.get_pos()):
