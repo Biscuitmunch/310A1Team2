@@ -108,7 +108,7 @@ class instructions:
                         elif game == "breakout":
                             breakout.start_breakout()
                         elif game == "invader":
-                            invader.start_space_invaders()
+                            invader.main()
                             
                         
                     elif QUIT_BUTTON.checkForInput(PLAY_MOUSE_POS):

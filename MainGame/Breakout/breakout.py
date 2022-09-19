@@ -12,7 +12,6 @@ pygame.init()
 # Open image files for graphics
 game_over_screen = pygame.image.load('MainGame/Breakout/resources/gameOverScreenBreakout.png')
 you_win_screen = pygame.image.load('MainGame/Breakout/resources/winScreenBreakout.png')
-press_to_start_screen = pygame.image.load('MainGame/Breakout/resources/pressToStartScreenBreakout.png')
 
 extra_ball = pygame.image.load('MainGame/Breakout/resources/extraBall.png')
 strong_ball = pygame.image.load('MainGame/Breakout/resources/strongBall.png')
@@ -374,12 +373,7 @@ class breakout_game:
 
         # Draw the paddle and wall
         player_paddle.draw(self.display)
-        brick_wall.draw_wall(self.display)
-
-        if start_game == False:
-                game.display.blit(press_to_start_screen, (0, 0))
-                pygame.display.flip()
-                
+        brick_wall.draw_wall(self.display)                
 
         # Create a new ball if a powerup was collected
         if len(balls) < ball_count:
@@ -428,8 +422,9 @@ def start_breakout():
     global powerups
     powerups = []
     game_over = 0
-    start_game = False
+    
     ball_count = 0
+    start_game = True
 
     running = True
     while running == True:

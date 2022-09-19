@@ -291,23 +291,6 @@ def main():
         # negative speed so lasers go up
         player.move_lasers(-laser_speed, enemies)
        
-def start_space_invaders():
-    title_font = pygame.font.SysFont("monospace", 35)
-    global break_loops
-    break_loops = False
-
-    while break_loops == False:
-        WINDOW.blit(BACKGROUND, (0,0))
-        title_label = title_font.render("Click the mouse or press any key to begin...", 1, (255,255,255))
-        WINDOW.blit(title_label, (WIDTH/2 - title_label.get_width()/2, HEIGHT/2))
-
-        pygame.display.update()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                break_loops = True
-                pygame.display.set_caption("Arcade Menu")
-            if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
-                main()
             
 def set_high_score(score):
         # Open high score file and change high score if current game beat it
