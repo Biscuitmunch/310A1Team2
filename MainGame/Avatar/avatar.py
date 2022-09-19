@@ -3,6 +3,7 @@ from os import environ
 from turtle import Screen
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
+import Buttons.InstrucButton as Button
 
 pygame.init()
 
@@ -26,6 +27,9 @@ avatar_3_redeemed = False
 
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 font = pygame.font.SysFont('monospace', 40)
+button_font = pygame.font.Font("MainGame/Buttons/PressStart2P.ttf", 35)
+
+
 
 # Open image files and scale to size
 default_avatar = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/defaultAvatar.png'), (AVATAR_SIZE))
@@ -39,7 +43,6 @@ avatar7 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/av
 avatar8 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar3.png'), (AVATAR_SIZE))
 arrow = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/arrow.png'), (AVATAR_SIZE))
 lock = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/lock.png'), (AVATAR_SIZE))
-back = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/back.png'), (150, 80))
 
 current_avatar = default_avatar
 
@@ -75,6 +78,11 @@ class AvatarSelect:
 
         while quit_avatar == False and break_loops == False:
 
+            PLAY_MOUSE_POS = pygame.mouse.get_pos()
+            QUIT_BUTTON = Button.Button(image=None, pos=(125, 70), text_input="MENU", font=button_font, base_color="White", hovering_color="Green")
+            QUIT_BUTTON.changeColor(PLAY_MOUSE_POS)
+            QUIT_BUTTON.update(window)
+
             # Handling user behaviour and interactions
             for event in pygame.event.get():
                 # Quits avatar select
@@ -85,7 +93,12 @@ class AvatarSelect:
 
                 # Looks for user clicking on different avatars
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if avatar_1_button.mouse_over_button(pygame.mouse.get_pos()):
+                    if QUIT_BUTTON.checkForInput(PLAY_MOUSE_POS):
+                        quit_avatar = True
+                        break_loops = True
+                        pygame.display.set_caption('Arcade Menu')
+
+                    elif avatar_1_button.mouse_over_button(pygame.mouse.get_pos()):
                         if avatar_1_redeemed == True:
                             current_avatar = avatar1
                         elif avatar_1_redeemed == False:
@@ -125,11 +138,6 @@ class AvatarSelect:
                         current_avatar = avatar7
                     elif avatar_8_button.mouse_over_button(pygame.mouse.get_pos()):
                         current_avatar = default_avatar
-                    # Back button clicked
-                    elif return_button.mouse_over_button(pygame.mouse.get_pos()):
-                        quit_avatar = True
-                        break_loops = True
-                        pygame.display.set_caption('Arcade Menu')
 
                 # Looks for user hovering on different avatars
                 if event.type == pygame.MOUSEMOTION:
@@ -186,7 +194,6 @@ class AvatarSelect:
             avatar_8_button = ScreenItem(1150,350,default_avatar)
             temp_avatar_button = ScreenItem(WINDOW_WIDTH/2+100, 80, temp_avatar)
             window.blit(arrow, (WINDOW_WIDTH/2-50, 100))
-            return_button = ScreenItem(1100, 80, back)
 
             # Display images on screen
             current_avatar_display.update()
@@ -198,7 +205,7 @@ class AvatarSelect:
             avatar_6_button.update()
             avatar_7_button.update()
             avatar_8_button.update()
-            return_button.update()
+            QUIT_BUTTON.update(window)
 
             # Display text
             message = font.render("Choose your avatar! Locked avatars cost 50 tickets.", True, 'white')
