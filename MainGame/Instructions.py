@@ -60,9 +60,13 @@ class instructions:
                 INSTRUC_TEXT_3 = font.render("destroy asteroids to score points", True, "White")
             elif game == "breakout":
                 PLAY_TEXT = title_font.render("BREAKOUT", True, "White")
-                INSTRUC_TEXT_1 = font.render("use arrow keys to move and spacebar to shoot", True, "White")
+                INSTRUC_TEXT_1 = font.render("use arrow keys to move", True, "White")
                 INSTRUC_TEXT_2 = font.render("destroy all bricks to win", True, "White")
-                INSTRUC_TEXT_3 = font.render("gain coloured balls with special powerups", True, "White")
+                INSTRUC_TEXT_3 = font.render("", True, "White")
+                INSTRUC_IMG = pygame.transform.scale(pygame.image.load(
+                    "MainGame/Buttons/breakoutInstruc.png").convert_alpha(), (1000,200))
+                instruc_img = ScreenItem(640, 375, INSTRUC_IMG)
+                instruc_img.update()
             elif game == "invader":
                 PLAY_TEXT = title_font.render("INVADERS", True, "White")
                 INSTRUC_TEXT_1 = font.render("use arrow keys to move", True, "White")
@@ -70,16 +74,16 @@ class instructions:
                 INSTRUC_TEXT_3 = font.render("destroy all enemies to win", True, "White")
 
             #Show text
-            PLAY_RECT = PLAY_TEXT.get_rect(center=(640, 200))
+            PLAY_RECT = PLAY_TEXT.get_rect(center=(640, 100))
             window.blit(PLAY_TEXT, PLAY_RECT)
             
-            INSTRUC_RECT_1 = INSTRUC_TEXT_1.get_rect(center=(640, 300))
+            INSTRUC_RECT_1 = INSTRUC_TEXT_1.get_rect(center=(640, 200))
             window.blit(INSTRUC_TEXT_1, INSTRUC_RECT_1)
             
-            INSTRUC_RECT_2 = INSTRUC_TEXT_2.get_rect(center=(640, 350))
+            INSTRUC_RECT_2 = INSTRUC_TEXT_2.get_rect(center=(640, 250))
             window.blit(INSTRUC_TEXT_2, INSTRUC_RECT_2)
             
-            INSTRUC_RECT_3 = INSTRUC_TEXT_3.get_rect(center=(640, 400))
+            INSTRUC_RECT_3 = INSTRUC_TEXT_3.get_rect(center=(640, 300))
             window.blit(INSTRUC_TEXT_3, INSTRUC_RECT_3)
 
             # Navigation buttons
