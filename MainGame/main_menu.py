@@ -2,6 +2,7 @@ from turtle import Screen
 import pygame
 import sys
 import Snake.snake as snake
+import Instructions as Instructions
 import Pong.pong as pong
 import Avatar.avatar as avatar
 import Invader.space_invaders as invader
@@ -119,25 +120,23 @@ while running:
 
             # Activate Snake
             elif snake_button.mouse_over_button(pygame.mouse.get_pos()):
-                snake_obj = snake.snake_game()
-                snake_obj.start_game()
+                Instructions.instructions().play("snake")
 
             # Activate Breakout
             elif breakout_button.mouse_over_button(pygame.mouse.get_pos()):
-                Breakout.start_breakout()
+                Instructions.instructions().play("breakout")
 
             # Activate Pong
             elif pong_button.mouse_over_button(pygame.mouse.get_pos()):
-                pong_obj = pong.PongGame()
-                pong_obj.start_game()
+                Instructions.instructions().play("pong")
 
              # Activate Space Invaders
             elif invader_button.mouse_over_button(pygame.mouse.get_pos()):
-                invader.start_space_invaders()
+                Instructions.instructions().play("invader")
 
             # Activate Asteroids
             elif asteroids_button.mouse_over_button(pygame.mouse.get_pos()):
-                asteroids.start_asteroids()
+                Instructions.instructions().play("asteroids")
 
             # Activate Scoreboard
             elif scoreboard_button.mouse_over_button(pygame.mouse.get_pos()):
