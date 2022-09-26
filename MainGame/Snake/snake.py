@@ -54,7 +54,7 @@ SNAKE_SPEED = 10
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 STARTING_SIZE = 3
-SNAKE_LOOPING = True # Change to false if you want the snake to die upon hitting a wall
+SNAKE_LOOPING = False # Change to false if you want the snake to die upon hitting a wall
 
 # Colours
 WHITE = (255, 255, 255)
