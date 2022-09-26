@@ -1,7 +1,9 @@
 from os import environ
+import re
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 import random
+import sys
 from collections import namedtuple
 
 pygame.init()
@@ -57,6 +59,7 @@ class PongGame:
         elif enemy1.y < ball.y and enemy1.bottom < 720:
             enemy1.top = enemy1.top + ENEMY_SPEED
             enemy1.bottom = enemy1.bottom + ENEMY_SPEED
+        
 
     # Reset ball for user to keep playing after a score
     def reset_ball(self, ball):
@@ -72,11 +75,9 @@ class PongGame:
 
     def ball_movement(self, ball):
         # Variables needed
-        # TODO: do these need to be global?
         global ball_velocity_x
         global ball_velocity_y
         global player1
-        global game_over
         global enemy1
         global next_paddle
         ball.x = ball.x + ball_velocity_x
@@ -116,6 +117,7 @@ class PongGame:
             ball_velocity_x = -ball_velocity_x
             next_paddle = 'player'
 
+
     def start_game(self):
         # Global variables needed
         global break_loops
@@ -147,6 +149,12 @@ class PongGame:
                     game_over = True
                     break_loops = True
                     pygame.display.set_caption("Arcade Menu")
+
+            if self.score_enemy == 5:
+                set_high_score(self.score_player)
+                game_over = True
+                break_loops = True
+                pygame.display.set_caption("Arcade Menu")
 
             # Updating the screen on each loop, keeping assets updated
             self.display.fill('black')
