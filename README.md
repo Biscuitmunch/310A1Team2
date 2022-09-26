@@ -1,8 +1,10 @@
 # PyArcade
 
-[![Python 3.6](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-360/) 
+[![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-360/) 
 
 PyArcade is a game made in python that can support and let you play many different arcade games that you may have seen or played at some point. 
+
+PyArcade is developed by SOFTENG 310 Team 2 and SOFTENG 310 Team 5 From University of Auckland
 
 Any new suggestions or changes are welcome to help expand the arcades library!&nbsp;&nbsp; [Contributing.](#contribution)
 
@@ -77,8 +79,11 @@ The objective of Asteroids is to destroy asteroids. The player controls a triang
 ![image](https://user-images.githubusercontent.com/79783194/192207603-3ce24e4f-6659-450a-8491-88084c298a04.png)
 
 ## Contribution
+PyArcade is developed by SOFTENG 310 Team 2 for Assignment 1 and take over by SOFTENG 310 Team 5 for Assignment 2
 
-Want to contribute to the repository? Check out our [contributing guidelines!](./CONTRIBUTING.md)
+Detailed contribution please reference to the [Wiki](https://github.com/Biscuitmunch/310A1Team2/wiki) pages [list of contribution].(https://github.com/Biscuitmunch/310A1Team2/wiki/List-of-Contributions)
+
+Want to contribute to the repository? Check out our [Contributing guidelines](./CONTRIBUTING.md)!
 
 ## Licensing
 
