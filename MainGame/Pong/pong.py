@@ -15,7 +15,7 @@ PADDLE_WIDTH = 8
 PADDLE_HEIGHT = 90
 BALL_RADIUS = 8
 PLAYER_SPEED = 3.7
-ENEMY_SPEED = 3.3
+ENEMY_SPEED = 2.5 #change this to change the difficulty
 
 
 HIGHSCORE_FILE_PATH = 'MainGame/Pong/pongScore.txt'
