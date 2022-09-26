@@ -41,15 +41,40 @@ pip3 install pytest
 <h2 align='center'>🕹️ Games</h2>
 
 ## 🐍 Snake 
+<p>
+The player navigates a snake through the map, attempts to eat items by running into them with the head of the snake. Each item eaten makes the snake longer, avoiding collision with the snake body and map border
+</p>
+
+![snakeImage](https://user-images.githubusercontent.com/79783194/192203501-601e0d36-3e83-463d-a412-e507aef0327d.png)
 
 ## 🧱 Breakout
+<p>
+Breakout begins with rows of bricks, with different kinds of color. The color order from the bottom up is green, blue and red. Using a single ball, the player must knock down as many bricks as possible by using the walls and/or the paddle below to hit the ball against the bricks and eliminate them. If the player's paddle misses the ball's rebound, they will lose. Power items will be granted, with two different powerups, extra ball and a power ball.
+</p>
+
+![image](https://user-images.githubusercontent.com/79783194/192204569-ee90986a-62fb-49d0-83f4-9ca7eedb9771.png)
+
 
 ## 🏓 Pong
+<p>
+Pong is a two-dimensional sports game that simulates table tennis. The player controls an in-game paddle by moving it vertically across the left side of the screen. The user will compete the AI player controlling a second paddle on the right side. Players use the paddles to hit a ball back and forth. The goal for player is to reach highest points before the opponent earn five points; points are earned when one fails to return the ball to the other.
+</p>
 
-## 👾 Invader
+![image](https://user-images.githubusercontent.com/79783194/192205045-c08a9ee4-0302-4022-a6aa-e90afc8293d5.png)
+
+## 👾 Space Invader
+<p>
+Space Invaders is a fixed shooter in which the player moves a laser cannon horizontally and verically across the screen and fires at aliens overhead. The goal is to eliminate all of the aliens by shooting them. While the player has a health bar, player will lose health hit by the aliens. If the invaders reach the bottom of the screen, lives will drop by one, the player has five lives in total, the game ends when the player lives reach 0.
+</p>
+
+![image](https://user-images.githubusercontent.com/79783194/192205838-5031e3f9-6ab4-4ee7-99f9-41f2ccb8da50.png)
 
 ## 🚀 Asteroids
+<p>
+The objective of Asteroids is to destroy asteroids. The player controls a triangular ship that can rotate left and right, fire shots straight forward, and thrust forward. Scores are earned when hits asterorids.
+</p>
 
+![image](https://user-images.githubusercontent.com/79783194/192207603-3ce24e4f-6659-450a-8491-88084c298a04.png)
 
 ## Contribution
 
