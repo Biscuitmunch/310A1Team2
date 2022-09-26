@@ -1,10 +1,7 @@
 from os import environ
-import re
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 import random
-import sys
-from collections import namedtuple
 
 pygame.init()
 
