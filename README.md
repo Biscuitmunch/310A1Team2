@@ -19,7 +19,7 @@ Any new suggestions or changes are welcome to help expand the arcades library!&n
     - [🚀 Asteroids](#-asteroids)
 
 ## Installation
-To run the arcade, you will need to have python3 installed, as well as pygame.
+To run the arcade, you will need to have python 3.10 or above installed, as well as pygame.
 
 Pygame can be installed by simply using the pip script 
 ```
@@ -81,7 +81,7 @@ The objective of Asteroids is to destroy asteroids. The player controls a triang
 ## Contribution
 PyArcade is developed by SOFTENG 310 Team 2 for Assignment 1 and take over by SOFTENG 310 Team 5 for Assignment 2
 
-Detailed contribution please reference to the [Wiki](https://github.com/Biscuitmunch/310A1Team2/wiki) pages [list of contribution].(https://github.com/Biscuitmunch/310A1Team2/wiki/List-of-Contributions)
+Detailed contribution please reference to the wiki pages [list of contribution].(https://github.com/Biscuitmunch/310A1Team2/wiki/List-of-Contributions)
 
 Want to contribute to the repository? Check out our [Contributing guidelines](./CONTRIBUTING.md)!
 
