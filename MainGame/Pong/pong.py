@@ -17,10 +17,6 @@ ENEMY_SPEED = 3.3
 
 
 HIGHSCORE_FILE_PATH = 'MainGame/Pong/pongScore.txt'
-collision_sound_1 = pygame.mixer.Sound('MainGame/Pong/resources/pong1.wav')
-collision_sound_2 = pygame.mixer.Sound('MainGame/Pong/resources/pong2.wav')
-collision_sound_3 = pygame.mixer.Sound('MainGame/Pong/resources/pong3.wav')
-death_sound = pygame.mixer.Sound('MainGame/Pong/resources/pongdeath.wav')
 
 font = pygame.font.SysFont('monospace', 40)
 
@@ -51,17 +47,6 @@ class PongGame:
             player1.top = player1.top + PLAYER_SPEED
             player1.bottom = player1.bottom + PLAYER_SPEED
 
-    def sound_effect_play(self):
-        sound_choice = random.choice([0, 1, 2, 3])
-
-        # Sounds from the wav files under resources, defined at the top
-        if sound_choice == 0:
-            collision_sound_1.play(0)
-        elif sound_choice == 1:
-            collision_sound_2.play(0)
-        elif sound_choice == 2:
-            collision_sound_3.play(0)
-
     # Checks are in place to make sure enemy does not move off screen to follow ball
     def enemy_movement(self, enemy1):
         global ball
@@ -87,6 +72,7 @@ class PongGame:
 
     def ball_movement(self, ball):
         # Variables needed
+        # TODO: do these need to be global?
         global ball_velocity_x
         global ball_velocity_y
         global player1
@@ -99,12 +85,10 @@ class PongGame:
         # Conditions when the ball hits a screen edge
         if ball.right >= WINDOW_WIDTH:
             self.score_player = self.score_player + 1
-            death_sound.play()
             self.reset_ball(ball)
             
         if ball.left <= 0:
             self.score_enemy = self.score_enemy + 1
-            death_sound.play()
             self.reset_ball(ball)
 
         if ball.bottom >= WINDOW_HEIGHT or ball.top <= 0:
@@ -123,9 +107,6 @@ class PongGame:
             # collisions go one side to the other in an alternating fashion
             next_paddle = 'enemy'
 
-            # Also play sound effect
-            self.sound_effect_play()
-
         if ball.colliderect(enemy1) and next_paddle == 'enemy':
             if ball_velocity_y < 0:
                 ball_velocity_y = ball_velocity_y - 0.3
@@ -134,9 +115,6 @@ class PongGame:
             ball_velocity_x = ball_velocity_x + random.random()
             ball_velocity_x = -ball_velocity_x
             next_paddle = 'player'
-
-            # Also play sound effect
-            self.sound_effect_play()
 
     def start_game(self):
         # Global variables needed
