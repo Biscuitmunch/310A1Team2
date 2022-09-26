@@ -2,7 +2,6 @@ from os import environ
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 import random
-from collections import namedtuple
 
 pygame.init()
 
@@ -13,14 +12,10 @@ PADDLE_WIDTH = 8
 PADDLE_HEIGHT = 90
 BALL_RADIUS = 8
 PLAYER_SPEED = 3.7
-ENEMY_SPEED = 3.3
+ENEMY_SPEED = 2.5 #change this to change the difficulty
 
 
 HIGHSCORE_FILE_PATH = 'MainGame/Pong/pongScore.txt'
-collision_sound_1 = pygame.mixer.Sound('MainGame/Pong/resources/pong1.wav')
-collision_sound_2 = pygame.mixer.Sound('MainGame/Pong/resources/pong2.wav')
-collision_sound_3 = pygame.mixer.Sound('MainGame/Pong/resources/pong3.wav')
-death_sound = pygame.mixer.Sound('MainGame/Pong/resources/pongdeath.wav')
 
 font = pygame.font.SysFont('monospace', 40)
 
@@ -51,17 +46,6 @@ class PongGame:
             player1.top = player1.top + PLAYER_SPEED
             player1.bottom = player1.bottom + PLAYER_SPEED
 
-    def sound_effect_play(self):
-        sound_choice = random.choice([0, 1, 2, 3])
-
-        # Sounds from the wav files under resources, defined at the top
-        if sound_choice == 0:
-            collision_sound_1.play(0)
-        elif sound_choice == 1:
-            collision_sound_2.play(0)
-        elif sound_choice == 2:
-            collision_sound_3.play(0)
-
     # Checks are in place to make sure enemy does not move off screen to follow ball
     def enemy_movement(self, enemy1):
         global ball
@@ -72,6 +56,7 @@ class PongGame:
         elif enemy1.y < ball.y and enemy1.bottom < 720:
             enemy1.top = enemy1.top + ENEMY_SPEED
             enemy1.bottom = enemy1.bottom + ENEMY_SPEED
+        
 
     # Reset ball for user to keep playing after a score
     def reset_ball(self, ball):
@@ -90,7 +75,6 @@ class PongGame:
         global ball_velocity_x
         global ball_velocity_y
         global player1
-        global game_over
         global enemy1
         global next_paddle
         ball.x = ball.x + ball_velocity_x
@@ -99,12 +83,10 @@ class PongGame:
         # Conditions when the ball hits a screen edge
         if ball.right >= WINDOW_WIDTH:
             self.score_player = self.score_player + 1
-            death_sound.play()
             self.reset_ball(ball)
             
         if ball.left <= 0:
             self.score_enemy = self.score_enemy + 1
-            death_sound.play()
             self.reset_ball(ball)
 
         if ball.bottom >= WINDOW_HEIGHT or ball.top <= 0:
@@ -123,9 +105,6 @@ class PongGame:
             # collisions go one side to the other in an alternating fashion
             next_paddle = 'enemy'
 
-            # Also play sound effect
-            self.sound_effect_play()
-
         if ball.colliderect(enemy1) and next_paddle == 'enemy':
             if ball_velocity_y < 0:
                 ball_velocity_y = ball_velocity_y - 0.3
@@ -135,8 +114,6 @@ class PongGame:
             ball_velocity_x = -ball_velocity_x
             next_paddle = 'player'
 
-            # Also play sound effect
-            self.sound_effect_play()
 
     def start_game(self):
         # Global variables needed
@@ -169,6 +146,13 @@ class PongGame:
                     game_over = True
                     break_loops = True
                     pygame.display.set_caption("Arcade Menu")
+
+            # player loses if the enemy scores 5 points
+            if self.score_enemy == 5:
+                set_high_score(self.score_player)
+                game_over = True
+                break_loops = True
+                pygame.display.set_caption("Arcade Menu")
 
             # Updating the screen on each loop, keeping assets updated
             self.display.fill('black')
