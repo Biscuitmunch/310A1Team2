@@ -2,6 +2,7 @@ from os import environ
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 import random
+import Gameover
 
 pygame.init()
 
@@ -152,6 +153,11 @@ class PongGame:
                 set_high_score(self.score_player)
                 game_over = True
                 break_loops = True
+
+                # goes to game over screen
+                pygame.display.set_caption("Game Over")
+                Gameover.gameover().gameOver("pong")
+
                 pygame.display.set_caption("Arcade Menu")
 
             # Updating the screen on each loop, keeping assets updated
