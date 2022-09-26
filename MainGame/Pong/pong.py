@@ -150,6 +150,7 @@ class PongGame:
                     break_loops = True
                     pygame.display.set_caption("Arcade Menu")
 
+            # player loses if the enemy scores 5 points
             if self.score_enemy == 5:
                 set_high_score(self.score_player)
                 game_over = True

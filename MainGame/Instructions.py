@@ -51,8 +51,8 @@ class instructions:
             elif game == "pong":
                 PLAY_TEXT = title_font.render("PONG", True, "White")
                 INSTRUC_TEXT_1 = font.render("use arrow keys to move", True, "White")
-                INSTRUC_TEXT_2 = font.render("don’t let the ball hit the ground", True, "White")
-                INSTRUC_TEXT_3 = font.render("first to 10 points wins", True, "White")
+                INSTRUC_TEXT_2 = font.render("don’t let the ball hit the wall", True, "White")
+                INSTRUC_TEXT_3 = font.render("don't let the enemy score 5 points", True, "White")
             elif game == "asteroids":
                 PLAY_TEXT = title_font.render("ASTEROIDS", True, "White")
                 INSTRUC_TEXT_1 = font.render("use arrow keys to move", True, "White")
