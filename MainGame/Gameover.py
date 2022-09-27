@@ -45,27 +45,24 @@ class gameover:
             title_font = pygame.font.Font("MainGame/Buttons/PressStart2P.ttf", 70)
             button_font = pygame.font.Font("MainGame/Buttons/PressStart2P.ttf", 35)
 
+            OVER_TEXT = title_font.render("GAME OVER", True, "Red")
+
             # Set text and score for each game
             if game == "snake":
-                OVER_TEXT = title_font.render("GAME OVER", True, "Red")
                 with open(SNAKE_HIGHSCORE_FILE_PATH, "r") as file:
                     line = file.readline()  # scores are one line
                     HIGHSCORE_TEXT = score_font.render("HIGHSCORE: " + line, True, "Yellow")
             elif game == "pong":
-                OVER_TEXT = title_font.render("GAME OVER", True, "Red")
                 with open(PONG_HIGHSCORE_FILE_PATH, "r") as file:
                     line = file.readline()  
                     HIGHSCORE_TEXT = score_font.render("HIGHSCORE: " + line, True, "Yellow")
             elif game == "asteroids":
-                OVER_TEXT = title_font.render("GAME OVER", True, "Red")
                 with open(ASTEROIDS_HIGHSCORE_FILE_PATH, "r") as file:
                     line = file.readline() 
                     HIGHSCORE_TEXT = score_font.render("HIGHSCORE: " + line, True, "Yellow")
             elif game == "breakout":
-                OVER_TEXT = title_font.render("GAME OVER", True, "Red")
                 HIGHSCORE_TEXT = score_font.render("well done!", True, "Yellow") # breakout has no high score   
             elif game == "invader":
-                OVER_TEXT = title_font.render("GAME OVER", True, "Red")
                 with open(INVADER_HIGHSCORE_FILE_PATH, "r") as file:
                     line = file.readline() 
                     HIGHSCORE_TEXT = score_font.render("HIGHSCORE: " + line, True, "Yellow")
