@@ -4,3 +4,4 @@ MainGame/Snake/snakeScore.txt
 *.pyc
 MainGame/Asteroids/asteroidsScore.txt
 MainGame/Snake/snakeScore.txt
+.idea/
