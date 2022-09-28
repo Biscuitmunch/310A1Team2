@@ -253,7 +253,7 @@ def main():
                 enemies.append(enemy)
 
         for event in pygame.event.get():
-            # Press x to close app
+            # Press x button to close app
             if event.type == pygame.QUIT:
                 pygame.display.quit()
                 sys.exit()

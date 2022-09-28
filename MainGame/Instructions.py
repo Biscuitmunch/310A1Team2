@@ -102,7 +102,7 @@ class instructions:
                 if event.type == pygame.QUIT:
                     pygame.display.quit()
                     sys.exit()
-                    
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if PLAY_BUTTON.checkForInput(PLAY_MOUSE_POS):
                         # Go to requested game

@@ -142,7 +142,7 @@ class PongGame:
             self.enemy_movement(enemy1)
 
             for event in pygame.event.get():
-                # Press x to close app
+                # Press x button to close app
                 if event.type == pygame.QUIT:
                     set_high_score(self.score_player)
                     pygame.display.quit()

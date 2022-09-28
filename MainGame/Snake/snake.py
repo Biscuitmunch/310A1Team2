@@ -303,7 +303,7 @@ class snake_game:
         while game_over == False:
             game_over, score = game.play_step(game_over)
 
-            # Press x to close app
+            # Press x button to close app
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
                     pygame.display.quit()

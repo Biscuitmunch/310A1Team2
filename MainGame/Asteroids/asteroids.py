@@ -319,7 +319,7 @@ def start_asteroids():
                 Player_ship.reverse()
 
         for event in pygame.event.get():
-            # Press x to close app
+            # Press x button to close app
             if event.type == pygame.QUIT:
                 set_high_score(score)  # save highscore in text doc
                 pygame.display.quit()
