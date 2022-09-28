@@ -1,3 +1,4 @@
+import sys
 from time import time
 import pygame
 import os
@@ -252,12 +253,10 @@ def main():
                 enemies.append(enemy)
 
         for event in pygame.event.get():
-
-            # When the close button is clicked on window
+            # Press x to close app
             if event.type == pygame.QUIT:
-                break_loops = True
-                pygame.display.set_caption("Arcade Menu")
-                break
+                pygame.display.quit()
+                sys.exit()
 
         keys = pygame.key.get_pressed()
 

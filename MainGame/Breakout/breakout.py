@@ -1,3 +1,4 @@
+import sys
 from os import environ
 from tracemalloc import start
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
@@ -433,8 +434,10 @@ def start_breakout():
         game.display.fill(BACKGROUND)
 
         for event in pygame.event.get():
+            # Press x to close app
             if event.type == pygame.QUIT:
-                running = False
+                pygame.display.quit()
+                sys.exit()
 
             if event.type == pygame.KEYDOWN and game_over == 0:
                 start_game = True
