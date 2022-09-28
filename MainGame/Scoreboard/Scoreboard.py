@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 import Buttons.InstrucButton as Button
 
@@ -40,8 +42,11 @@ def startScoreboard():
         screen.blit(TITLE_TEXT, TITLE_RECT)
 
         for event in pygame.event.get():
+            # Press x button to close app
             if event.type == pygame.QUIT:
-                run = False
+                pygame.display.quit()
+                sys.exit()
+
             elif QUIT_BUTTON.checkForInput(PLAY_MOUSE_POS) and event.type == pygame.MOUSEBUTTONDOWN:
                 run = False
 

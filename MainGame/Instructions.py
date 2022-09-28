@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 import Snake.snake as snake
 import Buttons.InstrucButton as Button
@@ -96,8 +98,11 @@ class instructions:
 
             # Check for clicks
             for event in pygame.event.get():
+                # Press x button to close app
                 if event.type == pygame.QUIT:
-                    running = False
+                    pygame.display.quit()
+                    sys.exit()
+                    
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if PLAY_BUTTON.checkForInput(PLAY_MOUSE_POS):
                         # Go to requested game

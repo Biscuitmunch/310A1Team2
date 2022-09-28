@@ -1,3 +1,4 @@
+import sys
 from email.policy import default
 from os import environ
 from turtle import Screen
@@ -85,11 +86,10 @@ class AvatarSelect:
 
             # Handling user behaviour and interactions
             for event in pygame.event.get():
-                # Quits avatar select
+                # Press x button to close app
                 if event.type == pygame.QUIT:
-                    quit_avatar = True
-                    break_loops = True
-                    pygame.display.set_caption('Arcade Menu')
+                    pygame.display.quit()
+                    sys.exit()
 
                 # Looks for user clicking on different avatars
                 if event.type == pygame.MOUSEBUTTONDOWN:
