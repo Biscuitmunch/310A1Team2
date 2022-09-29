@@ -3,6 +3,7 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 import random
 import math
+import Gameover
 from enum import Enum
 from collections import namedtuple
 
@@ -54,7 +55,7 @@ SNAKE_SPEED = 10
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 STARTING_SIZE = 3
-SNAKE_LOOPING = True # Change to false if you want the snake to die upon hitting a wall
+SNAKE_LOOPING = False # Change to false if you want the snake to die upon hitting a wall
 
 # Colours
 WHITE = (255, 255, 255)
@@ -308,9 +309,11 @@ class snake_game:
                     break_loops = True
                     pygame.display.set_caption("Arcade Menu")
         
+    
         while break_loops == False:
-            self.display.blit(game_over_screen, (0, 0))
-            pygame.display.flip()
+            # goes to game over screen
+            pygame.display.set_caption("Game Over")
+            Gameover.gameover().gameOver("snake")
             
             # Wait 1 second after the game is over before accepting inputs in order to combat accidental keypresses
             for event in pygame.event.get():    

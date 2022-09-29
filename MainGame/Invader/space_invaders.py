@@ -2,6 +2,7 @@ from time import time
 import pygame
 import os
 import random
+import Gameover
 pygame.font.init()
 
 WIDTH = 1280
@@ -235,6 +236,11 @@ def main():
             game_over = True
             set_high_score(score)
             game_over_clock += 1
+
+            # goes to game over screen
+            pygame.display.set_caption("Game Over")
+            Gameover.gameover().gameOver("invader")
+
             break
 
         if game_over:
