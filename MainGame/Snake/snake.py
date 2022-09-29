@@ -1,3 +1,4 @@
+import sys
 from os import environ
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
@@ -301,12 +302,12 @@ class snake_game:
         game = snake_game()
         while game_over == False:
             game_over, score = game.play_step(game_over)
-                
+
+            # Press x button to close app
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
-                    game_over = True
-                    break_loops = True
-                    pygame.display.set_caption("Arcade Menu")
+                    pygame.display.quit()
+                    sys.exit()
         
         while break_loops == False:
             self.display.blit(game_over_screen, (0, 0))

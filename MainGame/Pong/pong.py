@@ -1,3 +1,4 @@
+import sys
 from os import environ
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
@@ -141,11 +142,11 @@ class PongGame:
             self.enemy_movement(enemy1)
 
             for event in pygame.event.get():
+                # Press x button to close app
                 if event.type == pygame.QUIT:
                     set_high_score(self.score_player)
-                    game_over = True
-                    break_loops = True
-                    pygame.display.set_caption("Arcade Menu")
+                    pygame.display.quit()
+                    sys.exit()
 
             # player loses if the enemy scores 5 points
             if self.score_enemy == 5:

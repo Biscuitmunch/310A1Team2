@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 import random
 import math
@@ -317,14 +319,12 @@ def start_asteroids():
                 Player_ship.reverse()
 
         for event in pygame.event.get():
+            # Press x button to close app
             if event.type == pygame.QUIT:
-                pygame.display.set_caption("Arcade Menu")
-                game_over = True
-                #move to menu here
-                running = False
-                asteroids.clear()
                 set_high_score(score)  # save highscore in text doc
-                break #                                                                     ======
+                pygame.display.quit()
+                sys.exit()
+
             # Q press quits to main menu
             if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
                 # if event.key == pygame.K_q:
