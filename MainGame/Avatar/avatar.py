@@ -28,7 +28,7 @@ avatar_3_redeemed = False
 
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 font = pygame.font.SysFont('monospace', 40)
-button_font = pygame.font.Font("MainGame/Buttons/PressStart2P.ttf", 35)
+button_font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 35)
 
 
 

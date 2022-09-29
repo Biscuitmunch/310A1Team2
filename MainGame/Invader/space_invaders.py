@@ -175,7 +175,7 @@ def collide(object1, object2):
 def main():
 
     global break_loops
-    main_font = pygame.font.SysFont("monospace", 25)
+    main_font = pygame.font.Font('MainGame/Fonts/BPdotsSquareBold.otf', 25)
     game_over_font = pygame.font.SysFont("monospace", 60)
     
     # Set frame speed and clock- fits any device
@@ -208,10 +208,12 @@ def main():
         
         # Render labels
         lives_label = main_font.render(F"LIVES: {lives}",1,(255,255,255))
+        score_label = main_font.render(F"SCORE: {score}", 1, (255, 255, 255))
         level_label = main_font.render(F"LEVEL: {level}",1,(255,255,255))
 
-        WINDOW.blit(lives_label,(10,10))
-        WINDOW.blit(level_label,(10, (lives_label.get_height() + 10)))
+        WINDOW.blit(lives_label, (10, 10))
+        WINDOW.blit(score_label, (10, (lives_label.get_height() + 20)))
+        WINDOW.blit(level_label, (10, ((lives_label.get_height() + 10)*2) + 10))
 
         if game_over:
             game_over_label = game_over_font.render("GAME OVER", 1, (255,255,255))
@@ -249,7 +251,7 @@ def main():
             wave_length += 5
 
             for i in range(wave_length):
-                enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red","blue","green"]))
+                enemy = Enemy(random.randrange(200, WIDTH-100), random.randrange(-1500, -100), random.choice(["red","blue","green"]))
                 enemies.append(enemy)
 
         for event in pygame.event.get():

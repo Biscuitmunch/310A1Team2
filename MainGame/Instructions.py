@@ -38,9 +38,9 @@ class instructions:
             window.fill("black")
             PLAY_MOUSE_POS = pygame.mouse.get_pos()
 
-            font = pygame.font.Font("MainGame/Buttons/PressStart2P.ttf", 25)
-            title_font = pygame.font.Font("MainGame/Buttons/PressStart2P.ttf", 50)
-            button_font = pygame.font.Font("MainGame/Buttons/PressStart2P.ttf", 35)
+            font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 25)
+            title_font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 50)
+            button_font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 35)
 
             # Game title
 

@@ -39,7 +39,7 @@ snake_tail_right = pygame.image.load('MainGame/Snake/resources/snakeTailRight.pn
 snake_tail = snake_head_right
 
 snakeFood = pygame.image.load('MainGame/Snake/resources/food.png')
-font = pygame.font.Font('MainGame/Snake/resources/BPdotsSquareBold.otf', 25)
+font = pygame.font.Font('MainGame/Fonts/BPdotsSquareBold.otf', 25)
 
 game_over_screen = pygame.image.load('MainGame/Snake/resources/gameOverScreenSnake.png')
 
