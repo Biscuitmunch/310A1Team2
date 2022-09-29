@@ -29,9 +29,9 @@ def startScoreboard():
     while run == True:
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
         
-        button_font = pygame.font.Font("MainGame/Buttons/PressStart2P.ttf", 35)
-        title_font = pygame.font.Font("MainGame/Buttons/PressStart2P.ttf", 50)
-        font = pygame.font.Font("MainGame/Buttons/PressStart2P.ttf", 25)
+        button_font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 35)
+        title_font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 50)
+        font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 25)
 
         QUIT_BUTTON = Button.Button(image=None, pos=(125, 650), text_input="MENU", font=button_font, base_color="White", hovering_color="Green")
         QUIT_BUTTON.changeColor(PLAY_MOUSE_POS)
