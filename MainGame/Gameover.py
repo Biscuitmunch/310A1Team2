@@ -1,4 +1,5 @@
 import pygame
+import sys
 import Snake.snake as snake
 import Buttons.InstrucButton as Button
 import Pong.pong as pong
@@ -85,7 +86,9 @@ class gameover:
             # Check for clicks
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    # x button exits the game window
+                    pygame.display.quit()
+                    sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if PLAY_BUTTON.checkForInput(PLAY_MOUSE_POS):
                         # Go to requested game
