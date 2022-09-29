@@ -175,7 +175,7 @@ def collide(object1, object2):
 def main():
 
     global break_loops
-    main_font = pygame.font.Font('MainGame/Snake/resources/BPdotsSquareBold.otf', 25)
+    main_font = pygame.font.Font('MainGame/Fonts/BPdotsSquareBold.otf', 25)
     game_over_font = pygame.font.SysFont("monospace", 60)
     
     # Set frame speed and clock- fits any device

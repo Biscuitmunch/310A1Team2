@@ -44,7 +44,7 @@ HIGHSCORE_FILE_PATH = 'MainGame/Asteroids/asteroidsScore.txt'
 pygame.display.set_caption('Asteroids')
 
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-font = pygame.font.Font('MainGame/Snake/resources/BPdotsSquareBold.otf', 25)
+font = pygame.font.Font('MainGame/Fonts/BPdotsSquareBold.otf', 25)
 
 
 def read_high_score():
