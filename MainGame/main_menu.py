@@ -9,6 +9,7 @@ import Invader.space_invaders as invader
 import Asteroids.asteroids as asteroids 
 import Scoreboard.Scoreboard as Scoreboard
 import Breakout.breakout as Breakout
+import Buttons.InstrucButton as button
 
 WIDTH = 1280
 HEIGHT = 720
@@ -50,8 +51,6 @@ pong_image = pygame.image.load(
     "MainGame/Buttons/PongButton.png").convert_alpha()
 invader_image = pygame.image.load(
     "MainGame/Buttons/InvadersButton.png").convert_alpha()
-quit_image = pygame.image.load(
-    "MainGame/Buttons/QuitButton.png").convert_alpha()
 asteroids_image = pygame.image.load( 
     "MainGame/Buttons/AsteroidsButton.png").convert_alpha()
 scoreboard_image = pygame.image.load(
@@ -67,13 +66,14 @@ avatar_text = ScreenItem(0, 0, avatar_select_title)
 # Main Menu Buttons
 title = ScreenItem(WIDTH/2, 80, title_image)
 player_text = ScreenItem(WIDTH - 150, 140, player_text_image)
-quit_button = ScreenItem(1180, 670, quit_image)
 snake_button = ScreenItem(263.67, 540, snake_image)
 breakout_button = ScreenItem(657.54, 540, breakout_image)
 pong_button = ScreenItem (1051.41, 540, pong_image)
 invader_button = ScreenItem(263.67, 300, invader_image)
 asteroids_button = ScreenItem (657.54, 300, asteroids_image)
 scoreboard_button = ScreenItem(1051, 300, scoreboard_image)
+
+
 
 # Hide text by default
 play_text_show = False
@@ -94,6 +94,11 @@ def set_avatar_text(button):
 running = True
 while running:
     pygame.display.set_caption("Arcade Menu")
+    PLAY_MOUSE_POS = pygame.mouse.get_pos()
+    button_font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 35)
+    quit_button = button.Button(image=None, pos=(155, 85), text_input="QUIT", font=button_font, base_color="White", hovering_color="Green")
+
+   
 
     # Initialize Avatar
     avatar_obj = avatar.AvatarSelect()
@@ -101,6 +106,8 @@ while running:
     avatar_button = ScreenItem(WIDTH - 150, 70, pygame.transform.scale(avatar_image, (80,80)))
 
     for event in pygame.event.get():
+        
+
         # To exit the game
         if event.type == pygame.QUIT:
             pygame.display.quit()
@@ -109,7 +116,7 @@ while running:
         # User tried to click:
         # Quit Arcade
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if quit_button.mouse_over_button(pygame.mouse.get_pos()):
+            if quit_button.checkForInput(PLAY_MOUSE_POS):
                 pygame.display.quit()
                 sys.exit()
                 
@@ -194,8 +201,11 @@ while running:
     pong_button.update()
     invader_button.update()
     asteroids_button.update()
-    quit_button.update()
     scoreboard_button.update()
+    quit_button.changeColor(PLAY_MOUSE_POS)
+    quit_button.update(window)
+    
+    
 
     # Display Text logic
     if play_text_show == True:
