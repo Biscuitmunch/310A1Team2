@@ -4,10 +4,12 @@ import pygame
 import os
 import random
 pygame.font.init()
+import Settings
 
-WIDTH = 1280
-HEIGHT = 720
-FPS = 60
+WIDTH = Settings.WIDTH
+HEIGHT = Settings.HEIGHT
+FPS = Settings.FPS
+
 WINDOW = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Space Invaders")
 resources_path = "MainGame/Invader/resources"

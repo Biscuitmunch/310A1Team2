@@ -1,5 +1,4 @@
 import sys
-
 import pygame
 import Snake.snake as snake
 import Buttons.InstrucButton as Button
@@ -7,9 +6,10 @@ import Pong.pong as pong
 import Invader.space_invaders as invader
 import Asteroids.asteroids as asteroids 
 import Breakout.breakout as breakout
+import Settings
 
-WIDTH = 1280
-HEIGHT = 720
+WIDTH = Settings.WIDTH
+HEIGHT = Settings.HEIGHT
 
 class ScreenItem():
         def __init__(self, x, y, image):

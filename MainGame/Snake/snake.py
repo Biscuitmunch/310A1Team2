@@ -6,6 +6,10 @@ import random
 import math
 from enum import Enum
 from collections import namedtuple
+import Settings
+
+WINDOW_WIDTH = Settings.WIDTH
+WINDOW_HEIGHT = Settings.HEIGHT
 
 
 pygame.init()
@@ -52,8 +56,6 @@ HIGHSCORE_FILE_PATH = 'MainGame/Snake/snakeScore.txt'
 
 # Game settings
 SNAKE_SPEED = 10
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
 STARTING_SIZE = 3
 SNAKE_LOOPING = False # Change to false if you want the snake to die upon hitting a wall
 

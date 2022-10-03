@@ -3,7 +3,12 @@ import sys
 import pygame
 import random
 import math
+import Settings
 
+FPS = Settings.FPS
+WINDOW_WIDTH = Settings.WIDTH
+WINDOW_HEIGHT = Settings.HEIGHT
+WHITE = (255, 255, 255)
 pygame.init()
 
 
@@ -20,10 +25,7 @@ asteroid_Medium = pygame.image.load(
     'MainGame/Asteroids/resources/mediumAsteroid.png')
 asteroid_Large = pygame.image.load(
     'MainGame/Asteroids/resources/largeAsteroid.png')
-WHITE = (255, 255, 255)
-FPS = 60
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
+
 #increase rotate angle size for sharper turns
 rotate_angle_size = 5
 initial_angle = 0

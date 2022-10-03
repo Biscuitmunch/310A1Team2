@@ -2,6 +2,10 @@ import sys
 
 import pygame
 import Buttons.InstrucButton as Button
+import Settings
+
+WIDTH = Settings.WIDTH
+HEIGHT = Settings.HEIGHT
 
 #font
 pygame.font.init()

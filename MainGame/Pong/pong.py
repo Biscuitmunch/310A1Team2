@@ -3,12 +3,13 @@ from os import environ
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 import random
+import Settings
+
 
 pygame.init()
 
-# Our resolution is 1280/720 for all screens
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
+WINDOW_WIDTH = Settings.WIDTH
+WINDOW_HEIGHT = Settings.HEIGHT
 PADDLE_WIDTH = 8
 PADDLE_HEIGHT = 90
 BALL_RADIUS = 8
@@ -22,7 +23,7 @@ font = pygame.font.SysFont('monospace', 40)
 
 # All our games run on 60fps
 clock = pygame.time.Clock()
-fps = 60
+fps = Settings.FPS
 
 class PongGame:
 
