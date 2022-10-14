@@ -33,7 +33,6 @@ button_font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 35)
 
 
 # Open image files and scale to size
-default_avatar = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/defaultAvatar.png'), (AVATAR_SIZE))
 avatar1 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar1.png'), (AVATAR_SIZE))
 avatar2 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar2.png'), (AVATAR_SIZE))
 avatar3 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar3.png'), (AVATAR_SIZE))
@@ -41,11 +40,11 @@ avatar4 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/av
 avatar5 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar5.png'), (AVATAR_SIZE))
 avatar6 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar6.png'), (AVATAR_SIZE))
 avatar7 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar7.png'), (AVATAR_SIZE))
-avatar8 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar3.png'), (AVATAR_SIZE))
+avatar8 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar8.png'), (AVATAR_SIZE))
 arrow = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/arrow.png'), (AVATAR_SIZE))
 lock = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/lock.png'), (AVATAR_SIZE))
 
-current_avatar = default_avatar
+current_avatar = avatar1
 
 class AvatarSelect:
 
@@ -137,7 +136,7 @@ class AvatarSelect:
                     elif avatar_7_button.mouse_over_button(pygame.mouse.get_pos()):
                         current_avatar = avatar7
                     elif avatar_8_button.mouse_over_button(pygame.mouse.get_pos()):
-                        current_avatar = default_avatar
+                        current_avatar = avatar8
 
                 # Looks for user hovering on different avatars
                 if event.type == pygame.MOUSEMOTION:
@@ -175,7 +174,7 @@ class AvatarSelect:
                         temp_avatar = avatar7
                         temp_avatar_hide = False
                     elif avatar_8_button.mouse_over_button(pygame.mouse.get_pos()):
-                        temp_avatar = default_avatar
+                        temp_avatar = avatar8
                         temp_avatar_hide = False
                     else:
                         temp_avatar_hide = True
@@ -191,7 +190,7 @@ class AvatarSelect:
             avatar_5_button = ScreenItem(700,350,avatar5)
             avatar_6_button = ScreenItem(850,350,avatar6)
             avatar_7_button = ScreenItem(1000,350,avatar7)
-            avatar_8_button = ScreenItem(1150,350,default_avatar)
+            avatar_8_button = ScreenItem(1150,350,avatar8)
             temp_avatar_button = ScreenItem(WINDOW_WIDTH/2+100, 80, temp_avatar)
             window.blit(arrow, (WINDOW_WIDTH/2-50, 100))
 
