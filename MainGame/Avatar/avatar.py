@@ -90,6 +90,11 @@ class AvatarSelect:
 
         while quit_avatar == False and break_loops == False:
 
+            PLAY_MOUSE_POS = pygame.mouse.get_pos()
+            QUIT_BUTTON = Button.Button(image=None, pos=(125, 70), text_input="MENU", font=button_font, base_color="White", hovering_color="Green")
+            QUIT_BUTTON.changeColor(PLAY_MOUSE_POS)
+            QUIT_BUTTON.update(window)
+
             # Handling user behaviour and interactions
             for event in pygame.event.get():
                 # Quits avatar select
@@ -159,11 +164,6 @@ class AvatarSelect:
                                 avatar_8_redeemed = True
                                 tickets = tickets - 150
                                 current_avatar = avatar8
-                    # Back button clicked
-                    elif return_button.mouse_over_button(pygame.mouse.get_pos()):
-                        quit_avatar = True
-                        break_loops = True
-                        pygame.display.set_caption('Arcade Menu')
 
                 # Looks for user hovering on different avatars
                 if event.type == pygame.MOUSEMOTION:
@@ -314,6 +314,9 @@ class AvatarSelect:
 
             if temp_avatar_hide == False:
                 temp_avatar_button.update()
+
+            if ticket_text_show == True:
+                ticket_text.update()
 
             if ticket_text_show == True:
                 ticket_text.update()
