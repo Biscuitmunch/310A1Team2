@@ -21,9 +21,15 @@ global tickets
 
 # Starter tickets and avatars
 tickets = 100
-avatar_1_redeemed = False
+#default avatar is redeemed at start
+avatar_1_redeemed = True
 avatar_2_redeemed = False
 avatar_3_redeemed = False
+avatar_4_redeemed = False
+avatar_5_redeemed = False
+avatar_6_redeemed = False
+avatar_7_redeemed = False
+avatar_8_redeemed = False
 
 
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -70,7 +76,17 @@ class AvatarSelect:
         global avatar_1_redeemed
         global avatar_2_redeemed
         global avatar_3_redeemed
+        global avatar_4_redeemed
+        global avatar_5_redeemed
+        global avatar_6_redeemed
+        global avatar_7_redeemed
+        global avatar_8_redeemed
         break_loops = False
+
+        # Hide text by default
+        ticket_text_show = False
+        ticket_title = font.render(" ", True, (255, 255, 255))
+        ticket_text = ScreenItem(100, 400, ticket_title)
 
         temp_avatar = current_avatar
         temp_avatar_hide = True
@@ -98,15 +114,7 @@ class AvatarSelect:
                         pygame.display.set_caption('Arcade Menu')
 
                     elif avatar_1_button.mouse_over_button(pygame.mouse.get_pos()):
-                        if avatar_1_redeemed == True:
-                            current_avatar = avatar1
-                        elif avatar_1_redeemed == False:
-                            if tickets >= 50:
-                                avatar_1_redeemed = True
-                                tickets = tickets - 50
-                                current_avatar = avatar1
-                        else:
-                            print ("Insufficient tickets")
+                        current_avatar = avatar1
                     elif avatar_2_button.mouse_over_button(pygame.mouse.get_pos()):
                         if avatar_2_redeemed == True:
                             current_avatar = avatar2
@@ -115,8 +123,6 @@ class AvatarSelect:
                                 avatar_2_redeemed = True
                                 tickets = tickets - 50
                                 current_avatar = avatar2
-                        else:
-                            print ("Insufficient tickets")
                     elif avatar_3_button.mouse_over_button(pygame.mouse.get_pos()):
                         if avatar_3_redeemed == True:
                             current_avatar = avatar3
@@ -125,18 +131,46 @@ class AvatarSelect:
                                 avatar_3_redeemed = True
                                 tickets = tickets - 50
                                 current_avatar = avatar3
-                        else:
-                            print ("Insufficient tickets")
                     elif avatar_4_button.mouse_over_button(pygame.mouse.get_pos()):
-                        current_avatar = avatar4
+                        if avatar_4_redeemed == True:
+                            current_avatar = avatar4
+                        elif avatar_4_redeemed == False:
+                            if tickets >= 50:
+                                avatar_4_redeemed = True
+                                tickets = tickets - 50
+                                current_avatar = avatar4
                     elif avatar_5_button.mouse_over_button(pygame.mouse.get_pos()):
-                        current_avatar = avatar5
+                        if avatar_5_redeemed == True:
+                            current_avatar = avatar5
+                        elif avatar_5_redeemed == False:
+                            if tickets >= 100:
+                                avatar_5_redeemed = True
+                                tickets = tickets - 100
+                                current_avatar = avatar5
                     elif avatar_6_button.mouse_over_button(pygame.mouse.get_pos()):
-                        current_avatar = avatar6
+                        if avatar_6_redeemed == True:
+                            current_avatar = avatar6
+                        elif avatar_6_redeemed == False:
+                            if tickets >= 100:
+                                avatar_6_redeemed = True
+                                tickets = tickets - 100
+                                current_avatar = avatar6
                     elif avatar_7_button.mouse_over_button(pygame.mouse.get_pos()):
-                        current_avatar = avatar7
+                        if avatar_7_redeemed == True:
+                            current_avatar = avatar7
+                        elif avatar_7_redeemed == False:
+                            if tickets >= 100:
+                                avatar_7_redeemed = True
+                                tickets = tickets - 100
+                                current_avatar = avatar7
                     elif avatar_8_button.mouse_over_button(pygame.mouse.get_pos()):
-                        current_avatar = avatar8
+                        if avatar_6_redeemed == True:
+                            current_avatar = avatar8
+                        elif avatar_8_redeemed == False:
+                            if tickets >= 150:
+                                avatar_8_redeemed = True
+                                tickets = tickets - 150
+                                current_avatar = avatar8
 
                 # Looks for user hovering on different avatars
                 if event.type == pygame.MOUSEMOTION:
