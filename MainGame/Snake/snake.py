@@ -314,22 +314,26 @@ class snake_game:
             # goes to game over screen
             pygame.display.set_caption("Game Over")
             Gameover.gameover().gameOver("snake")
+            break_loops = True
+            gameover = True
+            pygame.display.set_caption("Arcade Menu")
             
             # Wait 1 second after the game is over before accepting inputs in order to combat accidental keypresses
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
                     break_loops = True
+                    gameover = True
                     pygame.display.set_caption("Arcade Menu")
 
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    self.set_high_score(score)
-                    game_over = False 
-                    self.start_game()
+                # if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                #     self.set_high_score(score)
+                #     game_over = False 
+                #     self.start_game()
 
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.set_high_score(score)
-                    break_loops = True
-                    pygame.display.set_caption("Arcade Menu")
+                # if event.type == pygame.MOUSEBUTTONDOWN:
+                #     self.set_high_score(score)
+                #     break_loops = True
+                #     pygame.display.set_caption("Arcade Menu")
                     
 
             clock = pygame.time.Clock()

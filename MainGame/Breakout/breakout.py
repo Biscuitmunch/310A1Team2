@@ -6,6 +6,7 @@ from pygame.locals import Rect
 from enum import Enum
 from collections import namedtuple
 from random import randint
+import Gameover
 
 pygame.init()
 
@@ -439,7 +440,9 @@ def start_breakout():
             if event.type == pygame.KEYDOWN and game_over == 0:
                 start_game = True
 
-            if event.type == pygame.MOUSEBUTTONDOWN and game_over != 0:
+            if game_over != 0:
+                pygame.display.set_caption("Game Over")
+                Gameover.gameover().gameOver("breakout")
                 running = False
 
 

@@ -6,6 +6,7 @@ import Pong.pong as pong
 import Invader.space_invaders as invader
 import Asteroids.asteroids as asteroids 
 import Breakout.breakout as breakout
+import Instructions
 
 WIDTH = 1280
 HEIGHT = 720
@@ -99,6 +100,7 @@ class gameover:
                             pong_obj = pong.PongGame()
                             pong_obj.start_game()
                         elif game == "asteroids":
+                            running = False
                             asteroids.start_asteroids()
                         elif game == "breakout":
                             breakout.start_breakout()
