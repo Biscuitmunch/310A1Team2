@@ -5,12 +5,13 @@ from turtle import Screen
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 import Buttons.InstrucButton as Button
+import Settings
 
 pygame.init()
 
 # Scale variables
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
+WINDOW_WIDTH = Settings.WIDTH
+WINDOW_HEIGHT = Settings.HEIGHT
 AVATAR_SIZE = 100, 100
 
 #HOME_CAPTION = "Arcade Menu"
