@@ -36,16 +36,13 @@ BACKGROUND3 = pygame.transform.scale(pygame.image.load(
 RED_SHIP = pygame.image.load(os.path.join(resources_path, "ship_red.png"))
 GREEN_SHIP = pygame.image.load(os.path.join(resources_path, "ship_green.png"))
 BLUE_SHIP = pygame.image.load(os.path.join(resources_path, "ship_blue.png"))
-YELLOW_SHIP = pygame.image.load(
-    os.path.join(resources_path, "ship_yellow.png"))
+YELLOW_SHIP = pygame.image.load(os.path.join(resources_path, "ship_yellow.png"))
 
 # Lasers
 RED_LASER = pygame.image.load(os.path.join(resources_path, "laser_red.png"))
-GREEN_LASER = pygame.image.load(
-    os.path.join(resources_path, "laser_green.png"))
+GREEN_LASER = pygame.image.load(os.path.join(resources_path, "laser_green.png"))
 BLUE_LASER = pygame.image.load(os.path.join(resources_path, "laser_blue.png"))
-YELLOW_LASER = pygame.image.load(
-    os.path.join(resources_path, "laser_yellow.png"))
+YELLOW_LASER = pygame.image.load(os.path.join(resources_path, "laser_yellow.png"))
 
 # Laser class coded to make sure laser does not follow player when player moves in x direction
 
@@ -120,8 +117,7 @@ class Ship:
             ship_width = self.get_width()
 
             if self.laser_count == 1:
-                laser = Laser(self.x + ship_width / 2,
-                              self.y, self.laser_image)
+                laser = Laser(self.x + ship_width / 2  , self.y, self.laser_image)
                 self.lasers.append(laser)
 
             if self.laser_count == 2:
@@ -131,28 +127,21 @@ class Ship:
                 self.lasers.append(laser)
 
             if self.laser_count == 3:
-                laser = Laser(self.x + self.get_width() /
-                              2, self.y, self.laser_image)
+                laser = Laser(self.x + ship_width / 2, self.y, self.laser_image)
                 self.lasers.append(laser)
-                laser = Laser(self.x - self.get_width() /
-                              2, self.y, self.laser_image)
+                laser = Laser(self.x - ship_width / 2, self.y, self.laser_image)
                 self.lasers.append(laser)
-                laser = Laser(self.x + self.get_width() * 1.5,
-                              self.y, self.laser_image)
+                laser = Laser(self.x + ship_width * 1.5, self.y, self.laser_image)
                 self.lasers.append(laser)
 
             if self.laser_count == 4:
-                laser = Laser(self.x + self.get_width() / 2,
-                              self.y + self.get_height(), self.laser_image)
+                laser = Laser(self.x + ship_width / 2, self.y + ship_width, self.laser_image)
                 self.lasers.append(laser)
-                laser = Laser(self.x - self.get_width() /
-                              2, self.y + 10, self.laser_image)
+                laser = Laser(self.x - ship_width / 2, self.y + 10, self.laser_image)
                 self.lasers.append(laser)
-                laser = Laser(self.x + self.get_width() * 1.5,
-                              self.y + 10, self.laser_image)
+                laser = Laser(self.x + ship_width * 1.5, self.y + 10, self.laser_image)
                 self.lasers.append(laser)
-                laser = Laser(self.x + self.get_width() /
-                              2, self.y, self.laser_image)
+                laser = Laser(self.x + ship_width / 2, self.y, self.laser_image)
                 self.lasers.append(laser)
 
             self.cool_down_clock = 1
@@ -194,12 +183,30 @@ class Player(Ship):
     def health_bar(self, area):
         # create max health green bar and overlay diminishing health with changing width red bar
         bar_height = 10
-        pygame.draw.rect(area, (255, 0, 0), (self.x, self.y + self.ship_image.get_height() +
-                         bar_height, self.ship_image.get_width(), bar_height))
+        ship_height = self.ship_image.get_height()
+        ship_width = self.ship_image.get_width()
 
+
+        # args:
+        #   starting x cord
+        #   starting y cord
+        #   length of the bar in x cord
+        #   height of the bar in y cord
+
+        # Background Red Bar
+        pygame.draw.rect(area, (255, 0, 0), (
+            self.x, 
+            self.y + ship_height + bar_height,
+            ship_width,
+            bar_height))
+
+        # Foreground Green Bar (Health)
         health_fraction_calc = self.health/self.max_health
-        pygame.draw.rect(area, (0, 255, 0), (self.x, self.y + self.ship_image.get_height(
-        ) + bar_height, self.ship_image.get_width() * health_fraction_calc, bar_height))
+        pygame.draw.rect(area, (0, 255, 0), (
+            self.x, 
+            self.y + ship_height + bar_height, 
+            ship_width * health_fraction_calc, 
+            bar_height))
 
 
 # Alien ship class that extends Ship
@@ -277,13 +284,12 @@ def main():
         lives_label = main_font.render(F"LIVES: {lives}", 1, (255, 255, 255))
         score_label = main_font.render(F"SCORE: {score}", 1, (255, 255, 255))
         level_label = main_font.render(F"LEVEL: {level}", 1, (255, 255, 255))
-        enemy_label = main_font.render(
-            F"ENEMY: {len(enemies)} ", 1, ((255, 255, 255)))
+        enemies_label = main_font.render(F"ENEMIES: {len(enemies)} ", 1, ((255, 255, 255)))
 
         WINDOW.blit(lives_label, (10, 10))
         WINDOW.blit(score_label, (10, (lives_label.get_height() + 20)))
         WINDOW.blit(level_label, (10, ((lives_label.get_height() + 10)*2) + 10))
-        WINDOW.blit(enemy_label, (10, ((lives_label.get_height() + 10)*3) + 10))
+        WINDOW.blit(enemies_label, (10, ((lives_label.get_height() + 10)*3) + 10))
 
         if game_over:
             game_over_label = game_over_font.render(
@@ -308,6 +314,7 @@ def main():
         if lives <= 0 or player.health <= 0:
             game_over = True
             set_high_score(score)
+            score = 0
             game_over_clock += 1
             break
 
