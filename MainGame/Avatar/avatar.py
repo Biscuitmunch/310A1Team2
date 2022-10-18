@@ -14,6 +14,8 @@ WINDOW_WIDTH = Settings.WIDTH
 WINDOW_HEIGHT = Settings.HEIGHT
 AVATAR_SIZE = 100, 100
 
+TICKET_COUNT_PATH = "MainGame/Avatar/ticketCount.txt"
+
 #HOME_CAPTION = "Arcade Menu"
 
 global quit_avatar
@@ -53,6 +55,19 @@ lock = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/lock.
 
 current_avatar = avatar1
 
+def add_tickets():
+    with open(TICKET_COUNT_PATH, "r") as ticket_read:
+        ticket_count = int(ticket_read.readline())
+        with open(TICKET_COUNT_PATH, "w") as ticket_write: 
+            ticket_write.write(str(ticket_count + 50))
+        ticket_write.close()
+    ticket_read.close()
+
+def clear_tickets():
+    with open(TICKET_COUNT_PATH, "w") as ticket_write:
+        ticket_write.write(str(100))
+    ticket_write.close()
+
 class AvatarSelect:
 
     def __init__(self, width = WINDOW_WIDTH, height = WINDOW_HEIGHT):
@@ -74,6 +89,7 @@ class AvatarSelect:
         global current_avatar
         global quit_avatar
         global tickets
+
         global avatar_1_redeemed
         global avatar_2_redeemed
         global avatar_3_redeemed
@@ -104,6 +120,7 @@ class AvatarSelect:
             for event in pygame.event.get():
                 # Press x button to close app
                 if event.type == pygame.QUIT:
+                    clear_tickets()
                     pygame.display.quit()
                     sys.exit()
 
@@ -115,7 +132,9 @@ class AvatarSelect:
                         pygame.display.set_caption('Arcade Menu')
 
                     elif avatar_1_button.mouse_over_button(pygame.mouse.get_pos()):
+
                         current_avatar = avatar1
+
                     elif avatar_2_button.mouse_over_button(pygame.mouse.get_pos()):
                         if avatar_2_redeemed == True:
                             current_avatar = avatar2
@@ -124,6 +143,12 @@ class AvatarSelect:
                                 avatar_2_redeemed = True
                                 tickets = tickets - 50
                                 current_avatar = avatar2
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
+                        else:
+                            print ("Insufficient tickets")
+
                     elif avatar_3_button.mouse_over_button(pygame.mouse.get_pos()):
                         if avatar_3_redeemed == True:
                             current_avatar = avatar3
@@ -132,6 +157,9 @@ class AvatarSelect:
                                 avatar_3_redeemed = True
                                 tickets = tickets - 50
                                 current_avatar = avatar3
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
                     elif avatar_4_button.mouse_over_button(pygame.mouse.get_pos()):
                         if avatar_4_redeemed == True:
                             current_avatar = avatar4
@@ -140,6 +168,9 @@ class AvatarSelect:
                                 avatar_4_redeemed = True
                                 tickets = tickets - 50
                                 current_avatar = avatar4
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
                     elif avatar_5_button.mouse_over_button(pygame.mouse.get_pos()):
                         if avatar_5_redeemed == True:
                             current_avatar = avatar5
@@ -148,6 +179,9 @@ class AvatarSelect:
                                 avatar_5_redeemed = True
                                 tickets = tickets - 100
                                 current_avatar = avatar5
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
                     elif avatar_6_button.mouse_over_button(pygame.mouse.get_pos()):
                         if avatar_6_redeemed == True:
                             current_avatar = avatar6
@@ -156,6 +190,9 @@ class AvatarSelect:
                                 avatar_6_redeemed = True
                                 tickets = tickets - 100
                                 current_avatar = avatar6
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
                     elif avatar_7_button.mouse_over_button(pygame.mouse.get_pos()):
                         if avatar_7_redeemed == True:
                             current_avatar = avatar7
@@ -164,6 +201,9 @@ class AvatarSelect:
                                 avatar_7_redeemed = True
                                 tickets = tickets - 100
                                 current_avatar = avatar7
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
                     elif avatar_8_button.mouse_over_button(pygame.mouse.get_pos()):
                         if avatar_6_redeemed == True:
                             current_avatar = avatar8
@@ -172,6 +212,9 @@ class AvatarSelect:
                                 avatar_8_redeemed = True
                                 tickets = tickets - 150
                                 current_avatar = avatar8
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
 
                 # Looks for user hovering on different avatars
                 if event.type == pygame.MOUSEMOTION:
@@ -311,7 +354,11 @@ class AvatarSelect:
             QUIT_BUTTON.update(window)
 
             # Display text
+            with open(TICKET_COUNT_PATH, "r") as ticket_read:
+                tickets = int(ticket_read.readline())
+
             message = font.render("Choose your avatar!", True, 'white')
+
             ticket_display = font.render("Tickets:" + str(tickets), True, 'white')
             message_obj = ScreenItem(WINDOW_WIDTH/2, 500, message)
             ticket_display_obj = ScreenItem(WINDOW_WIDTH/2, 550, ticket_display)

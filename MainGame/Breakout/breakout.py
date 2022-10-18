@@ -7,7 +7,9 @@ from pygame.locals import Rect
 from enum import Enum
 from collections import namedtuple
 from random import randint
+import Scoreboard.Scoreboard as scoreboard
 import Settings
+import Avatar.avatar as avatar
 
 pygame.init()
 
@@ -401,7 +403,6 @@ class breakout_game:
 game = breakout_game()
 
 def start_breakout():
-    
     # Setup 
     global brick_wall
     brick_wall = wall()
@@ -436,6 +437,7 @@ def start_breakout():
         for event in pygame.event.get():
             # Press x button to close app
             if event.type == pygame.QUIT:
+                avatar.clear_tickets()
                 pygame.display.quit()
                 sys.exit()
 

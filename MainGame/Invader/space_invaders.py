@@ -5,6 +5,8 @@ from time import time
 import pygame
 import os
 import random
+import Avatar.avatar as avatar
+import Scoreboard.Scoreboard as scoreboard
 pygame.font.init()
 
 WIDTH = Settings.WIDTH
@@ -364,6 +366,7 @@ def main():
         for event in pygame.event.get():
             # Press x button to close app
             if event.type == pygame.QUIT:
+                avatar.clear_tickets()
                 pygame.display.quit()
                 sys.exit()
 
@@ -402,6 +405,23 @@ def main():
 
         # negative speed so lasers go up
         player.move_lasers(-laser_speed, enemies)
+
+       
+            
+def set_high_score(score):
+    if score > 49:
+        avatar.add_tickets()
+
+    # Open high score file and change high score if current game beat it
+    with open(HIGHSCORE_FILE_PATH, "r") as high_score_read:
+        high_score = high_score_read.readline()
+        if int(high_score) < score:
+            high_score = score
+            with open(HIGHSCORE_FILE_PATH, "w") as high_score_write: 
+                high_score_write.write(str(high_score))
+            high_score_write.close()
+    high_score_read.close()
+
 
 
 def set_high_score(score):

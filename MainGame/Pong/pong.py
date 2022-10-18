@@ -3,8 +3,11 @@ from os import environ
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 import random
-import Settings
+from collections import namedtuple
+import Avatar.avatar as avatar
+import Scoreboard.Scoreboard as scoreboard
 
+import Settings
 
 pygame.init()
 
@@ -118,7 +121,6 @@ class PongGame:
 
 
     def start_game(self):
-        # Global variables needed
         global break_loops
         global game_over
         global ball_velocity_x
@@ -145,6 +147,7 @@ class PongGame:
             for event in pygame.event.get():
                 # Press x button to close app
                 if event.type == pygame.QUIT:
+                    avatar.clear_tickets()
                     set_high_score(self.score_player)
                     pygame.display.quit()
                     sys.exit()
@@ -181,13 +184,17 @@ class PongGame:
             clock.tick(fps)
 
 def set_high_score(score):
-        # Open high score file and change high score if current game beat it
-        with open(HIGHSCORE_FILE_PATH, "r") as high_score_read:
-            high_score = high_score_read.readline()
-            if int(high_score) < score:
-                high_score = score
-                with open(HIGHSCORE_FILE_PATH, "w") as high_score_write: 
-                    high_score_write.write(str(high_score))
-                high_score_write.close()
-        high_score_read.close()
+
+    if score > 7:
+        avatar.add_tickets()
+
+    # Open high score file and change high score if current game beat it
+    with open(HIGHSCORE_FILE_PATH, "r") as high_score_read:
+        high_score = high_score_read.readline()
+        if int(high_score) < score:
+            high_score = score
+            with open(HIGHSCORE_FILE_PATH, "w") as high_score_write: 
+                high_score_write.write(str(high_score))
+            high_score_write.close()
+    high_score_read.close()
 

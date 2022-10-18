@@ -7,6 +7,7 @@ import Invader.space_invaders as invader
 import Asteroids.asteroids as asteroids 
 import Breakout.breakout as breakout
 import Settings
+import Avatar.avatar as avatar
 
 WIDTH = Settings.WIDTH
 HEIGHT = Settings.HEIGHT
@@ -100,6 +101,7 @@ class instructions:
             for event in pygame.event.get():
                 # Press x button to close app
                 if event.type == pygame.QUIT:
+                    avatar.clear_tickets()
                     pygame.display.quit()
                     sys.exit()
 
