@@ -299,7 +299,6 @@ class snake_game:
 
 
     def start_game(self):
-        scoreboard.increase_playcount('MainGame/Snake/snakePlayed.txt')
         global break_loops 
         global game_over 
         break_loops = False
@@ -311,6 +310,7 @@ class snake_game:
             # Press x button to close app
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
+                    avatar.clear_tickets()
                     pygame.display.quit()
                     sys.exit()
         

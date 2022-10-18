@@ -58,6 +58,11 @@ def add_tickets():
         ticket_write.close()
     ticket_read.close()
 
+def clear_tickets():
+    with open(TICKET_COUNT_PATH, "w") as ticket_write:
+        ticket_write.write(str(100))
+    ticket_write.close()
+
 class AvatarSelect:
 
     def __init__(self, width = WINDOW_WIDTH, height = WINDOW_HEIGHT):
@@ -101,6 +106,7 @@ class AvatarSelect:
             for event in pygame.event.get():
                 # Press x button to close app
                 if event.type == pygame.QUIT:
+                    clear_tickets()
                     pygame.display.quit()
                     sys.exit()
 

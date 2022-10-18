@@ -99,6 +99,7 @@ while running:
     for event in pygame.event.get():
         # To exit the game
         if event.type == pygame.QUIT:
+            avatar.clear_tickets()
             pygame.display.quit()
             sys.exit()
 

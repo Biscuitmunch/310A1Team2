@@ -5,6 +5,7 @@ import sys
 import pygame
 import Buttons.InstrucButton as Button
 import Settings
+import Avatar.avatar as avatar
 
 WIDTH = Settings.WIDTH
 HEIGHT = Settings.HEIGHT
@@ -19,14 +20,6 @@ SNAKE_HIGHSCORE_FILE_PATH = 'MainGame/Snake/snakeScore.txt'
 INVADER_HIGHSCORE_FILE_PATH = 'MainGame/Invader/invaderScore.txt'
 ASTEROIDS_HIGHSCORE_FILE_PATH = 'MainGame/Asteroids/asteroidsScore.txt'
 PONG_HIGHSCORE_FILE_PATH = 'MainGame/Pong/pongScore.txt'
-
-SNAKE_PLAYED_FILE_PATH = 'MainGame/Snake/snakePlayed.txt'
-INVADERS_PLAYED_FILE_PATH = 'MainGame/Invader/invaderPlayed.txt'
-ASTEROIDS_PLAYED_FILE_PATH = 'MainGame/Asteroids/asteroidsPlayed.txt'
-PONG_PLAYED_FILE_PATH = 'MainGame/Pong/pongPlayed.txt'
-BREAKOUT_PLAYED_FILE_PATH = 'MainGame/Breakout/breakoutPlayed.txt'
-
-SPACE = "          "
 
 
 # Set window title
@@ -58,6 +51,7 @@ def startScoreboard():
         for event in pygame.event.get():
             # Press x button to close app
             if event.type == pygame.QUIT:
+                avatar.clear_tickets()
                 pygame.display.quit()
                 sys.exit()
 
@@ -94,26 +88,6 @@ def startScoreboard():
                     screen.blit(text, [50, 435])
                     screen.blit(text1, [100, 470])
 
-                with open(SNAKE_PLAYED_FILE_PATH) as file: 
-                    snake_played = file.readline()
-                
-                with open(INVADERS_PLAYED_FILE_PATH) as file: 
-                    invaders_played = file.readline()
-
-                with open(ASTEROIDS_PLAYED_FILE_PATH) as file: 
-                    asteroids_played = file.readline()
-
-                with open(PONG_PLAYED_FILE_PATH) as file: 
-                    pong_played = file.readline()
-
-                with open(BREAKOUT_PLAYED_FILE_PATH) as file: 
-                    breakout_played = file.readline()
-
-                timesPlayed = small_font.render("Times played", True, "white")
-                timesPlayedDetails = small_font.render("Snake: " + snake_played + SPACE + "Space Invaders: " + invaders_played + SPACE + "Asteroids: " + asteroids_played + SPACE + "Pong: " + pong_played + SPACE + "Breakout: " + breakout_played, True, "white")
-                screen.blit(timesPlayed, [50, 590])
-                screen.blit(timesPlayedDetails, [50, 635])
-
                 scores_displayed = True
 
             pygame.display.update()
@@ -121,12 +95,4 @@ def startScoreboard():
             pygame.display.flip()
             clock.tick(60)
 
-def increase_playcount(file_path):
-    with open(file_path, "r") as play_count_read:
-            times = int(play_count_read.readline())
-            times += 1
-            with open(file_path, "w") as play_count_write: 
-                play_count_write.write(str(times))
-            play_count_write.close()
-    play_count_write.close()
         

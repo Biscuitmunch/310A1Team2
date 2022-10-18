@@ -261,6 +261,7 @@ def main():
         for event in pygame.event.get():
             # Press x button to close app
             if event.type == pygame.QUIT:
+                avatar.clear_tickets()
                 pygame.display.quit()
                 sys.exit()
 

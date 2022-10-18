@@ -121,7 +121,6 @@ class PongGame:
 
 
     def start_game(self):
-        scoreboard.increase_playcount('MainGame/Pong/pongPlayed.txt')
         global break_loops
         global game_over
         global ball_velocity_x
@@ -148,6 +147,7 @@ class PongGame:
             for event in pygame.event.get():
                 # Press x button to close app
                 if event.type == pygame.QUIT:
+                    avatar.clear_tickets()
                     set_high_score(self.score_player)
                     pygame.display.quit()
                     sys.exit()

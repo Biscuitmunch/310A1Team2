@@ -258,7 +258,6 @@ running = True
 
 
 def start_asteroids():
-    scoreboard.increase_playcount('MainGame/Asteroids/asteroidsPlayed.txt')
     global running 
     global count
     global game_over
@@ -330,6 +329,7 @@ def start_asteroids():
         for event in pygame.event.get():
             # Press x button to close app
             if event.type == pygame.QUIT:
+                avatar.clear_tickets()
                 set_high_score(score)  # save highscore in text doc
                 pygame.display.quit()
                 sys.exit()
