@@ -7,6 +7,9 @@ from pygame.locals import Rect
 from enum import Enum
 from collections import namedtuple
 from random import randint
+import Scoreboard.Scoreboard as scoreboard
+import Settings
+import Avatar.avatar as avatar
 
 pygame.init()
 
@@ -17,13 +20,12 @@ you_win_screen = pygame.image.load('MainGame/Breakout/resources/winScreenBreakou
 extra_ball = pygame.image.load('MainGame/Breakout/resources/extraBall.png')
 strong_ball = pygame.image.load('MainGame/Breakout/resources/strongBall.png')
 
-# Window resolution (Default 1280 x 720)
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
+#setup
+WINDOW_WIDTH = Settings.WIDTH
+WINDOW_HEIGHT = Settings.HEIGHT
 
-# Other setup
 clock = pygame.time.Clock()
-fps = 60
+fps = Settings.FPS
 
 # Number of bricks in the wall (Default 9 x 9)
 BRICK_COLS = 9
@@ -401,7 +403,6 @@ class breakout_game:
 game = breakout_game()
 
 def start_breakout():
-    
     # Setup 
     global brick_wall
     brick_wall = wall()
@@ -436,6 +437,7 @@ def start_breakout():
         for event in pygame.event.get():
             # Press x button to close app
             if event.type == pygame.QUIT:
+                avatar.clear_tickets()
                 pygame.display.quit()
                 sys.exit()
 

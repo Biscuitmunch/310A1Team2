@@ -1,5 +1,4 @@
 import sys
-
 import pygame
 import Snake.snake as snake
 import Buttons.InstrucButton as Button
@@ -7,9 +6,11 @@ import Pong.pong as pong
 import Invader.space_invaders as invader
 import Asteroids.asteroids as asteroids 
 import Breakout.breakout as breakout
+import Settings
+import Avatar.avatar as avatar
 
-WIDTH = 1280
-HEIGHT = 720
+WIDTH = Settings.WIDTH
+HEIGHT = Settings.HEIGHT
 
 class ScreenItem():
         def __init__(self, x, y, image):
@@ -100,6 +101,7 @@ class instructions:
             for event in pygame.event.get():
                 # Press x button to close app
                 if event.type == pygame.QUIT:
+                    avatar.clear_tickets()
                     pygame.display.quit()
                     sys.exit()
 

@@ -6,6 +6,12 @@ import random
 import math
 from enum import Enum
 from collections import namedtuple
+import Avatar.avatar as avatar
+import Scoreboard.Scoreboard as scoreboard
+import Settings
+
+WINDOW_WIDTH = Settings.WIDTH
+WINDOW_HEIGHT = Settings.HEIGHT
 
 
 pygame.init()
@@ -52,8 +58,6 @@ HIGHSCORE_FILE_PATH = 'MainGame/Snake/snakeScore.txt'
 
 # Game settings
 SNAKE_SPEED = 10
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
 STARTING_SIZE = 3
 SNAKE_LOOPING = False # Change to false if you want the snake to die upon hitting a wall
 
@@ -306,6 +310,7 @@ class snake_game:
             # Press x button to close app
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
+                    avatar.clear_tickets()
                     pygame.display.quit()
                     sys.exit()
         
@@ -333,8 +338,13 @@ class snake_game:
             clock = pygame.time.Clock()
             clock.tick(60)
 
+
+
     def set_high_score(self, score):
         # Open high score file and change high score if current game beat it
+        if score > 34:
+            avatar.add_tickets()
+
         with open(HIGHSCORE_FILE_PATH, "r") as high_score_read:
             high_score = high_score_read.readline()
             if int(high_score) < score:

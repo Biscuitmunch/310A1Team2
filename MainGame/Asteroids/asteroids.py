@@ -3,7 +3,14 @@ import sys
 import pygame
 import random
 import math
+import Avatar.avatar as avatar
+import Scoreboard.Scoreboard as scoreboard
+import Settings
 
+FPS = Settings.FPS
+WINDOW_WIDTH = Settings.WIDTH
+WINDOW_HEIGHT = Settings.HEIGHT
+WHITE = (255, 255, 255)
 pygame.init()
 
 
@@ -20,10 +27,7 @@ asteroid_Medium = pygame.image.load(
     'MainGame/Asteroids/resources/mediumAsteroid.png')
 asteroid_Large = pygame.image.load(
     'MainGame/Asteroids/resources/largeAsteroid.png')
-WHITE = (255, 255, 255)
-FPS = 60
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
+
 #increase rotate angle size for sharper turns
 rotate_angle_size = 5
 initial_angle = 0
@@ -55,6 +59,10 @@ def read_high_score():
 
 
 def set_high_score(score):
+
+    if score > 149000:
+        avatar.add_tickets()
+
     # Open high score file and change high score if current game beat it
     with open(HIGHSCORE_FILE_PATH, "r") as high_score_read:
         high_score = high_score_read.readline()
@@ -321,6 +329,7 @@ def start_asteroids():
         for event in pygame.event.get():
             # Press x button to close app
             if event.type == pygame.QUIT:
+                avatar.clear_tickets()
                 set_high_score(score)  # save highscore in text doc
                 pygame.display.quit()
                 sys.exit()

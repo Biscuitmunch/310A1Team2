@@ -1,18 +1,15 @@
 from turtle import Screen
 import pygame
 import sys
-import Snake.snake as snake
 import Instructions as Instructions
-import Pong.pong as pong
 import Avatar.avatar as avatar
-import Invader.space_invaders as invader
-import Asteroids.asteroids as asteroids 
 import Scoreboard.Scoreboard as Scoreboard
 import Breakout.breakout as Breakout
 import Buttons.InstrucButton as button
+import Settings
 
-WIDTH = 1280
-HEIGHT = 720
+WIDTH = Settings.WIDTH
+HEIGHT = Settings.HEIGHT
 
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 caption_title = pygame.display.set_caption("Arcade Menu")
@@ -110,6 +107,7 @@ while running:
 
         # To exit the game
         if event.type == pygame.QUIT:
+            avatar.clear_tickets()
             pygame.display.quit()
             sys.exit()
 
