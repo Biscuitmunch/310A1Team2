@@ -44,9 +44,9 @@ class gameover:
             window.fill("black")
             PLAY_MOUSE_POS = pygame.mouse.get_pos()
 
-            score_font = pygame.font.Font("MainGame/Buttons/PressStart2P.ttf", 35)
-            title_font = pygame.font.Font("MainGame/Buttons/PressStart2P.ttf", 70)
-            button_font = pygame.font.Font("MainGame/Buttons/PressStart2P.ttf", 35)
+            score_font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 35)
+            title_font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 70)
+            button_font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 35)
 
             OVER_TEXT = title_font.render("GAME OVER", True, "Red")
 
