@@ -1,3 +1,4 @@
+import sys
 from os import environ
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
@@ -7,6 +8,9 @@ from enum import Enum
 from collections import namedtuple
 import Avatar.avatar as avatar
 import Scoreboard.Scoreboard as scoreboard
+
+WINDOW_WIDTH = Settings.WIDTH
+WINDOW_HEIGHT = Settings.HEIGHT
 
 
 pygame.init()
@@ -40,7 +44,7 @@ snake_tail_right = pygame.image.load('MainGame/Snake/resources/snakeTailRight.pn
 snake_tail = snake_head_right
 
 snakeFood = pygame.image.load('MainGame/Snake/resources/food.png')
-font = pygame.font.Font('MainGame/Snake/resources/BPdotsSquareBold.otf', 25)
+font = pygame.font.Font('MainGame/Fonts/BPdotsSquareBold.otf', 25)
 
 game_over_screen = pygame.image.load('MainGame/Snake/resources/gameOverScreenSnake.png')
 
@@ -53,10 +57,8 @@ HIGHSCORE_FILE_PATH = 'MainGame/Snake/snakeScore.txt'
 
 # Game settings
 SNAKE_SPEED = 10
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
 STARTING_SIZE = 3
-SNAKE_LOOPING = True # Change to false if you want the snake to die upon hitting a wall
+SNAKE_LOOPING = False # Change to false if you want the snake to die upon hitting a wall
 
 # Colours
 WHITE = (255, 255, 255)
@@ -304,12 +306,12 @@ class snake_game:
         game = snake_game()
         while game_over == False:
             game_over, score = game.play_step(game_over)
-                
+
+            # Press x button to close app
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
-                    game_over = True
-                    break_loops = True
-                    pygame.display.set_caption("Arcade Menu")
+                    pygame.display.quit()
+                    sys.exit()
         
         while break_loops == False:
             self.display.blit(game_over_screen, (0, 0))

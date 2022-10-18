@@ -30,6 +30,12 @@ In this guide you will get an overview on the contribution workflow and how to f
 
 Thank you for contributing to Skared!
 
+## Game Additions
+In addition to the game itself, your game should include these three features:
+- Instructions screen: this can be easily added by adding your game and appropriate instructions to Instructions.py
+- Game over screen: this show be shown when the player wins or loses, with an appropriate message
+- High score: this should be shown during the game and updated on the high score screen
+
 ## Main Menu Additions
 In order to add things to the main menu, you can simply create a screen item using an image that you have imported to be the button. By looking at how the other "ScreenItem" objects work, you can see and recreate one for your own additions to the code! This is the easiest way to add something to the main menu and we highly recommend placing things on through this method
 

@@ -1,3 +1,4 @@
+import sys
 from time import time
 import pygame
 import os
@@ -5,10 +6,12 @@ import random
 import Avatar.avatar as avatar
 import Scoreboard.Scoreboard as scoreboard
 pygame.font.init()
+import Settings
 
-WIDTH = 1280
-HEIGHT = 720
-FPS = 60
+WIDTH = Settings.WIDTH
+HEIGHT = Settings.HEIGHT
+FPS = Settings.FPS
+
 WINDOW = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Space Invaders")
 resources_path = "MainGame/Invader/resources"
@@ -176,7 +179,7 @@ def collide(object1, object2):
 def main():
 
     global break_loops
-    main_font = pygame.font.SysFont("monospace", 25)
+    main_font = pygame.font.Font('MainGame/Fonts/BPdotsSquareBold.otf', 25)
     game_over_font = pygame.font.SysFont("monospace", 60)
     
     # Set frame speed and clock- fits any device
@@ -209,10 +212,12 @@ def main():
         
         # Render labels
         lives_label = main_font.render(F"LIVES: {lives}",1,(255,255,255))
+        score_label = main_font.render(F"SCORE: {score}", 1, (255, 255, 255))
         level_label = main_font.render(F"LEVEL: {level}",1,(255,255,255))
 
-        WINDOW.blit(lives_label,(10,10))
-        WINDOW.blit(level_label,(10, (lives_label.get_height() + 10)))
+        WINDOW.blit(lives_label, (10, 10))
+        WINDOW.blit(score_label, (10, (lives_label.get_height() + 20)))
+        WINDOW.blit(level_label, (10, ((lives_label.get_height() + 10)*2) + 10))
 
         if game_over:
             game_over_label = game_over_font.render("GAME OVER", 1, (255,255,255))
@@ -250,16 +255,14 @@ def main():
             wave_length += 5
 
             for i in range(wave_length):
-                enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red","blue","green"]))
+                enemy = Enemy(random.randrange(200, WIDTH-100), random.randrange(-1500, -100), random.choice(["red","blue","green"]))
                 enemies.append(enemy)
 
         for event in pygame.event.get():
-
-            # When the close button is clicked on window
+            # Press x button to close app
             if event.type == pygame.QUIT:
-                break_loops = True
-                pygame.display.set_caption("Arcade Menu")
-                break
+                pygame.display.quit()
+                sys.exit()
 
         keys = pygame.key.get_pressed()
 
@@ -293,24 +296,6 @@ def main():
         # negative speed so lasers go up
         player.move_lasers(-laser_speed, enemies)
        
-def start_space_invaders():
-    scoreboard.increase_playcount('MainGame/Invader/invaderPlayed.txt')
-    title_font = pygame.font.SysFont("monospace", 35)
-    global break_loops
-    break_loops = False
-
-    while break_loops == False:
-        WINDOW.blit(BACKGROUND, (0,0))
-        title_label = title_font.render("Click the mouse or press any key to begin...", 1, (255,255,255))
-        WINDOW.blit(title_label, (WIDTH/2 - title_label.get_width()/2, HEIGHT/2))
-
-        pygame.display.update()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                break_loops = True
-                pygame.display.set_caption("Arcade Menu")
-            if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
-                main()
             
 def set_high_score(score):
     if score > 49:

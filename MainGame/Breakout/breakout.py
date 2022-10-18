@@ -1,3 +1,4 @@
+import sys
 from os import environ
 from tracemalloc import start
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
@@ -7,23 +8,23 @@ from enum import Enum
 from collections import namedtuple
 from random import randint
 import Scoreboard.Scoreboard as scoreboard
+import Settings
+
 pygame.init()
 
 # Open image files for graphics
 game_over_screen = pygame.image.load('MainGame/Breakout/resources/gameOverScreenBreakout.png')
 you_win_screen = pygame.image.load('MainGame/Breakout/resources/winScreenBreakout.png')
-press_to_start_screen = pygame.image.load('MainGame/Breakout/resources/pressToStartScreenBreakout.png')
 
 extra_ball = pygame.image.load('MainGame/Breakout/resources/extraBall.png')
 strong_ball = pygame.image.load('MainGame/Breakout/resources/strongBall.png')
 
-# Window resolution (Default 1280 x 720)
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
+#setup
+WINDOW_WIDTH = Settings.WIDTH
+WINDOW_HEIGHT = Settings.HEIGHT
 
-# Other setup
 clock = pygame.time.Clock()
-fps = 60
+fps = Settings.FPS
 
 # Number of bricks in the wall (Default 9 x 9)
 BRICK_COLS = 9
@@ -374,12 +375,7 @@ class breakout_game:
 
         # Draw the paddle and wall
         player_paddle.draw(self.display)
-        brick_wall.draw_wall(self.display)
-
-        if start_game == False:
-                game.display.blit(press_to_start_screen, (0, 0))
-                pygame.display.flip()
-                
+        brick_wall.draw_wall(self.display)                
 
         # Create a new ball if a powerup was collected
         if len(balls) < ball_count:
@@ -428,8 +424,9 @@ def start_breakout():
     global powerups
     powerups = []
     game_over = 0
-    start_game = False
+    
     ball_count = 0
+    start_game = True
 
     running = True
     while running == True:
@@ -438,8 +435,10 @@ def start_breakout():
         game.display.fill(BACKGROUND)
 
         for event in pygame.event.get():
+            # Press x button to close app
             if event.type == pygame.QUIT:
-                running = False
+                pygame.display.quit()
+                sys.exit()
 
             if event.type == pygame.KEYDOWN and game_over == 0:
                 start_game = True
