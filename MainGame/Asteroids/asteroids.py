@@ -1,6 +1,8 @@
 import pygame
 import random
 import math
+import Gameover
+import Instructions
 
 pygame.init()
 
@@ -211,8 +213,6 @@ def draw_window():
         a.draw(window)
 
     if game_over:
-        window.blit(game_over_text, (WINDOW_WIDTH//2-game_over_text.get_width() //
-                    2, WINDOW_HEIGHT//2 - game_over_text.get_height()//2))
 
         high_score = read_high_score()
         if score > int(high_score):
@@ -298,7 +298,15 @@ def start_asteroids():
                             bullets.pop(bullets.index(bullet))
 
             if lives == 0:
-                game_over = True
+                pygame.display.set_caption("Game Over")
+                Gameover.gameover().gameOver("asteroids")
+                asteroids.clear()
+                set_high_score(score)
+                lives = 3
+                score = 0
+                game_over = False
+                running = False
+                break
 
             for bullet in bullets:
                 bullet.move()
@@ -321,9 +329,9 @@ def start_asteroids():
                 pygame.display.set_caption("Arcade Menu")
                 game_over = True
                 #move to menu here
-                running = False
                 asteroids.clear()
                 set_high_score(score)  # save highscore in text doc
+                running = False
                 break #                                                                     ======
             # Q press quits to main menu
             if event.type == pygame.KEYDOWN and event.key == pygame.K_q:

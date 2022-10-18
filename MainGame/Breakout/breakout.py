@@ -387,8 +387,9 @@ class breakout_game:
             current_ball.draw(self.display, False)
 
         # Show the game over screen if the player misses the main ball
-        if game_over == -1:
-            self.display.blit(game_over_screen, (0, 0))
+        # if game_over == -1:
+        #     pygame.display.set_caption("Game Over")
+        #     Gameover.gameover().gameOver("breakout")
 
         # Show the you win screen if the player destroys all blocks
         if game_over == 1:
