@@ -120,6 +120,7 @@ class instructions:
                             breakout.start_breakout()
                         elif game == "invader":
                             invader.main()
+                        running = False
                             
                         
                     elif QUIT_BUTTON.checkForInput(PLAY_MOUSE_POS):

@@ -4,6 +4,7 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 import random
 import math
+import Gameover
 from enum import Enum
 from collections import namedtuple
 import Avatar.avatar as avatar
@@ -317,25 +318,31 @@ class snake_game:
                     pygame.display.quit()
                     sys.exit()
         
+    
         while break_loops == False:
-            self.display.blit(game_over_screen, (0, 0))
-            pygame.display.flip()
+            # goes to game over screen
+            pygame.display.set_caption("Game Over")
+            Gameover.gameover().gameOver("snake")
+            break_loops = True
+            gameover = True
+            pygame.display.set_caption("Arcade Menu")
             
             # Wait 1 second after the game is over before accepting inputs in order to combat accidental keypresses
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
                     break_loops = True
+                    gameover = True
                     pygame.display.set_caption("Arcade Menu")
 
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    self.set_high_score(score)
-                    game_over = False 
-                    self.start_game()
+                # if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                #     self.set_high_score(score)
+                #     game_over = False 
+                #     self.start_game()
 
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.set_high_score(score)
-                    break_loops = True
-                    pygame.display.set_caption("Arcade Menu")
+                # if event.type == pygame.MOUSEBUTTONDOWN:
+                #     self.set_high_score(score)
+                #     break_loops = True
+                #     pygame.display.set_caption("Arcade Menu")
                     
 
             clock = pygame.time.Clock()

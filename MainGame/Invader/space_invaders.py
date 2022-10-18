@@ -5,6 +5,7 @@ from time import time
 import pygame
 import os
 import random
+import Gameover
 import Avatar.avatar as avatar
 import Scoreboard.Scoreboard as scoreboard
 pygame.font.init()
@@ -318,6 +319,11 @@ def main():
             set_high_score(score)
             score = 0
             game_over_clock += 1
+
+            # goes to game over screen
+            pygame.display.set_caption("Game Over")
+            Gameover.gameover().gameOver("invader")
+
             break
 
         if game_over:
