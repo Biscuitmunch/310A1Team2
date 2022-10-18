@@ -255,6 +255,7 @@ def start_asteroids():
     global score
     global asteroid
     running = True
+    lives = 3
     
 
 
@@ -305,7 +306,6 @@ def start_asteroids():
                 lives = 3
                 score = 0
                 game_over = False
-                running = False
                 break
 
             for bullet in bullets:
@@ -331,6 +331,7 @@ def start_asteroids():
                 #move to menu here
                 asteroids.clear()
                 set_high_score(score)  # save highscore in text doc
+                game_over = False
                 running = False
                 break #                                                                     ======
             # Q press quits to main menu
@@ -345,12 +346,7 @@ def start_asteroids():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 if not game_over:
                     bullets.append(Bullet())
-                else:
-                    game_over = False
-                    set_high_score(score)
-                    lives = 3
-                    score = 0
-                    asteroids.clear()
+
 
         draw_window()
 
