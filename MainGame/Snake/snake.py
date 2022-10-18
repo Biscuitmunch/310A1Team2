@@ -120,8 +120,11 @@ class snake_game:
         self.food_rect = pygame.Rect(self.food.x-GRIDSQUARE/2, self.food.y-GRIDSQUARE/2, GRIDSQUARE, GRIDSQUARE)
 
         # If food is inside snake, try again
-        if self.food_rect.colliderect(self.head_rect):
-            self.place_food()
+        for snake_part in self.snake:
+            snake_part_rect = pygame.Rect(snake_part.x - GRIDSQUARE / 2, snake_part.y - GRIDSQUARE / 2, GRIDSQUARE,
+                                          GRIDSQUARE)
+            if self.food_rect.colliderect(snake_part_rect):
+                self.place_food()
         
 
     def play_step(self, game_over):
