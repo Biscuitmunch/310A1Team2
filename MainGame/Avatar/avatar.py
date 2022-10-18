@@ -24,9 +24,15 @@ global tickets
 
 # Starter tickets and avatars
 tickets = 100
-avatar_1_redeemed = False
+#default avatar is redeemed at start
+avatar_1_redeemed = True
 avatar_2_redeemed = False
 avatar_3_redeemed = False
+avatar_4_redeemed = False
+avatar_5_redeemed = False
+avatar_6_redeemed = False
+avatar_7_redeemed = False
+avatar_8_redeemed = False
 
 
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -36,7 +42,6 @@ button_font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 35)
 
 
 # Open image files and scale to size
-default_avatar = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/defaultAvatar.png'), (AVATAR_SIZE))
 avatar1 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar1.png'), (AVATAR_SIZE))
 avatar2 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar2.png'), (AVATAR_SIZE))
 avatar3 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar3.png'), (AVATAR_SIZE))
@@ -44,11 +49,11 @@ avatar4 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/av
 avatar5 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar5.png'), (AVATAR_SIZE))
 avatar6 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar6.png'), (AVATAR_SIZE))
 avatar7 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar7.png'), (AVATAR_SIZE))
-avatar8 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar3.png'), (AVATAR_SIZE))
+avatar8 = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/avatar8.png'), (AVATAR_SIZE))
 arrow = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/arrow.png'), (AVATAR_SIZE))
 lock = pygame.transform.scale(pygame.image.load('MainGame/Avatar/resources/lock.png'), (AVATAR_SIZE))
 
-current_avatar = default_avatar
+current_avatar = avatar1
 
 def add_tickets():
     with open(TICKET_COUNT_PATH, "r") as ticket_read:
@@ -88,8 +93,17 @@ class AvatarSelect:
         global avatar_1_redeemed
         global avatar_2_redeemed
         global avatar_3_redeemed
-
+        global avatar_4_redeemed
+        global avatar_5_redeemed
+        global avatar_6_redeemed
+        global avatar_7_redeemed
+        global avatar_8_redeemed
         break_loops = False
+
+        # Hide text by default
+        ticket_text_show = False
+        ticket_title = font.render(" ", True, (255, 255, 255))
+        ticket_text = ScreenItem(100, 400, ticket_title)
 
         temp_avatar = current_avatar
         temp_avatar_hide = True
@@ -118,18 +132,9 @@ class AvatarSelect:
                         pygame.display.set_caption('Arcade Menu')
 
                     elif avatar_1_button.mouse_over_button(pygame.mouse.get_pos()):
-                        if avatar_1_redeemed == True:
-                            current_avatar = avatar1
-                        elif avatar_1_redeemed == False:
-                            if tickets >= 50:
-                                avatar_1_redeemed = True
-                                tickets = tickets - 50
-                                current_avatar = avatar1
-                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
-                                    high_score_write.write(str(tickets))
-                                high_score_write.close()
-                        else:
-                            print ("Insufficient tickets")
+
+                        current_avatar = avatar1
+
                     elif avatar_2_button.mouse_over_button(pygame.mouse.get_pos()):
                         if avatar_2_redeemed == True:
                             current_avatar = avatar2
@@ -143,6 +148,7 @@ class AvatarSelect:
                                 high_score_write.close()
                         else:
                             print ("Insufficient tickets")
+
                     elif avatar_3_button.mouse_over_button(pygame.mouse.get_pos()):
                         if avatar_3_redeemed == True:
                             current_avatar = avatar3
@@ -151,59 +157,174 @@ class AvatarSelect:
                                 avatar_3_redeemed = True
                                 tickets = tickets - 50
                                 current_avatar = avatar3
-                        else:
-                            print ("Insufficient tickets")
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
                     elif avatar_4_button.mouse_over_button(pygame.mouse.get_pos()):
-                        current_avatar = avatar4
+                        if avatar_4_redeemed == True:
+                            current_avatar = avatar4
+                        elif avatar_4_redeemed == False:
+                            if tickets >= 50:
+                                avatar_4_redeemed = True
+                                tickets = tickets - 50
+                                current_avatar = avatar4
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
                     elif avatar_5_button.mouse_over_button(pygame.mouse.get_pos()):
-                        current_avatar = avatar5
+                        if avatar_5_redeemed == True:
+                            current_avatar = avatar5
+                        elif avatar_5_redeemed == False:
+                            if tickets >= 100:
+                                avatar_5_redeemed = True
+                                tickets = tickets - 100
+                                current_avatar = avatar5
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
                     elif avatar_6_button.mouse_over_button(pygame.mouse.get_pos()):
-                        current_avatar = avatar6
+                        if avatar_6_redeemed == True:
+                            current_avatar = avatar6
+                        elif avatar_6_redeemed == False:
+                            if tickets >= 100:
+                                avatar_6_redeemed = True
+                                tickets = tickets - 100
+                                current_avatar = avatar6
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
                     elif avatar_7_button.mouse_over_button(pygame.mouse.get_pos()):
-                        current_avatar = avatar7
+                        if avatar_7_redeemed == True:
+                            current_avatar = avatar7
+                        elif avatar_7_redeemed == False:
+                            if tickets >= 100:
+                                avatar_7_redeemed = True
+                                tickets = tickets - 100
+                                current_avatar = avatar7
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
                     elif avatar_8_button.mouse_over_button(pygame.mouse.get_pos()):
-                        current_avatar = default_avatar
+                        if avatar_6_redeemed == True:
+                            current_avatar = avatar8
+                        elif avatar_8_redeemed == False:
+                            if tickets >= 150:
+                                avatar_8_redeemed = True
+                                tickets = tickets - 150
+                                current_avatar = avatar8
+                                with open(TICKET_COUNT_PATH, "w") as high_score_write: 
+                                    high_score_write.write(str(tickets))
+                                high_score_write.close()
 
                 # Looks for user hovering on different avatars
                 if event.type == pygame.MOUSEMOTION:
                     if avatar_1_button.mouse_over_button(pygame.mouse.get_pos()):
-                        if avatar_1_redeemed == True:
-                            temp_avatar = avatar1
-                            temp_avatar_hide = False
-                        else:
-                            temp_avatar = lock
-                            temp_avatar_hide = False
+                        ticket_text_show = True
+                        ticket_title = font.render("equip", True, 'white')
+                        ticket_text = ScreenItem(100, 420, ticket_title)
+                        temp_avatar = avatar1
+                        temp_avatar_hide = False
                     elif avatar_2_button.mouse_over_button(pygame.mouse.get_pos()):
+                        ticket_text_show = True
                         if avatar_2_redeemed == True:
+                            ticket_title = font.render("equip", True, 'white')
                             temp_avatar = avatar2
                             temp_avatar_hide = False
                         else:
                             temp_avatar = lock
                             temp_avatar_hide = False
+                            if tickets >= 50:
+                                ticket_title = font.render("50", True, 'white')
+                            else:
+                                ticket_title = font.render("50", True, 'red')
+                        ticket_text = ScreenItem(250, 420, ticket_title)
                     elif avatar_3_button.mouse_over_button(pygame.mouse.get_pos()):
+                        ticket_text_show = True
                         if avatar_3_redeemed == True:
+                            ticket_title = font.render("equip", True, 'white')
                             temp_avatar = avatar3
                             temp_avatar_hide = False
                         else:
                             temp_avatar = lock
                             temp_avatar_hide = False
+                            if tickets >= 50:
+                                ticket_title = font.render("50", True, 'white')
+                            else:
+                                ticket_title = font.render("50", True, 'red')
+                        ticket_text = ScreenItem(400, 420, ticket_title)
                     elif avatar_4_button.mouse_over_button(pygame.mouse.get_pos()):
-                        temp_avatar = avatar4
-                        temp_avatar_hide = False
+                        ticket_text_show = True
+                        if avatar_4_redeemed == True:
+                            ticket_title = font.render("equip", True, 'white')
+                            temp_avatar = avatar4
+                            temp_avatar_hide = False
+                        else:
+                            temp_avatar = lock
+                            temp_avatar_hide = False
+                            if tickets >= 50:
+                                ticket_title = font.render("50", True, 'white')
+                            else:
+                                ticket_title = font.render("50", True, 'red')
+                        ticket_text = ScreenItem(550, 420, ticket_title)
                     elif avatar_5_button.mouse_over_button(pygame.mouse.get_pos()):
-                        temp_avatar = avatar5
-                        temp_avatar_hide = False
+                        ticket_text_show = True
+                        if avatar_5_redeemed == True:
+                            ticket_title = font.render("equip", True, 'white')
+                            temp_avatar = avatar5
+                            temp_avatar_hide = False
+                        else:
+                            temp_avatar = lock
+                            temp_avatar_hide = False
+                            if tickets >= 100:
+                                ticket_title = font.render("100", True, 'white')
+                            else:
+                                ticket_title = font.render("100", True, 'red')
+                        ticket_text = ScreenItem(700, 420, ticket_title)
                     elif avatar_6_button.mouse_over_button(pygame.mouse.get_pos()):
-                        temp_avatar = avatar6
-                        temp_avatar_hide = False
+                        ticket_text_show = True
+                        if avatar_6_redeemed == True:
+                            ticket_title = font.render("equip", True, 'white')
+                            temp_avatar = avatar6
+                            temp_avatar_hide = False
+                        else:
+                            temp_avatar = lock
+                            temp_avatar_hide = False
+                            if tickets >= 100:
+                                ticket_title = font.render("100", True, 'white')
+                            else:
+                                ticket_title = font.render("100", True, 'red')
+                        ticket_text = ScreenItem(850, 420, ticket_title)
                     elif avatar_7_button.mouse_over_button(pygame.mouse.get_pos()):
-                        temp_avatar = avatar7
-                        temp_avatar_hide = False
+                        ticket_text_show = True
+                        if avatar_7_redeemed == True:
+                            ticket_title = font.render("equip", True, 'white')
+                            temp_avatar = avatar7
+                            temp_avatar_hide = False
+                        else:
+                            temp_avatar = lock
+                            temp_avatar_hide = False
+                            if tickets >= 100:
+                                ticket_title = font.render("100", True, 'white')
+                            else:
+                                ticket_title = font.render("100", True, 'red')
+                        ticket_text = ScreenItem(1000, 420, ticket_title)
                     elif avatar_8_button.mouse_over_button(pygame.mouse.get_pos()):
-                        temp_avatar = default_avatar
-                        temp_avatar_hide = False
+                        ticket_text_show = True
+                        if avatar_8_redeemed == True:
+                            ticket_title = font.render("equip", True, 'white')
+                            temp_avatar = avatar8
+                            temp_avatar_hide = False
+                        else:
+                            temp_avatar = lock
+                            temp_avatar_hide = False
+                            if tickets >= 150:
+                                ticket_title = font.render("150", True, 'white')
+                            else:
+                                ticket_title = font.render("150", True, 'red')
+                        ticket_text = ScreenItem(1150, 420, ticket_title)
                     else:
                         temp_avatar_hide = True
+                        ticket_text_show = False
 
             self.display.fill('black')
 
@@ -216,7 +337,7 @@ class AvatarSelect:
             avatar_5_button = ScreenItem(700,350,avatar5)
             avatar_6_button = ScreenItem(850,350,avatar6)
             avatar_7_button = ScreenItem(1000,350,avatar7)
-            avatar_8_button = ScreenItem(1150,350,default_avatar)
+            avatar_8_button = ScreenItem(1150,350,avatar8)
             temp_avatar_button = ScreenItem(WINDOW_WIDTH/2+100, 80, temp_avatar)
             window.blit(arrow, (WINDOW_WIDTH/2-50, 100))
 
@@ -235,7 +356,9 @@ class AvatarSelect:
             # Display text
             with open(TICKET_COUNT_PATH, "r") as ticket_read:
                 tickets = int(ticket_read.readline())
-            message = font.render("Choose your avatar! Locked avatars cost 50 tickets.", True, 'white')
+
+            message = font.render("Choose your avatar!", True, 'white')
+
             ticket_display = font.render("Tickets:" + str(tickets), True, 'white')
             message_obj = ScreenItem(WINDOW_WIDTH/2, 500, message)
             ticket_display_obj = ScreenItem(WINDOW_WIDTH/2, 550, ticket_display)
@@ -244,6 +367,9 @@ class AvatarSelect:
 
             if temp_avatar_hide == False:
                 temp_avatar_button.update()
+
+            if ticket_text_show == True:
+                ticket_text.update()
 
             pygame.display.update()
         
