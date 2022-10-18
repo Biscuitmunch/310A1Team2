@@ -6,6 +6,8 @@ import Pong.pong as pong
 import Invader.space_invaders as invader
 import Asteroids.asteroids as asteroids 
 import Breakout.breakout as breakout
+import Instructions
+
 
 WIDTH = 1280
 HEIGHT = 720
@@ -62,7 +64,7 @@ class gameover:
                     line = file.readline() 
                     HIGHSCORE_TEXT = score_font.render("HIGHSCORE: " + line, True, "Yellow")
             elif game == "breakout":
-                HIGHSCORE_TEXT = score_font.render("well done!", True, "Yellow") # breakout has no high score   
+                HIGHSCORE_TEXT = score_font.render("good try!", True, "Yellow") # breakout has no high score   
             elif game == "invader":
                 with open(INVADER_HIGHSCORE_FILE_PATH, "r") as file:
                     line = file.readline() 
@@ -99,11 +101,13 @@ class gameover:
                             pong_obj = pong.PongGame()
                             pong_obj.start_game()
                         elif game == "asteroids":
+                            # TODO make it return straight to asteroids if possible
                             asteroids.start_asteroids()
                         elif game == "breakout":
                             breakout.start_breakout()
                         elif game == "invader":
                             invader.main()
+                        running = False
                             
                         
                     elif QUIT_BUTTON.checkForInput(PLAY_MOUSE_POS):

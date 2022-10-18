@@ -6,6 +6,7 @@ from pygame.locals import Rect
 from enum import Enum
 from collections import namedtuple
 from random import randint
+import Gameover
 
 pygame.init()
 
@@ -386,8 +387,9 @@ class breakout_game:
             current_ball.draw(self.display, False)
 
         # Show the game over screen if the player misses the main ball
-        if game_over == -1:
-            self.display.blit(game_over_screen, (0, 0))
+        # if game_over == -1:
+        #     pygame.display.set_caption("Game Over")
+        #     Gameover.gameover().gameOver("breakout")
 
         # Show the you win screen if the player destroys all blocks
         if game_over == 1:
@@ -439,7 +441,9 @@ def start_breakout():
             if event.type == pygame.KEYDOWN and game_over == 0:
                 start_game = True
 
-            if event.type == pygame.MOUSEBUTTONDOWN and game_over != 0:
+            if game_over != 0:
+                pygame.display.set_caption("Game Over")
+                Gameover.gameover().gameOver("breakout")
                 running = False
 
 
