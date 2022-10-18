@@ -1,5 +1,6 @@
 from ast import While
 from cgitb import small
+from re import L
 import sys
 import pygame
 import Buttons.InstrucButton as Button
@@ -14,7 +15,6 @@ pygame.font.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 
-WHITE = (255, 255, 255)
 SNAKE_HIGHSCORE_FILE_PATH = 'MainGame/Snake/snakeScore.txt'
 INVADER_HIGHSCORE_FILE_PATH = 'MainGame/Invader/invaderScore.txt'
 ASTEROIDS_HIGHSCORE_FILE_PATH = 'MainGame/Asteroids/asteroidsScore.txt'
@@ -30,7 +30,7 @@ SPACE = "          "
 
 
 # Set window title
-pygame.display.set_caption('Snake')
+pygame.display.set_caption('Scoreboard')
 background_color = (255, 255, 255)
 font = pygame.font.Font('MainGame/Scoreboard/resources/Roboto_MediumItalic.ttf', 45)
 small_font = pygame.font.Font('MainGame/Scoreboard/resources/Roboto_MediumItalic.ttf', 25)
@@ -40,8 +40,6 @@ def startScoreboard():
     scores_displayed = False
     screen.fill((0, 0, 0))
 
-    
-
     while run == True:
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
         
@@ -49,12 +47,12 @@ def startScoreboard():
         title_font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 50)
         font = pygame.font.Font("MainGame/Fonts/PressStart2P.ttf", 25)
 
-        QUIT_BUTTON = Button.Button(image=None, pos=(125, 650), text_input="MENU", font=button_font, base_color="White", hovering_color="Green")
+        QUIT_BUTTON = Button.Button(image=None, pos=(100, 70), text_input="MENU", font=button_font, base_color="White", hovering_color="Green")
         QUIT_BUTTON.changeColor(PLAY_MOUSE_POS)
         QUIT_BUTTON.update(screen)
 
         TITLE_TEXT = title_font.render("Scoreboard", True, "White")
-        TITLE_RECT = TITLE_TEXT.get_rect(center=(300, 70))
+        TITLE_RECT = TITLE_TEXT.get_rect(center=(WIDTH/2, 70))
         screen.blit(TITLE_TEXT, TITLE_RECT)
 
         for event in pygame.event.get():
@@ -69,32 +67,32 @@ def startScoreboard():
             elif scores_displayed == False:
                 with open(SNAKE_HIGHSCORE_FILE_PATH, "r") as file:
                     line = file.readline()  # scores are one line
-                    text = font.render("Snake High Score: " + line, True, (WHITE))
-                    text1 = small_font.render("Score 35 or Higher to earn 50 tickets", True, (WHITE))
+                    text = font.render("Snake High Score: " + line, True, "white")
+                    text1 = small_font.render("Score 35 or Higher to earn 50 tickets", True, "white")
                     screen.blit(text, [50, 135])
-                    screen.blit(text1, [700, 145])
+                    screen.blit(text1, [100, 170])
 
                 with open(INVADER_HIGHSCORE_FILE_PATH, "r") as file:
                     line = file.readline()  # scores are one line
-                    text = font.render("Space Invaders High Score: " + line, True, (WHITE))
-                    text1 = small_font.render("Score 50 or Higher to earn 50 tickets", True, (WHITE))
+                    text = font.render("Space Invaders High Score: " + line, True, "white")
+                    text1 = small_font.render("Score 50 or Higher to earn 50 tickets", True, "white")
                     screen.blit(text, [50, 235])
-                    screen.blit(text1, [700, 245])
+                    screen.blit(text1, [100, 270])
 
                 with open(ASTEROIDS_HIGHSCORE_FILE_PATH, "r") as file:
                     line = file.readline()  # scores are one line
-                    text = font.render("Asteroids High Score: " + line, True, (WHITE))
-                    text1 = small_font.render("Score 150,000 or Higher to earn 50 tickets", True, (WHITE))
+                    text = font.render("Asteroids High Score: " + line, True, "white")
+                    text1 = small_font.render("Score 150,000 or Higher to earn 50 tickets", True, "white")
                     screen.blit(text, [50, 335])
-                    screen.blit(text1, [700, 345])
+                    screen.blit(text1, [100, 370])
 
 
                 with open(PONG_HIGHSCORE_FILE_PATH, "r") as file:
                     line = file.readline()  # scores are one line
-                    text = font.render("Pong High Score: " + line, True, (WHITE))
-                    text1 = small_font.render("Score 8 or Higher to earn 50 tickets", True, (WHITE))
+                    text = font.render("Pong High Score: " + line, True, "white")
+                    text1 = small_font.render("Score 8 or Higher to earn 50 tickets", True, "white")
                     screen.blit(text, [50, 435])
-                    screen.blit(text1, [700, 445])
+                    screen.blit(text1, [100, 470])
 
                 with open(SNAKE_PLAYED_FILE_PATH) as file: 
                     snake_played = file.readline()
@@ -111,16 +109,10 @@ def startScoreboard():
                 with open(BREAKOUT_PLAYED_FILE_PATH) as file: 
                     breakout_played = file.readline()
 
-
-                text = small_font.render("Times played", True, (WHITE))
-                text1 = small_font.render("Snake: " + snake_played + SPACE + "Space Invaders: " + invaders_played + SPACE + "Asteroids: " + asteroids_played + SPACE + "Pong: " + pong_played + SPACE + "Breakout: " + breakout_played, True, (WHITE))
-                screen.blit(text, [50, 590])
-                screen.blit(text1, [50, 635])
-
-                scores_displayed = True
-
-
-                    screen.blit(text, [50, 440])
+                timesPlayed = small_font.render("Times played", True, "white")
+                timesPlayedDetails = small_font.render("Snake: " + snake_played + SPACE + "Space Invaders: " + invaders_played + SPACE + "Asteroids: " + asteroids_played + SPACE + "Pong: " + pong_played + SPACE + "Breakout: " + breakout_played, True, "white")
+                screen.blit(timesPlayed, [50, 590])
+                screen.blit(timesPlayedDetails, [50, 635])
 
                 scores_displayed = True
 
@@ -137,5 +129,4 @@ def increase_playcount(file_path):
                 play_count_write.write(str(times))
             play_count_write.close()
     play_count_write.close()
-
         

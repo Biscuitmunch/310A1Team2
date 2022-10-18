@@ -8,6 +8,7 @@ from enum import Enum
 from collections import namedtuple
 import Avatar.avatar as avatar
 import Scoreboard.Scoreboard as scoreboard
+import Settings
 
 WINDOW_WIDTH = Settings.WIDTH
 WINDOW_HEIGHT = Settings.HEIGHT
